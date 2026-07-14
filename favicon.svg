@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Versión mínima del logo: la "f." con el punto en Rojo Pulso (CLAUDE.md, sección 7) -->
+  <rect width="64" height="64" rx="14" fill="#FBF7F2"/>
+  <text x="14" y="47" font-family="Arimo, Arial, sans-serif" font-weight="700" font-size="44" fill="#23205F">f</text>
+  <circle cx="44" cy="43" r="6.5" fill="#D73220"/>
+</svg>
