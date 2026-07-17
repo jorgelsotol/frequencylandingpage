@@ -571,69 +571,71 @@
       font-style: normal;
     }
 
-    /* ---------- Precios ---------- */
-    .tarjeta-precio { position: relative; gap: 14px; }
-
-    .tarjeta-destacada {
-      border: 2px solid var(--tinta);
-      box-shadow: var(--sombra-suave);
+    /* ---------- Precios: panel de conversación ---------- */
+    .panel-precio {
+      background: var(--cielo);
+      border-radius: var(--radio-tarjeta);
+      padding: clamp(28px, 5vw, 48px);
+      display: grid;
+      gap: 32px;
+    }
+    @media (min-width: 820px) {
+      .panel-precio {
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 48px;
+        align-items: center;
+      }
+      /* Separador suave entre las dos columnas, solo en escritorio */
+      .precio-hablar {
+        border-left: 1px solid rgba(35, 32, 95, .14);
+        padding-left: 48px;
+      }
     }
 
-    .insignia {
-      position: absolute;
-      top: -14px;
-      left: 24px;
-      background: var(--tinta);
-      color: var(--papel);
-      font-size: 0.8125rem;
-      font-weight: 700;
-      padding: 4px 14px;
-      border-radius: 999px;
-    }
+    .precio-ancla { display: grid; gap: 12px; align-content: start; }
 
-    .precio-rango {
-      font-size: 1.75rem;
+    /* La cifra del OTRO costo, tratada como dato (cifras tabulares) */
+    .precio-referencia {
+      font-size: clamp(2.25rem, 5vw, 2.75rem);
       font-weight: 600;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1;
-      line-height: 1.2;
+      line-height: 1.1;
     }
-    .precio-rango small {
+    .precio-referencia small {
       display: block;
-      font-size: 0.875rem;
+      margin-top: 4px;
+      font-size: 0.9375rem;
       font-weight: 400;
       color: var(--grafito);
     }
 
-    .lista-incluye {
+    .precio-hablar { display: grid; gap: 16px; justify-items: start; }
+
+    /* Factores del precio: puntos en Azul Frecuencia, son insumos,
+       no una lista de "incluye" con palomita */
+    .lista-factores {
       list-style: none;
       margin: 0;
       padding: 0;
       display: grid;
       gap: 10px;
-      font-size: 0.9375rem;
-      color: var(--grafito);
+      font-size: 1rem;
+      color: var(--tinta);
     }
-    .lista-incluye li {
+    .lista-factores li {
       display: flex;
-      gap: 10px;
+      gap: 12px;
       align-items: baseline;
     }
-    .lista-incluye li::before {
+    .lista-factores li::before {
       content: "";
       flex: none;
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: var(--estable);
+      background: var(--frecuencia);
       transform: translateY(-1px);
-    }
-
-    .nota-precios {
-      margin-top: 22px;
-      font-size: 0.9375rem;
-      color: var(--grafito);
-      max-width: 62ch;
     }
 
     /* ---------- Preguntas frecuentes ---------- */
@@ -1101,57 +1103,35 @@
       </div>
     </section>
 
-    <!-- ============ Precios ============ -->
+    <!-- ============ Precios: hablemos de tu caso ============ -->
     <section class="seccion" id="precios" aria-labelledby="titulo-precios">
       <div class="contenedor">
         <div class="cabeza-seccion" data-revelar>
           <p class="etiqueta">Precios</p>
           <h2 class="titulo-h2" id="titulo-precios">Cuesta menos que el analista de datos que no tienes</h2>
-          <!-- TODO: validar la cifra de referencia del sueldo con datos reales de mercado -->
-          <p class="texto-secundario">Un analista de planta cuesta arriba de $30,000 al mes, si lo encuentras. Frecuency te da el análisis sin la nómina.</p>
+          <p class="texto-secundario">Cada negocio es distinto. El precio depende de cuántas fuentes conectamos y de qué tan ordenados están tus datos. Por eso no ponemos una tarifa fija: en el diagnóstico te damos un precio cerrado, sin sorpresas.</p>
         </div>
 
-        <!-- Rangos de precio aprobados de forma provisional (julio 2026).
-             TODO: revisarlos contra costos reales antes de una campaña fuerte. -->
-        <div class="rejilla-3">
-          <article class="tarjeta tarjeta-precio" data-revelar>
-            <h3 class="titulo-h3">Arranque</h3>
-            <p class="precio-rango dato">$15,000 a $25,000 <small>MXN, pago único</small></p>
-            <p class="texto-secundario">Todo lo necesario para empezar bien.</p>
-            <ul class="lista-incluye">
-              <li>Conexión de tus fuentes</li>
-              <li>Limpieza y modelado inicial</li>
-              <li>Tu primer tablero funcionando</li>
-            </ul>
-          </article>
+        <div class="panel-precio" data-revelar>
+          <!-- Ancla de valor: el costo del analista que no tienes.
+               TODO: validar la cifra de referencia del sueldo con datos reales de mercado. -->
+          <div class="precio-ancla">
+            <p class="etiqueta">El analista que no tienes</p>
+            <p class="precio-referencia dato">$30,000+ <small>al mes cuesta un analista de planta</small></p>
+            <p class="texto-secundario">Súmale reclutamiento, prestaciones y meses de entrenarlo. Con Frecuency tienes el análisis, sin la nómina, y empiezas en 2 semanas.</p>
+          </div>
 
-          <article class="tarjeta tarjeta-precio tarjeta-destacada" data-revelar>
-            <p class="insignia">El más elegido</p>
-            <h3 class="titulo-h3">Plan estándar</h3>
-            <p class="precio-rango dato">$12,000 a $18,000 <small>MXN al mes</small></p>
-            <p class="texto-secundario">Tu analista de cada semana.</p>
-            <ul class="lista-incluye">
-              <li>Tablero siempre al día</li>
-              <li>Reporte semanal narrado en español simple</li>
-              <li>Preguntas a tu tablero, en español</li>
-              <li>Llamada mensual de análisis</li>
+          <div class="precio-hablar">
+            <h3 class="titulo-h3">Tu precio depende de tu negocio</h3>
+            <ul class="lista-factores">
+              <li>Cuántas fuentes conectamos</li>
+              <li>Qué tan ordenados están tus datos hoy</li>
+              <li>Con qué frecuencia quieres tus reportes</li>
             </ul>
+            <p class="texto-secundario">En el diagnóstico sales con un precio claro. Sin costo y sin compromiso.</p>
             <a class="boton boton-tinta js-cta" href="#agendar">Agendar diagnóstico</a>
-          </article>
-
-          <article class="tarjeta tarjeta-precio" data-revelar>
-            <h3 class="titulo-h3">Plan esencial</h3>
-            <p class="precio-rango dato">$7,000 a $10,000 <small>MXN al mes</small></p>
-            <p class="texto-secundario">Para empezar con lo básico.</p>
-            <ul class="lista-incluye">
-              <li>Tablero siempre al día</li>
-              <li>Reporte mensual narrado</li>
-              <li>Soporte por correo</li>
-            </ul>
-          </article>
+          </div>
         </div>
-
-        <p class="nota-precios" data-revelar>Los rangos dependen de cuántas fuentes conectamos y de qué tan ordenados están tus datos. En el diagnóstico te damos un precio cerrado, sin sorpresas.</p>
       </div>
     </section>
 
