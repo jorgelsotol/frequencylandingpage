@@ -1,1364 +1,1454 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Frecuency — Automatización y Consultoría de Workflows</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Analista de datos externo para tu PyME | Frecuency</title>
+  <meta name="description" content="Frecuency es el analista de datos externo para tu PyME: conectamos tus sistemas y te explicamos tu negocio en español simple. Agenda un diagnóstico.">
+
+  <!-- TODO: reemplazar TUDOMINIO.com por el dominio real en todo el archivo -->
+  <link rel="canonical" href="https://TUDOMINIO.com/">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Frecuency: entiende los números de tu negocio">
+  <meta property="og:description" content="Conectamos tus sistemas, ordenamos tus números y te los explicamos en español simple. Agenda un diagnóstico.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://TUDOMINIO.com/">
+  <meta property="og:locale" content="es_MX">
+  <!-- TODO: crear la imagen real de 1200x630 con el logo y el mensaje principal -->
+  <meta property="og:image" content="https://TUDOMINIO.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Tipografía: Arimo, única familia de la marca (CLAUDE.md, sección 6) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    /* Marca que hay JavaScript disponible. Los revelados al hacer scroll
+       solo ocultan contenido si esta clase existe, así la página nunca
+       queda en blanco sin JS. */
+    document.documentElement.classList.add('js');
+  </script>
+
   <style>
-    /* ─── Variables ─────────────────────────────────────────── */
+    /* ==========================================================
+       Frecuency · Landing
+       Paleta y tipografía: CLAUDE.md. Estructura técnica: SEO.md.
+       Selectores planos de una sola clase para evitar guerras de
+       especificidad. El espaciado entre secciones vive en UNA sola
+       regla (.seccion), nadie más lo pisa.
+       ========================================================== */
+
     :root {
-      --red:     #D73220;
-      --cream:   #FFF2EB;
-      --burgundy:#68150A;
-      --blue:    #0B78B3;
-      --navy:    #1F0062;
-      --white:   #ffffff;
-      --text:    #1a1a1a;
-      --muted:   #6b6b6b;
-      --border:  #e8e0da;
-      --font:    'Plus Jakarta Sans', sans-serif;
+      /* Neutros */
+      --tinta:      #23205F;
+      --papel:      #FBF7F2;
+      /* Acción */
+      --pulso:      #D73220;
+      /* Interacción y datos */
+      --frecuencia: #2D6BE4;
+      /* Semánticos */
+      --estable:    #177E63;
+      --ambar:      #DFA032;
+      /* Pasteles: solo fondos */
+      --lila:       #EAE7F8;
+      --durazno:    #FDE4D8;
+      --menta:      #DCEFE6;
+      --cielo:      #DEEBFC;
+      /* Apoyo */
+      --humo:       #E9E2D8;
+      --grafito:    #5A564F;
+      --blanco:     #FFFFFF;
+
+      --fuente: 'Arimo', Arial, sans-serif;
+      --sombra-suave: 0 24px 60px -30px rgba(35, 32, 95, .18);
+      --radio-tarjeta: 20px;
+      --esp-seccion: clamp(64px, 9vw, 100px);
+      --alto-nav: 72px;
     }
 
-    /* ─── Reset ─────────────────────────────────────────────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    /* ---------- Base ---------- */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: calc(var(--alto-nav) + 16px);
+    }
+
     body {
-      font-family: var(--font);
-      font-weight: 300;
-      color: var(--text);
+      margin: 0;
+      font-family: var(--fuente);
+      font-size: 1.0625rem; /* 17px */
+      font-weight: 400;
       line-height: 1.6;
-      background: var(--white);
-    }
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
-    ul { list-style: none; }
-    button, input, textarea, select {
-      font-family: var(--font);
-      font-size: inherit;
+      color: var(--tinta);
+      background: var(--papel);
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* ─── Utilities ──────────────────────────────────────────── */
-    .container {
-      width: 100%;
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-    .section {
-      padding: 96px 0;
-    }
-    .section--cream { background: var(--cream); }
-    .section--white { background: var(--white); }
-    .section--navy  { background: var(--navy); }
-    .section--burgundy { background: var(--burgundy); }
+    h1, h2, h3, p, ul, figure { margin: 0; }
 
-    .label {
-      display: inline-block;
-      font-size: 11px;
+    img, svg { display: block; max-width: 100%; }
+
+    a { color: var(--frecuencia); }
+
+    :focus-visible {
+      outline: 3px solid var(--frecuencia);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    .salto-contenido {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--tinta);
+      color: var(--papel);
+      padding: 12px 20px;
+      border-radius: 0 0 12px 0;
+      z-index: 200;
+    }
+    .salto-contenido:focus-visible { left: 0; }
+
+    /* ---------- Tipografía ---------- */
+    .titulo-h1 {
+      font-size: clamp(2.75rem, 7vw, 3.5rem); /* 44 a 56 */
       font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      max-width: 20ch;
+      text-wrap: balance;
+    }
+
+    .titulo-h2 {
+      font-size: clamp(2rem, 4.5vw, 2.25rem); /* 32 a 36 */
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      max-width: 24ch;
+    }
+
+    .titulo-h3 {
+      font-size: 1.375rem; /* 22 */
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .etiqueta {
+      display: inline-block;
+      font-size: 0.8125rem; /* 13 */
+      font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 16px;
+      color: var(--grafito);
     }
-    .section-title {
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      color: var(--burgundy);
-      line-height: 1.15;
-      margin-bottom: 20px;
+
+    .texto-secundario {
+      color: var(--grafito);
+      font-size: 1.0625rem;
+      max-width: 62ch;
     }
-    .section-sub {
-      font-size: 1.125rem;
-      color: var(--muted);
-      max-width: 560px;
-      font-weight: 300;
+
+    /* El punto final en Rojo Pulso: el latido, como en el logo */
+    .punto-pulso { color: var(--pulso); }
+
+    .dato {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
     }
-    .btn {
+
+    /* ---------- Estructura ---------- */
+    .contenedor {
+      width: 100%;
+      max-width: 1120px;
+      margin-inline: auto;
+      padding-inline: 20px;
+    }
+
+    .seccion { padding-block: var(--esp-seccion); }
+
+    .cabeza-seccion {
+      display: grid;
+      gap: 14px;
+      margin-bottom: clamp(36px, 6vw, 56px);
+    }
+
+    /* ---------- Botones ---------- */
+    .boton {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 14px 28px;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      transition: opacity .2s, background .2s, color .2s;
+      min-height: 48px;
+      padding: 0 28px;
+      border: 0;
+      border-radius: 999px;
+      font-family: var(--fuente);
+      font-size: 1.0625rem;
+      font-weight: 700;
+      text-decoration: none;
       white-space: nowrap;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
     }
-    .btn:hover { opacity: .88; }
-    .btn--red   { background: var(--red);  color: var(--white); }
-    .btn--ghost {
-      background: transparent;
-      border-color: var(--burgundy);
-      color: var(--burgundy);
-    }
-    .btn--ghost:hover { background: var(--burgundy); color: var(--white); }
-    .btn--ghost-light {
-      background: transparent;
-      border-color: var(--white);
-      color: var(--white);
-    }
-    .btn--ghost-light:hover { background: var(--white); color: var(--navy); }
+    .boton:hover { transform: translateY(-1px); }
+    .boton:active { transform: translateY(0); }
 
-    /* ─── NAV ────────────────────────────────────────────────── */
+    /* Principal: Rojo Pulso, máximo uno por pantalla */
+    .boton-pulso {
+      background: var(--pulso);
+      color: var(--blanco);
+      box-shadow: 0 14px 30px -14px rgba(215, 50, 32, .55);
+    }
+
+    /* Secundario: Tinta */
+    .boton-tinta {
+      background: var(--tinta);
+      color: var(--papel);
+    }
+
+    .enlace-flecha {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 48px;
+      font-weight: 600;
+      color: var(--frecuencia);
+      text-decoration: none;
+    }
+    .enlace-flecha:hover { text-decoration: underline; }
+
+    /* ---------- Navegación ---------- */
     .nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
+      background: rgba(251, 247, 242, .92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--humo);
     }
-    .nav__inner {
+
+    .nav-fila {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 68px;
+      gap: 12px;
+      min-height: var(--alto-nav);
     }
-    .nav__logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--burgundy);
+
+    .logo {
+      font-size: 1.375rem;
+      font-weight: 700;
       letter-spacing: -0.02em;
+      color: var(--tinta);
+      text-decoration: none;
     }
-    .nav__links {
+
+    .nav-enlaces {
       display: none;
-      gap: 36px;
-    }
-    .nav__links a {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text);
-      transition: color .2s;
-    }
-    .nav__links a:hover { color: var(--red); }
-    .nav__cta { display: none; }
-    .nav__burger {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .nav__burger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--burgundy);
-      transition: transform .25s, opacity .25s;
-    }
-    .nav__burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .nav__burger.open span:nth-child(2) { opacity: 0; }
-    .nav__burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    .nav__mobile {
-      display: none;
-      flex-direction: column;
-      gap: 0;
-      border-top: 1px solid var(--border);
-      background: var(--white);
-      padding: 16px 24px 24px;
-    }
-    .nav__mobile.open { display: flex; }
-    .nav__mobile a {
-      padding: 12px 0;
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--text);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav__mobile .btn { margin-top: 16px; align-self: flex-start; }
-
-    @media (min-width: 768px) {
-      .nav__links { display: flex; }
-      .nav__cta   { display: inline-flex; }
-      .nav__burger { display: none; }
-      .nav__mobile { display: none !important; }
-    }
-
-    /* ─── HERO ───────────────────────────────────────────────── */
-    .hero {
-      background: var(--cream);
-      padding: 120px 0 96px;
-    }
-    .hero__inner {
-      max-width: 780px;
-    }
-    .hero__headline {
-      font-size: clamp(2.4rem, 6vw, 4.25rem);
-      font-weight: 800;
-      color: var(--burgundy);
-      line-height: 1.1;
-      margin-bottom: 28px;
-      letter-spacing: -0.02em;
-    }
-    .hero__headline em {
-      font-style: normal;
-      color: var(--red);
-    }
-    .hero__sub {
-      font-size: clamp(1.05rem, 2vw, 1.25rem);
-      color: var(--muted);
-      font-weight: 300;
-      max-width: 600px;
-      margin-bottom: 44px;
-      line-height: 1.65;
-    }
-    .hero__ctas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      align-items: center;
-    }
-    .hero__ctas .btn--ghost {
-      border-color: currentColor;
-      color: var(--burgundy);
-    }
-    .hero__note {
-      margin-top: 48px;
-      font-size: 0.8125rem;
-      color: var(--muted);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .hero__note::before {
-      content: '';
-      display: inline-block;
-      width: 28px;
-      height: 1px;
-      background: var(--muted);
-    }
-
-    /* ─── PROBLEMA ───────────────────────────────────────────── */
-    .problema__header {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
-      margin-bottom: 72px;
-    }
-    .problema__stat {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .problema__stat-number {
-      font-size: clamp(3.5rem, 8vw, 6rem);
-      font-weight: 800;
-      color: var(--red);
-      line-height: 1;
-      letter-spacing: -0.03em;
-    }
-    .problema__stat-label {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 340px;
-    }
-    .problema__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2px;
-    }
-    .problema__item {
-      background: var(--white);
-      padding: 36px 40px;
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 24px;
-      align-items: start;
-      border: 1px solid var(--border);
-      transition: border-color .2s;
-    }
-    .problema__item:hover { border-color: var(--red); }
-    .problema__item-num {
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--red);
-      letter-spacing: 0.08em;
-      padding-top: 4px;
-    }
-    .problema__item-title {
-      font-size: 1.0625rem;
-      font-weight: 700;
-      color: var(--burgundy);
-      margin-bottom: 6px;
-    }
-    .problema__item-desc {
-      font-size: 0.9375rem;
-      color: var(--muted);
-    }
-
-    @media (min-width: 768px) {
-      .problema__header { grid-template-columns: 1fr 1fr; align-items: center; }
-      .problema__grid   { grid-template-columns: 1fr 1fr; }
-    }
-    @media (min-width: 1024px) {
-      .problema__grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* ─── PROPUESTA DE VALOR ─────────────────────────────────── */
-    .valor__header {
-      margin-bottom: 60px;
-    }
-    .valor__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .valor__card {
-      background: var(--white);
-      padding: 40px 36px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      transition: box-shadow .2s, transform .2s;
-    }
-    .valor__card:hover {
-      box-shadow: 0 8px 32px rgba(0,0,0,.07);
-      transform: translateY(-3px);
-    }
-    .valor__card-icon {
-      width: 48px;
-      height: 48px;
-      margin-bottom: 24px;
-      color: var(--red);
-    }
-    .valor__card-title {
-      font-size: 1.1875rem;
-      font-weight: 700;
-      color: var(--burgundy);
-      margin-bottom: 10px;
-    }
-    .valor__card-desc {
-      font-size: 0.9375rem;
-      color: var(--muted);
-      line-height: 1.65;
-    }
-
-    @media (min-width: 768px) {
-      .valor__grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* ─── CÓMO FUNCIONA ──────────────────────────────────────── */
-    .proceso__header { margin-bottom: 72px; }
-    .proceso__steps {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 0;
-      position: relative;
-    }
-    .proceso__step {
-      display: grid;
-      grid-template-columns: 56px 1fr;
+      list-style: none;
+      margin: 0;
+      padding: 0;
       gap: 28px;
-      padding-bottom: 52px;
-      position: relative;
-    }
-    .proceso__step:last-child { padding-bottom: 0; }
-    .proceso__step-left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .proceso__step-num {
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      background: var(--red);
-      color: var(--white);
-      font-size: 1.125rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .proceso__step-line {
-      flex: 1;
-      width: 2px;
-      background: var(--border);
-      margin-top: 8px;
-    }
-    .proceso__step:last-child .proceso__step-line { display: none; }
-    .proceso__step-content { padding-top: 12px; }
-    .proceso__step-label {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 8px;
-    }
-    .proceso__step-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--burgundy);
-      margin-bottom: 12px;
-    }
-    .proceso__step-desc {
-      font-size: 0.9375rem;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.65;
     }
 
-    @media (min-width: 768px) {
-      .proceso__steps {
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 0;
-      }
-      .proceso__step {
-        grid-template-columns: 1fr;
-        padding-bottom: 0;
-        padding-right: 40px;
-      }
-      .proceso__step:last-child { padding-right: 0; }
-      .proceso__step-left {
-        flex-direction: row;
-        align-items: center;
-        margin-bottom: 28px;
-      }
-      .proceso__step-line {
-        flex: 1;
-        height: 2px;
-        width: auto;
-        margin-top: 0;
-        margin-left: 8px;
-      }
-      .proceso__step:last-child .proceso__step-left { justify-content: flex-start; }
-      .proceso__step-content { padding-top: 0; }
-    }
-
-    /* ─── MODELO DE NEGOCIO ──────────────────────────────────── */
-    .modelo__header { margin-bottom: 60px; }
-    .modelo__cards {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .modelo__card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 48px 40px;
-    }
-    .modelo__card-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      margin-bottom: 24px;
-    }
-    .modelo__card--setup .modelo__card-badge {
-      background: #fce8e5;
-      color: var(--red);
-    }
-    .modelo__card--mensual .modelo__card-badge {
-      background: #e0f0f9;
-      color: var(--blue);
-    }
-    .modelo__card-title {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--burgundy);
-      margin-bottom: 12px;
-    }
-    .modelo__card-price {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 16px;
-    }
-    .modelo__card-price span {
-      font-size: 0.9rem;
+    .nav-enlaces a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      color: var(--tinta);
+      text-decoration: none;
       font-weight: 400;
-      color: var(--muted);
     }
-    .modelo__card-desc {
-      font-size: 0.9375rem;
-      color: var(--muted);
-      margin-bottom: 28px;
-      line-height: 1.65;
-    }
-    .modelo__list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .modelo__list li {
-      font-size: 0.9rem;
-      color: var(--text);
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-    .modelo__list li::before {
-      content: '';
-      flex-shrink: 0;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--red);
-      margin-top: 8px;
-    }
+    .nav-enlaces a:hover { color: var(--frecuencia); }
 
-    @media (min-width: 768px) {
-      .modelo__cards { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* ─── TESTIMONIOS ────────────────────────────────────────── */
-    .testimonios__header { margin-bottom: 60px; }
-    .testimonios__grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-    .testimonios__card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 40px 36px;
-      position: relative;
-    }
-    .testimonios__quote-mark {
-      font-size: 5rem;
-      line-height: 1;
-      color: var(--burgundy);
-      font-family: Georgia, serif;
-      position: absolute;
-      top: 16px;
-      left: 32px;
-      opacity: .18;
-      pointer-events: none;
-    }
-    .testimonios__quote {
-      font-size: 0.9875rem;
-      color: var(--text);
-      line-height: 1.7;
-      margin-bottom: 28px;
-      position: relative;
-      z-index: 1;
-    }
-    .testimonios__author {
+    .nav-acciones {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
     }
-    .testimonios__avatar {
+
+    /* El CTA del nav va en Tinta: el Rojo Pulso se reserva para el botón
+       principal de la sección visible, uno por pantalla */
+    .boton-nav {
+      min-height: 44px;
+      padding: 0 20px;
+      font-size: 0.9375rem;
+    }
+
+    .boton-menu {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
       width: 44px;
       height: 44px;
-      border-radius: 50%;
-      background: var(--cream);
+      padding: 10px;
+      background: none;
+      border: 0;
+      cursor: pointer;
+    }
+    .boton-menu span {
+      display: block;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--tinta);
+    }
+
+    .menu-movil {
+      display: none;
+      border-top: 1px solid var(--humo);
+      padding: 8px 0 16px;
+    }
+    .menu-movil ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-movil a {
+      display: block;
+      padding: 12px 4px;
+      color: var(--tinta);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .nav-abierta .menu-movil { display: block; }
+
+    @media (min-width: 900px) {
+      .nav-enlaces { display: flex; }
+      .boton-menu { display: none; }
+    }
+
+    /* En pantallas muy angostas el nav se compacta para que el CTA
+       completo siga visible sin quebrarse */
+    @media (max-width: 430px) {
+      .contenedor { padding-inline: 16px; }
+      .logo { font-size: 1.1875rem; }
+      .boton-nav { font-size: 0.8125rem; padding: 0 14px; }
+      .nav-fila { gap: 8px; }
+      .nav-acciones { gap: 4px; }
+    }
+
+    /* ---------- Hero ---------- */
+    .hero { padding-block: clamp(56px, 8vw, 88px) 0; }
+
+    .hero-texto {
+      display: grid;
+      gap: 22px;
+      justify-items: start;
+    }
+
+    .hero-sub {
+      font-size: clamp(1.125rem, 2.2vw, 1.25rem);
+      color: var(--grafito);
+      max-width: 54ch;
+    }
+
+    .hero-acciones {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--burgundy);
-      flex-shrink: 0;
-    }
-    .testimonios__author-name {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--burgundy);
-    }
-    .testimonios__author-role {
-      font-size: 0.8125rem;
-      color: var(--muted);
+      gap: 12px 24px;
+      margin-top: 6px;
     }
 
-    @media (min-width: 768px) {
-      .testimonios__grid { grid-template-columns: 1fr 1fr; }
-    }
-    @media (min-width: 1024px) {
-      .testimonios__grid { grid-template-columns: 1fr 1fr 1fr; }
+    /* La onda: el elemento firma. Del ruido gris a la señal azul,
+       rematada por el punto de pulso. */
+    .onda {
+      position: relative;
+      margin-top: clamp(32px, 6vw, 56px);
     }
 
-    /* ─── CTA FINAL ──────────────────────────────────────────── */
-    .cta-final {
-      background: var(--navy);
-      padding: 104px 0;
+    .onda svg { width: 100%; height: auto; }
+
+    .punto-latido { transform-box: fill-box; transform-origin: center; }
+
+    .anillo-latido {
+      transform-box: fill-box;
+      transform-origin: center;
+      opacity: 0;
+    }
+
+    .js .onda-animada .trazo-onda {
+      stroke-dasharray: var(--largo-trazo, 3000);
+      stroke-dashoffset: var(--largo-trazo, 3000);
+      animation: dibujar-onda 2.4s ease-out .2s forwards;
+    }
+    .js .onda-animada .punto-latido {
+      opacity: 0;
+      animation: aparecer-punto .4s ease-out 2.3s forwards;
+    }
+    .js .onda-animada .anillo-latido {
+      animation: latir 2.8s ease-out 2.7s infinite;
+    }
+
+    @keyframes dibujar-onda { to { stroke-dashoffset: 0; } }
+    @keyframes aparecer-punto { to { opacity: 1; } }
+    @keyframes latir {
+      0%   { opacity: .7; transform: scale(1); }
+      45%  { opacity: 0;  transform: scale(2.6); }
+      100% { opacity: 0;  transform: scale(2.6); }
+    }
+
+    .nota-onda {
+      position: absolute;
+      right: 2%;
+      top: -30px;
+      width: min(250px, 42vw);
+      background: var(--blanco);
+      border: 1px solid var(--humo);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: var(--sombra-suave);
+      display: grid;
+      gap: 8px;
+      font-size: 0.9375rem;
+      line-height: 1.45;
+    }
+
+    .leyenda-onda {
+      margin-top: 10px;
+      font-size: 0.875rem;
+      color: var(--grafito);
       text-align: center;
     }
-    .cta-final__eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #8a86c0;
-      margin-bottom: 20px;
-    }
-    .cta-final__title {
-      font-size: clamp(2rem, 4.5vw, 3.25rem);
-      font-weight: 800;
-      color: var(--white);
-      line-height: 1.12;
-      margin-bottom: 20px;
-      letter-spacing: -0.02em;
-    }
-    .cta-final__sub {
-      font-size: 1.0625rem;
-      color: #a9a4d4;
-      margin-bottom: 44px;
-      font-weight: 300;
-    }
-    .cta-final__ctas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-    }
-    .cta-final__trust {
-      margin-top: 40px;
-      font-size: 0.8125rem;
-      color: #6b67a8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .cta-final__trust-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .cta-final__trust-item svg {
-      color: var(--red);
+
+    @media (max-width: 700px) {
+      .nota-onda {
+        position: static;
+        width: min(320px, 100%);
+        margin: 16px auto 0;
+      }
     }
 
-    /* ─── FORMULARIO ─────────────────────────────────────────── */
-    .contacto {
-      background: var(--cream);
-    }
-    .contacto__inner {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 64px;
-    }
-    .contacto__left .section-title { color: var(--burgundy); }
-    .contacto__detail {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      margin-top: 32px;
-    }
-    .contacto__detail-item {
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .contacto__detail-icon {
-      width: 20px;
-      flex-shrink: 0;
-      margin-top: 2px;
-      color: var(--red);
-    }
-    .contacto__detail-text {
-      font-size: 0.9375rem;
-      color: var(--muted);
-    }
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .form__row {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .form__field {
-      display: flex;
-      flex-direction: column;
+    /* Píldora de veredicto semántico: fondo Menta, texto Verde Estable */
+    .pildora-estable {
+      display: inline-flex;
+      align-items: center;
       gap: 6px;
+      width: fit-content;
+      background: var(--menta);
+      color: var(--estable);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 999px;
     }
-    .form__label {
+
+    /* ---------- Rejillas de tarjetas ---------- */
+    .rejilla-3 {
+      display: grid;
+      gap: 18px;
+    }
+    @media (min-width: 760px) {
+      .rejilla-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .tarjeta {
+      background: var(--blanco);
+      border: 1px solid var(--humo);
+      border-radius: var(--radio-tarjeta);
+      padding: 26px 24px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .garabato-ruido { opacity: .55; }
+
+    /* Tarjetas pastel: fondo de bloque, texto siempre Tinta o Grafito */
+    .tarjeta-pastel {
+      border: 0;
+      border-radius: var(--radio-tarjeta);
+      padding: 28px 26px;
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+    .fondo-cielo   { background: var(--cielo); }
+    .fondo-lila    { background: var(--lila); }
+    .fondo-durazno { background: var(--durazno); }
+
+    .paso-numero {
+      font-size: 3rem;
+      font-weight: 600;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+    }
+
+    /* ---------- Tarjeta de métrica (patrón de CLAUDE.md, sección 9) ---------- */
+    .tarjeta-metrica {
+      margin-top: 22px;
+      background: var(--blanco);
+      border: 1px solid var(--humo);
+      border-radius: var(--radio-tarjeta);
+      box-shadow: var(--sombra-suave);
+      padding: clamp(24px, 4vw, 36px);
+      display: grid;
+      gap: 20px;
+    }
+    @media (min-width: 760px) {
+      .tarjeta-metrica {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+        align-items: center;
+      }
+    }
+
+    .metrica-cifra {
+      font-size: clamp(2.25rem, 5vw, 2.75rem);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+      line-height: 1.1;
+    }
+
+    .metrica-detalle { display: grid; gap: 10px; justify-items: start; }
+
+    /* ---------- Sección de confianza (fondo Tinta) ---------- */
+    .seccion-tinta {
+      background: var(--tinta);
+      color: var(--papel);
+    }
+    .seccion-tinta .etiqueta { color: var(--humo); }
+    .seccion-tinta .texto-secundario { color: var(--humo); }
+
+    /* Las tarjetas blancas dentro de la sección Tinta recuperan su texto
+       oscuro, si no heredan el color claro de la sección y se pierden */
+    .seccion-tinta .tarjeta { color: var(--tinta); }
+    .seccion-tinta .tarjeta .texto-secundario { color: var(--grafito); }
+
+    .chip-semantico {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
       font-size: 0.8125rem;
       font-weight: 600;
-      color: var(--burgundy);
-      letter-spacing: 0.02em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--grafito);
     }
-    .form__label span {
-      color: var(--red);
-      margin-left: 2px;
+    .chip-semantico::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-chip, var(--tinta));
     }
-    .form__input,
-    .form__textarea {
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: 6px;
+
+    .cita-ejemplo {
+      background: var(--papel);
+      border-radius: 12px;
       padding: 12px 16px;
       font-size: 0.9375rem;
-      color: var(--text);
-      font-weight: 400;
-      transition: border-color .2s;
-      outline: none;
-      width: 100%;
-    }
-    .form__input::placeholder,
-    .form__textarea::placeholder {
-      color: #bbb;
-    }
-    .form__input:focus,
-    .form__textarea:focus {
-      border-color: var(--blue);
-    }
-    .form__input.error,
-    .form__textarea.error {
-      border-color: var(--red);
-    }
-    .form__textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-    .form__error {
-      font-size: 0.78rem;
-      color: var(--red);
-      margin-top: 4px;
-      display: none;
-    }
-    .form__error.visible { display: block; }
-    .form__submit {
-      align-self: flex-start;
-    }
-    .form__privacy {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-top: -4px;
+      color: var(--tinta);
     }
 
-    @media (min-width: 768px) {
-      .contacto__inner { grid-template-columns: 1fr 1.4fr; }
-      .form__row { grid-template-columns: 1fr 1fr; }
-    }
-
-    /* ─── FOOTER ─────────────────────────────────────────────── */
-    .footer {
-      background: var(--navy);
-      padding: 64px 0 40px;
-    }
-    .footer__top {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 48px;
-      padding-bottom: 48px;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-    }
-    .footer__brand-logo {
-      font-size: 1.625rem;
-      font-weight: 800;
-      color: var(--cream);
-      letter-spacing: -0.02em;
-      margin-bottom: 12px;
-    }
-    .footer__brand-tagline {
-      font-size: 0.9rem;
-      color: #8a86c0;
-      font-weight: 300;
-      max-width: 280px;
-      line-height: 1.6;
-    }
-    .footer__nav-title {
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: #8a86c0;
-      margin-bottom: 16px;
-    }
-    .footer__nav-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .footer__nav-list a {
-      font-size: 0.9rem;
-      color: #c8c4e8;
-      font-weight: 400;
-      transition: color .2s;
-    }
-    .footer__nav-list a:hover { color: var(--white); }
-    .footer__social { display: flex; gap: 12px; margin-top: 24px; }
-    .footer__social a {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      background: rgba(255,255,255,.07);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #c8c4e8;
-      transition: background .2s, color .2s;
-    }
-    .footer__social a:hover { background: var(--red); color: var(--white); }
-    .footer__bottom {
-      padding-top: 28px;
+    .leyenda-colores {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 10px 26px;
+      margin-top: 30px;
+      font-size: 0.875rem;
+      color: var(--humo);
+    }
+    .leyenda-colores span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .leyenda-colores i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      font-style: normal;
+    }
+
+    /* ---------- Precios ---------- */
+    .tarjeta-precio { position: relative; gap: 14px; }
+
+    .tarjeta-destacada {
+      border: 2px solid var(--tinta);
+      box-shadow: var(--sombra-suave);
+    }
+
+    .insignia {
+      position: absolute;
+      top: -14px;
+      left: 24px;
+      background: var(--tinta);
+      color: var(--papel);
+      font-size: 0.8125rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 999px;
+    }
+
+    .precio-rango {
+      font-size: 1.75rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+      line-height: 1.2;
+    }
+    .precio-rango small {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--grafito);
+    }
+
+    .lista-incluye {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      font-size: 0.9375rem;
+      color: var(--grafito);
+    }
+    .lista-incluye li {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .lista-incluye li::before {
+      content: "";
+      flex: none;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--estable);
+      transform: translateY(-1px);
+    }
+
+    .nota-precios {
+      margin-top: 22px;
+      font-size: 0.9375rem;
+      color: var(--grafito);
+      max-width: 62ch;
+    }
+
+    /* ---------- Preguntas frecuentes ---------- */
+    .seccion-lila { background: var(--lila); }
+
+    .lista-preguntas {
+      display: grid;
+      gap: 12px;
+      max-width: 780px;
+    }
+
+    .pregunta {
+      background: var(--blanco);
+      border: 1px solid var(--humo);
+      border-radius: 16px;
+      padding: 0;
+    }
+    .pregunta summary {
+      list-style: none;
+      cursor: pointer;
+      display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
+      padding: 18px 22px;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      border-radius: 16px;
     }
-    .footer__copy {
-      font-size: 0.8125rem;
-      color: #6b67a8;
+    .pregunta summary::-webkit-details-marker { display: none; }
+    .pregunta summary::after {
+      content: "+";
+      flex: none;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--pulso);
+      line-height: 1;
     }
-    .footer__bottom-links {
+    .pregunta[open] summary::after { content: "\2212"; }
+    .pregunta p {
+      padding: 0 22px 20px;
+      color: var(--grafito);
+      max-width: 62ch;
+    }
+
+    /* ---------- Cierre y formulario ---------- */
+    .remate-onda {
       display: flex;
+      justify-content: center;
+      padding-top: var(--esp-seccion);
+    }
+
+    .cierre { padding-block: clamp(40px, 6vw, 64px) var(--esp-seccion); }
+
+    .cierre-rejilla {
+      display: grid;
+      gap: 36px;
+    }
+    @media (min-width: 900px) {
+      .cierre-rejilla {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        align-items: start;
+        gap: 56px;
+      }
+    }
+
+    .cierre-texto { display: grid; gap: 16px; }
+
+    .formulario {
+      background: var(--blanco);
+      border: 1px solid var(--humo);
+      border-radius: var(--radio-tarjeta);
+      box-shadow: var(--sombra-suave);
+      padding: clamp(24px, 4vw, 36px);
+    }
+
+    .campos { display: grid; gap: 18px; }
+
+    .campo { display: grid; gap: 6px; }
+
+    .campo label {
+      font-size: 0.9375rem;
+      font-weight: 600;
+    }
+
+    .campo input {
+      font-family: var(--fuente);
+      font-size: 1rem;
+      color: var(--tinta);
+      background: var(--papel);
+      border: 1.5px solid var(--humo);
+      border-radius: 12px;
+      padding: 12px 14px;
+      min-height: 48px;
+      width: 100%;
+    }
+    .campo input:focus-visible {
+      outline: 3px solid var(--frecuencia);
+      outline-offset: 1px;
+      border-color: var(--frecuencia);
+    }
+
+    .campo-error input { border-color: var(--pulso); }
+
+    .mensaje-error {
+      display: none;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--tinta);
+    }
+    .mensaje-error::before {
+      content: "";
+      flex: none;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--pulso);
+      transform: translateY(-1px);
+    }
+    .campo-error .mensaje-error { display: flex; }
+
+    .pie-formulario {
+      display: grid;
+      gap: 14px;
+      margin-top: 22px;
+      justify-items: start;
+    }
+
+    .aviso-formulario {
+      font-size: 0.875rem;
+      color: var(--grafito);
+    }
+
+    .confirmacion {
+      display: none;
+      text-align: left;
+      gap: 14px;
+    }
+    .confirmacion.visible { display: grid; }
+    .formulario-enviado .campos,
+    .formulario-enviado .pie-formulario { display: none; }
+
+    .sello-confirmacion {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--menta);
+      color: var(--estable);
+    }
+
+    /* ---------- Pie de página ---------- */
+    .pie {
+      background: var(--tinta);
+      color: var(--papel);
+      padding-block: 48px;
+    }
+    .pie-fila {
+      display: grid;
       gap: 20px;
     }
-    .footer__bottom-links a {
-      font-size: 0.8125rem;
-      color: #6b67a8;
-      transition: color .2s;
+    @media (min-width: 760px) {
+      .pie-fila {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+      }
     }
-    .footer__bottom-links a:hover { color: #c8c4e8; }
-
-    @media (min-width: 768px) {
-      .footer__top { grid-template-columns: 1.6fr 1fr 1fr; }
+    .pie .logo { color: var(--papel); }
+    .pie-nota { font-size: 0.9375rem; color: var(--humo); margin-top: 6px; }
+    .pie-enlaces {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      font-size: 0.9375rem;
     }
+    .pie-enlaces a { color: var(--papel); }
 
-    /* ─── SCROLL ANIMATIONS ──────────────────────────────────── */
-    .fade-up {
+    /* ---------- Revelado al hacer scroll ---------- */
+    .js [data-revelar] {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(14px);
       transition: opacity .55s ease, transform .55s ease;
     }
-    .fade-up.visible {
+    .js [data-revelar].visible {
       opacity: 1;
       transform: none;
     }
-    .fade-up:nth-child(2) { transition-delay: .08s; }
-    .fade-up:nth-child(3) { transition-delay: .16s; }
-    .fade-up:nth-child(4) { transition-delay: .24s; }
+
+    /* ---------- Movimiento reducido ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .js .onda-animada .trazo-onda {
+        stroke-dasharray: none;
+        stroke-dashoffset: 0;
+      }
+      .js .onda-animada .punto-latido { opacity: 1; }
+      .js .onda-animada .anillo-latido { opacity: 0; }
+      .js [data-revelar] { opacity: 1; transform: none; }
+    }
   </style>
+
+  <!-- Datos estructurados: Organization (SEO.md, sección 7) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Frecuency",
+    "url": "https://TUDOMINIO.com",
+    "logo": "https://TUDOMINIO.com/favicon.svg",
+    "description": "El analista de datos externo para empresas que no pueden leer sus propios números. Conectamos tus sistemas y te explicamos tu negocio en español simple.",
+    "areaServed": "MX",
+    "inLanguage": "es-MX"
+  }
+  </script>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
-     NAV
-════════════════════════════════════════════════ -->
-<header class="nav" id="top">
-  <div class="container">
-    <nav class="nav__inner">
-      <a href="#top" class="nav__logo">Frecuency</a>
-      <ul class="nav__links">
-        <li><a href="#problema">Problema</a></li>
-        <li><a href="#como-funciona">Cómo funciona</a></li>
-        <li><a href="#testimonios">Testimonios</a></li>
-        <li><a href="#contacto">Contacto</a></li>
-      </ul>
-      <a href="#contacto" class="btn btn--red nav__cta">Agenda una llamada</a>
-      <button class="nav__burger" id="burgerBtn" aria-label="Menú">
-        <span></span><span></span><span></span>
-      </button>
-    </nav>
-  </div>
-  <div class="nav__mobile" id="mobileMenu">
-    <a href="#problema"     onclick="closeMenu()">Problema</a>
-    <a href="#como-funciona" onclick="closeMenu()">Cómo funciona</a>
-    <a href="#testimonios"  onclick="closeMenu()">Testimonios</a>
-    <a href="#contacto"     onclick="closeMenu()">Contacto</a>
-    <a href="#contacto" class="btn btn--red" onclick="closeMenu()">Agenda una llamada</a>
-  </div>
-</header>
+  <a class="salto-contenido" href="#contenido">Saltar al contenido</a>
 
-<!-- ═══════════════════════════════════════════════
-     HERO
-════════════════════════════════════════════════ -->
-<section class="hero" id="hero">
-  <div class="container">
-    <div class="hero__inner">
-      <span class="label">Automatización · Workflows · Consultoría</span>
-      <h1 class="hero__headline">
-        El <em>80%</em> de tu tiempo se va en el 20% de tareas que menos importan.
-      </h1>
-      <p class="hero__sub">
-        Frecuency diseña e implementa automatizaciones y workflows a medida para equipos de negocio. Sin necesidad de área técnica. Sin meses de espera. Resultados desde la primera semana.
-      </p>
-      <div class="hero__ctas">
-        <a href="#contacto" class="btn btn--red">Quiero automatizar mi negocio</a>
-        <a href="#como-funciona" class="btn btn--ghost">Ver cómo funciona</a>
-      </div>
-      <p class="hero__note">Primera llamada de diagnóstico sin costo ni compromiso</p>
-    </div>
-  </div>
-</section>
+  <header class="nav" id="inicio">
+    <div class="contenedor">
+      <div class="nav-fila">
+        <a class="logo" href="#inicio" aria-label="frecuency, inicio">frecuency<span class="punto-pulso">.</span></a>
 
-<!-- ═══════════════════════════════════════════════
-     PROBLEMA
-════════════════════════════════════════════════ -->
-<section class="section section--white" id="problema">
-  <div class="container">
-    <div class="problema__header">
-      <div>
-        <span class="label">El problema</span>
-        <h2 class="section-title">Tu equipo no es ineficiente. Sus procesos, sí.</h2>
-        <p class="section-sub">La Ley de Pareto aplica al trabajo operativo: una pequeña fracción de tareas repetitivas consume la mayoría del tiempo disponible.</p>
-      </div>
-      <div class="problema__stat">
-        <div class="problema__stat-number">80%</div>
-        <p class="problema__stat-label">del tiempo operativo de tu equipo se gasta en tareas que podrían automatizarse o simplificarse hoy.</p>
-      </div>
-    </div>
+        <nav aria-label="Secciones de la página">
+          <ul class="nav-enlaces">
+            <li><a href="#que-hacemos">Qué hacemos</a></li>
+            <li><a href="#como-funciona">Cómo funciona</a></li>
+            <li><a href="#precios">Precios</a></li>
+            <li><a href="#preguntas">Preguntas</a></li>
+          </ul>
+        </nav>
 
-    <div class="problema__grid">
-      <div class="problema__item fade-up">
-        <span class="problema__item-num">01</span>
-        <div>
-          <p class="problema__item-title">Reportes manuales que se hacen cada semana</p>
-          <p class="problema__item-desc">Copiar datos de un sistema, pegarlos en Excel, formatearlos y enviarlo por correo. Una hora de trabajo que se repite sin aportar valor real.</p>
-        </div>
-      </div>
-      <div class="problema__item fade-up">
-        <span class="problema__item-num">02</span>
-        <div>
-          <p class="problema__item-title">Seguimiento de clientes sin sistema ni visibilidad</p>
-          <p class="problema__item-desc">Chats de WhatsApp, hilos de correo y notas dispersas. Nadie sabe exactamente en qué etapa está cada cliente ni qué acción toca.</p>
-        </div>
-      </div>
-      <div class="problema__item fade-up">
-        <span class="problema__item-num">03</span>
-        <div>
-          <p class="problema__item-title">Aprobaciones que se pierden en cadenas de correo</p>
-          <p class="problema__item-desc">Flujos de aprobación que dependen de que alguien recuerde enviar el correo correcto a la persona correcta en el momento correcto.</p>
-        </div>
-      </div>
-      <div class="problema__item fade-up">
-        <span class="problema__item-num">04</span>
-        <div>
-          <p class="problema__item-title">Datos copiados de una hoja a otra</p>
-          <p class="problema__item-desc">Información que vive en tres lugares distintos, siempre desactualizada, con riesgo de error humano y sin una fuente de verdad clara.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     PROPUESTA DE VALOR
-════════════════════════════════════════════════ -->
-<section class="section section--cream" id="propuesta">
-  <div class="container">
-    <div class="valor__header">
-      <span class="label">Por qué Frecuency</span>
-      <h2 class="section-title">Diseñado para negocios,<br/>no para departamentos de IT.</h2>
-      <p class="section-sub">Cuatro pilares que diferencian nuestra consultoría de cualquier solución tecnológica genérica.</p>
-    </div>
-    <div class="valor__grid">
-
-      <div class="valor__card fade-up">
-        <svg class="valor__card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>
-        <h3 class="valor__card-title">Reducción de tiempo</h3>
-        <p class="valor__card-desc">Recupera horas operativas cada semana. Tus equipos se enfocan en trabajo de alto impacto, no en tareas repetitivas.</p>
-      </div>
-
-      <div class="valor__card fade-up">
-        <svg class="valor__card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
-        </svg>
-        <h3 class="valor__card-title">Workflows a medida</h3>
-        <p class="valor__card-desc">Procesos diseñados para la realidad de tu negocio y tu equipo. No una plantilla genérica, sino una solución que entiende tu operación.</p>
-      </div>
-
-      <div class="valor__card fade-up">
-        <svg class="valor__card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-        </svg>
-        <h3 class="valor__card-title">Fácil implementación</h3>
-        <p class="valor__card-desc">Sin necesidad de equipo técnico interno. Nos encargamos de todo el proceso: diseño, configuración, pruebas y activación.</p>
-      </div>
-
-      <div class="valor__card fade-up">
-        <svg class="valor__card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>
-        <h3 class="valor__card-title">Consultoría accesible</h3>
-        <p class="valor__card-desc">Pensado para PyMEs, mid-size y startups. No solo para grandes corporativos con presupuestos ilimitados y meses de implementación.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     CÓMO FUNCIONA
-════════════════════════════════════════════════ -->
-<section class="section section--white" id="como-funciona">
-  <div class="container">
-    <div class="proceso__header">
-      <span class="label">El proceso</span>
-      <h2 class="section-title">De la diagnosis al resultado<br/>en tres pasos.</h2>
-      <p class="section-sub">Un proceso claro, sin sorpresas y con entregables concretos en cada etapa.</p>
-    </div>
-    <div class="proceso__steps">
-
-      <div class="proceso__step fade-up">
-        <div class="proceso__step-left">
-          <div class="proceso__step-num">01</div>
-          <div class="proceso__step-line"></div>
-        </div>
-        <div class="proceso__step-content">
-          <p class="proceso__step-label">Semana 1</p>
-          <h3 class="proceso__step-title">Diagnóstico</h3>
-          <p class="proceso__step-desc">Mapeamos tus procesos actuales, identificamos los cuellos de botella y medimos el tiempo real que consume cada operación.</p>
+        <div class="nav-acciones">
+          <a class="boton boton-tinta boton-nav js-cta" href="#agendar">Agendar diagnóstico</a>
+          <button class="boton-menu" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
 
-      <div class="proceso__step fade-up">
-        <div class="proceso__step-left">
-          <div class="proceso__step-num">02</div>
-          <div class="proceso__step-line"></div>
-        </div>
-        <div class="proceso__step-content">
-          <p class="proceso__step-label">Semanas 2–3</p>
-          <h3 class="proceso__step-title">Diseño</h3>
-          <p class="proceso__step-desc">Construimos el workflow y las automatizaciones a medida. Validamos cada paso contigo antes de pasar a producción.</p>
-        </div>
-      </div>
-
-      <div class="proceso__step fade-up">
-        <div class="proceso__step-left">
-          <div class="proceso__step-num">03</div>
-          <div class="proceso__step-line"></div>
-        </div>
-        <div class="proceso__step-content">
-          <p class="proceso__step-label">Semana 4 en adelante</p>
-          <h3 class="proceso__step-title">Implementación y soporte</h3>
-          <p class="proceso__step-desc">Activamos las automatizaciones y acompañamos a tu equipo en la operación. Iteramos según los resultados reales.</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     MODELO DE NEGOCIO
-════════════════════════════════════════════════ -->
-<section class="section section--cream" id="modelo">
-  <div class="container">
-    <div class="modelo__header">
-      <span class="label">Inversión</span>
-      <h2 class="section-title">Un modelo simple.<br/>Sin costos ocultos.</h2>
-      <p class="section-sub">Dos componentes claros para que sepas exactamente lo que estás contratando y cuándo lo estás pagando.</p>
-    </div>
-    <div class="modelo__cards">
-
-      <div class="modelo__card modelo__card--setup fade-up">
-        <span class="modelo__card-badge">Pago único</span>
-        <h3 class="modelo__card-title">Set up</h3>
-        <div class="modelo__card-price">A convenir <span>/ proyecto</span></div>
-        <p class="modelo__card-desc">Cubre el diagnóstico completo, diseño de workflows, construcción de las automatizaciones e implementación en producción.</p>
-        <ul class="modelo__list">
-          <li>Diagnóstico y mapeo de procesos</li>
-          <li>Diseño de workflows a medida</li>
-          <li>Implementación y configuración</li>
-          <li>Documentación y handoff al equipo</li>
-          <li>Sesión de capacitación incluida</li>
-        </ul>
-      </div>
-
-      <div class="modelo__card modelo__card--mensual fade-up">
-        <span class="modelo__card-badge">Mensualidad</span>
-        <h3 class="modelo__card-title">Soporte continuo</h3>
-        <div class="modelo__card-price">A convenir <span>/ mes</span></div>
-        <p class="modelo__card-desc">Soporte activo, monitoreo, ajustes y optimización continua de los workflows implementados. Tu operación siempre al día.</p>
-        <ul class="modelo__list">
-          <li>Soporte técnico prioritario</li>
-          <li>Ajustes y optimizaciones mensuales</li>
-          <li>Monitoreo de automatizaciones</li>
-          <li>Reportes de rendimiento</li>
-          <li>Nuevas automatizaciones con descuento</li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     TESTIMONIOS
-════════════════════════════════════════════════ -->
-<section class="section section--white" id="testimonios">
-  <div class="container">
-    <div class="testimonios__header">
-      <span class="label">Clientes</span>
-      <h2 class="section-title">Equipos que recuperaron<br/>su tiempo.</h2>
-    </div>
-    <div class="testimonios__grid">
-
-      <div class="testimonios__card fade-up">
-        <div class="testimonios__quote-mark">"</div>
-        <p class="testimonios__quote">Antes dedicábamos casi tres horas a la semana solo a consolidar el reporte de ventas. Ahora se genera solo cada lunes a las 8 AM y llega directo a los directivos. Es increíble lo simple que resultó ser.</p>
-        <div class="testimonios__author">
-          <div class="testimonios__avatar">AM</div>
-          <div>
-            <p class="testimonios__author-name">Ana Martínez</p>
-            <p class="testimonios__author-role">Directora de Operaciones · Distribuidora Noreste</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonios__card fade-up">
-        <div class="testimonios__quote-mark">"</div>
-        <p class="testimonios__quote">El seguimiento de leads era un caos total entre WhatsApp y correo. Frecuency nos diseñó un flujo en menos de dos semanas. Ahora el equipo comercial cierra más porque no pierde tiempo buscando información.</p>
-        <div class="testimonios__author">
-          <div class="testimonios__avatar">CR</div>
-          <div>
-            <p class="testimonios__author-name">Carlos Ríos</p>
-            <p class="testimonios__author-role">CEO · Agencia Impulso Digital</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="testimonios__card fade-up">
-        <div class="testimonios__quote-mark">"</div>
-        <p class="testimonios__quote">Pensé que necesitaríamos meses y un equipo de IT para automatizar nuestras aprobaciones internas. Lo implementaron en tres semanas y el equipo lo adoptó sin fricción. Valió cada peso invertido.</p>
-        <div class="testimonios__author">
-          <div class="testimonios__avatar">LP</div>
-          <div>
-            <p class="testimonios__author-name">Laura Pedraza</p>
-            <p class="testimonios__author-role">VP de Finanzas · Grupo Constructor Pidal</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     CTA FINAL
-════════════════════════════════════════════════ -->
-<section class="cta-final" id="cta">
-  <div class="container">
-    <p class="cta-final__eyebrow">¿Listo para recuperar tu tiempo?</p>
-    <h2 class="cta-final__title">Deja de operar en modo<br/>apagafuegos.</h2>
-    <p class="cta-final__sub">Agenda una llamada de diagnóstico y te decimos exactamente qué procesos puedes automatizar en los próximos 30 días.</p>
-    <div class="cta-final__ctas">
-      <a href="#contacto" class="btn btn--red">Agenda tu llamada</a>
-      <a href="#como-funciona" class="btn btn--ghost-light">Ver cómo funciona</a>
-    </div>
-    <div class="cta-final__trust">
-      <div class="cta-final__trust-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Sin compromiso
-      </div>
-      <div class="cta-final__trust-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Primera llamada gratis
-      </div>
-      <div class="cta-final__trust-item">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        Resultados en 30 días
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     CONTACTO / FORMULARIO
-════════════════════════════════════════════════ -->
-<section class="section section--cream" id="contacto">
-  <div class="container">
-    <div class="contacto__inner">
-      <div class="contacto__left">
-        <span class="label">Contacto</span>
-        <h2 class="section-title">Cuéntanos sobre tu operación.</h2>
-        <p class="section-sub">Completa el formulario y nos pondremos en contacto para agendar tu llamada de diagnóstico.</p>
-        <div class="contacto__detail">
-          <div class="contacto__detail-item">
-            <svg class="contacto__detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span class="contacto__detail-text">Respuesta en menos de 24 horas hábiles</span>
-          </div>
-          <div class="contacto__detail-item">
-            <svg class="contacto__detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span class="contacto__detail-text">Primera llamada de diagnóstico sin costo</span>
-          </div>
-          <div class="contacto__detail-item">
-            <svg class="contacto__detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            <span class="contacto__detail-text">Sin compromiso ni presión de venta</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="contacto__right">
-        <form class="form" id="contactForm" novalidate>
-          <div class="form__row">
-            <div class="form__field">
-              <label class="form__label" for="nombre">Nombre<span>*</span></label>
-              <input class="form__input" type="text" id="nombre" name="nombre" placeholder="Tu nombre completo" autocomplete="name" />
-              <span class="form__error" id="err-nombre">Por favor ingresa tu nombre.</span>
-            </div>
-            <div class="form__field">
-              <label class="form__label" for="email">Email<span>*</span></label>
-              <input class="form__input" type="email" id="email" name="email" placeholder="tu@empresa.com" autocomplete="email" />
-              <span class="form__error" id="err-email">Por favor ingresa un email válido.</span>
-            </div>
-          </div>
-          <div class="form__field">
-            <label class="form__label" for="empresa">Empresa</label>
-            <input class="form__input" type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" autocomplete="organization" />
-          </div>
-          <div class="form__field">
-            <label class="form__label" for="proceso">¿Cuál es el proceso que más tiempo te consume?<span>*</span></label>
-            <textarea class="form__textarea" id="proceso" name="proceso" placeholder="Ej: Cada semana dedicamos horas a consolidar reportes de ventas manualmente antes de enviárselos a los directivos..."></textarea>
-            <span class="form__error" id="err-proceso">Por favor cuéntanos sobre tu proceso.</span>
-          </div>
-          <p class="form__privacy">Al enviar este formulario serás redirigido a Calendly para agendar tu llamada. Tus datos no son compartidos con terceros.</p>
-          <button type="submit" class="btn btn--red form__submit">Agendar mi llamada gratuita →</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════════════ -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer__top">
-      <div>
-        <p class="footer__brand-logo">Frecuency</p>
-        <p class="footer__brand-tagline">Automatización y consultoría de workflows para equipos que quieren operar mejor, no solo más rápido.</p>
-        <div class="footer__social">
-          <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="LinkedIn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-          </a>
-        </div>
-      </div>
-      <div>
-        <p class="footer__nav-title">Navegación</p>
-        <ul class="footer__nav-list">
-          <li><a href="#problema">Problema</a></li>
+      <nav class="menu-movil" id="menu-movil" aria-label="Secciones de la página, menú móvil">
+        <ul>
+          <li><a href="#que-hacemos">Qué hacemos</a></li>
           <li><a href="#como-funciona">Cómo funciona</a></li>
-          <li><a href="#modelo">Modelo</a></li>
-          <li><a href="#testimonios">Testimonios</a></li>
-          <li><a href="#contacto">Contacto</a></li>
+          <li><a href="#precios">Precios</a></li>
+          <li><a href="#preguntas">Preguntas</a></li>
         </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <!-- ============ Hero: la señal que emerge del ruido ============ -->
+    <section class="hero" aria-labelledby="titulo-hero">
+      <div class="contenedor">
+        <div class="hero-texto">
+          <p class="etiqueta">El analista de datos externo</p>
+          <h1 class="titulo-h1" id="titulo-hero">Entiende los números de tu negocio<span class="punto-pulso">.</span></h1>
+          <p class="hero-sub">Somos el analista de datos que tu empresa no tiene: conectamos tus sistemas, ordenamos tus números y te los explicamos en español simple.</p>
+          <div class="hero-acciones">
+            <a class="boton boton-pulso js-cta" href="#agendar">Agendar diagnóstico</a>
+            <a class="enlace-flecha" href="#como-funciona">Ver cómo funciona</a>
+          </div>
+        </div>
+
+        <figure class="onda onda-animada" aria-hidden="false">
+          <svg viewBox="0 0 1200 240" role="img" aria-labelledby="titulo-onda" fill="none">
+            <title id="titulo-onda">Una línea que empieza como ruido irregular en gris y termina como una onda clara en azul, con un punto rojo de pulso al final, dentro de una banda verde de rango esperado</title>
+            <defs>
+              <linearGradient id="gradiente-onda" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0"    stop-color="#5A564F" stop-opacity=".45"/>
+                <stop offset=".42"  stop-color="#5A564F" stop-opacity=".55"/>
+                <stop offset=".62"  stop-color="#2D6BE4"/>
+                <stop offset="1"    stop-color="#2D6BE4"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Banda de rango esperado, en Menta translúcida -->
+            <rect x="620" y="62" width="520" height="116" rx="16" fill="#DCEFE6" opacity=".55"/>
+
+            <!-- Del ruido (ángulos duros) a la señal (curvas limpias) -->
+            <path class="trazo-onda" stroke="url(#gradiente-onda)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+              d="M20 122 L42 112 60 132 78 100 96 140 112 94 130 144 148 106 166 132 184 98 202 138 220 110 238 130 256 96 274 136 292 108 310 128 328 102 346 132 364 112 382 126 400 106 418 128 436 114 454 124 472 112 490 122 508 115 526 121 544 118
+                 Q 572 100 600 120
+                 Q 630 148 660 120
+                 Q 690 82 720 120
+                 Q 750 164 780 120
+                 Q 810 68 840 120
+                 Q 870 172 900 120
+                 Q 930 68 960 120
+                 Q 990 172 1020 120
+                 Q 1050 68 1080 120"/>
+
+            <!-- El punto de pulso: el latido del negocio -->
+            <circle class="anillo-latido" cx="1080" cy="120" r="9" stroke="#D73220" stroke-width="2"/>
+            <circle class="punto-latido" cx="1080" cy="120" r="9" fill="#D73220"/>
+          </svg>
+
+          <figcaption class="nota-onda">
+            <span class="dato" style="font-size:1.25rem;">Tus ventas subieron 12%</span>
+            <span>esta semana, comparado con la anterior.</span>
+            <span class="pildora-estable">Dentro de lo normal</span>
+          </figcaption>
+        </figure>
+        <p class="leyenda-onda">Eso hacemos: separamos la señal del ruido y te la explicamos.</p>
       </div>
-      <div>
-        <p class="footer__nav-title">Servicios</p>
-        <ul class="footer__nav-list">
-          <li><a href="#propuesta">Consultoría de workflows</a></li>
-          <li><a href="#propuesta">Automatización de procesos</a></li>
-          <li><a href="#como-funciona">Diagnóstico operativo</a></li>
-          <li><a href="#modelo">Soporte continuo</a></li>
+    </section>
+
+    <!-- ============ El problema ============ -->
+    <section class="seccion" aria-labelledby="titulo-problema">
+      <div class="contenedor">
+        <div class="cabeza-seccion" data-revelar>
+          <p class="etiqueta">El problema</p>
+          <h2 class="titulo-h2" id="titulo-problema">Tienes los datos. Te falta quien te los explique.</h2>
+          <p class="texto-secundario">Frecuency es el analista de datos externo para empresas pequeñas y medianas que no tienen equipo de datos. Porque el problema casi nunca es la falta de información. Es esto:</p>
+        </div>
+
+        <div class="rejilla-3">
+          <article class="tarjeta" data-revelar>
+            <svg class="garabato-ruido" width="56" height="20" viewBox="0 0 56 20" aria-hidden="true" fill="none">
+              <path d="M2 10 L8 5 14 15 20 4 26 16 32 7 38 14 44 6 50 13 54 10" stroke="#5A564F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3 class="titulo-h3">Información regada</h3>
+            <p class="texto-secundario">Tus ventas viven en el punto de venta, tus clientes en el CRM y tus gastos en Excel. Nada se habla entre sí.</p>
+          </article>
+
+          <article class="tarjeta" data-revelar>
+            <svg class="garabato-ruido" width="56" height="20" viewBox="0 0 56 20" aria-hidden="true" fill="none">
+              <path d="M2 12 L8 8 14 14 20 6 26 15 32 5 38 13 44 8 50 14 54 9" stroke="#5A564F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3 class="titulo-h3">Nadie que la traduzca</h3>
+            <p class="texto-secundario">Los reportes existen, pero nadie te dice qué significan ni qué hacer con ellos. Los abres, los miras y los cierras.</p>
+          </article>
+
+          <article class="tarjeta" data-revelar>
+            <svg class="garabato-ruido" width="56" height="20" viewBox="0 0 56 20" aria-hidden="true" fill="none">
+              <path d="M2 9 L8 14 14 5 20 15 26 7 32 16 38 6 44 13 50 8 54 12" stroke="#5A564F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <h3 class="titulo-h3">Decisiones a ciegas</h3>
+            <p class="texto-secundario">Sin números claros, decides por intuición. A veces sale bien. A veces cuesta caro y no sabes por qué.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Qué hacemos ============ -->
+    <section class="seccion" id="que-hacemos" aria-labelledby="titulo-que-hacemos">
+      <div class="contenedor">
+        <div class="cabeza-seccion" data-revelar>
+          <p class="etiqueta">Qué hacemos</p>
+          <h2 class="titulo-h2" id="titulo-que-hacemos">Tu analista de datos externo: conecta, ordena, explica</h2>
+        </div>
+
+        <div class="rejilla-3">
+          <article class="tarjeta-pastel fondo-cielo" data-revelar>
+            <h3 class="titulo-h3">Conectamos</h3>
+            <p>Tu punto de venta, tu CRM, tu ecommerce y tus hojas de cálculo, todos en un mismo lugar.</p>
+          </article>
+
+          <article class="tarjeta-pastel fondo-lila" data-revelar>
+            <h3 class="titulo-h3">Ordenamos</h3>
+            <p>Limpiamos y modelamos tus números para que cuadren. Esta es la parte difícil, y la que más cuidamos.</p>
+          </article>
+
+          <article class="tarjeta-pastel fondo-durazno" data-revelar>
+            <h3 class="titulo-h3">Explicamos</h3>
+            <p>Cada semana sabes qué pasó, si es normal y qué conviene mirar. En español simple, sin tecnicismos.</p>
+          </article>
+        </div>
+
+        <!-- Tarjeta de métrica: patrón de CLAUDE.md, sección 9 -->
+        <div class="tarjeta-metrica" data-revelar>
+          <div class="metrica-detalle">
+            <p class="etiqueta">Así se lee tu negocio con Frecuency</p>
+            <p class="metrica-cifra">$128,400</p>
+            <p class="texto-secundario">Ventas de la semana. Subió 12% comparado con la semana pasada.</p>
+            <span class="pildora-estable">Dentro del rango esperado</span>
+          </div>
+          <svg viewBox="0 0 480 150" role="img" aria-label="Gráfica de línea de las ventas semanales en azul, dentro de una banda verde de rango esperado, con el último punto marcado en rojo" fill="none">
+            <rect x="10" y="40" width="460" height="80" rx="12" fill="#DCEFE6" opacity=".6"/>
+            <path d="M20 96 Q 60 90 90 84 T 160 88 T 230 72 T 300 80 T 370 62 T 440 56" stroke="#2D6BE4" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="440" cy="56" r="7" fill="#D73220"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Cómo funciona ============ -->
+    <section class="seccion" id="como-funciona" aria-labelledby="titulo-como-funciona">
+      <div class="contenedor">
+        <div class="cabeza-seccion" data-revelar>
+          <p class="etiqueta">Cómo funciona</p>
+          <h2 class="titulo-h2" id="titulo-como-funciona">De sistemas regados a números claros, en 3 pasos</h2>
+        </div>
+
+        <ol class="rejilla-3" style="list-style:none; margin:0; padding:0;">
+          <li class="tarjeta" data-revelar>
+            <p class="paso-numero dato">1<span class="punto-pulso">.</span></p>
+            <h3 class="titulo-h3">Diagnóstico</h3>
+            <p class="texto-secundario">Una llamada de 30 minutos. Revisamos qué sistemas usas y qué preguntas quieres responder. Sin costo y sin compromiso.</p>
+          </li>
+          <li class="tarjeta" data-revelar>
+            <p class="paso-numero dato">2<span class="punto-pulso">.</span></p>
+            <h3 class="titulo-h3">Conexión y modelado</h3>
+            <p class="texto-secundario">Conectamos tus fuentes y ordenamos tus números. En 2 semanas ves tu primer tablero funcionando.</p>
+          </li>
+          <li class="tarjeta" data-revelar>
+            <p class="paso-numero dato">3<span class="punto-pulso">.</span></p>
+            <h3 class="titulo-h3">Análisis continuo</h3>
+            <p class="texto-secundario">Cada semana te contamos qué pasó y qué significa. Y cuando tengas una duda, le preguntas a tu tablero en español y te responde con tus datos.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============ Por qué confiar ============ -->
+    <section class="seccion seccion-tinta" aria-labelledby="titulo-confianza">
+      <div class="contenedor">
+        <div class="cabeza-seccion" data-revelar>
+          <p class="etiqueta">Por qué confiar</p>
+          <h2 class="titulo-h2" id="titulo-confianza">El analista honesto</h2>
+          <p class="texto-secundario">La confianza no viene de gráficas bonitas. Viene de números que están bien y de decirte la verdad sobre lo que sabemos.</p>
+        </div>
+
+        <div class="rejilla-3">
+          <article class="tarjeta" data-revelar>
+            <span class="chip-semantico" style="--color-chip: var(--tinta);">Hecho</span>
+            <h3 class="titulo-h3">Decimos lo que sabemos</h3>
+            <p class="cita-ejemplo">"Tus ventas subieron 12% esta semana."</p>
+            <p class="texto-secundario">Cuando un número está comprobado, te lo decimos directo y sin adornos.</p>
+          </article>
+
+          <article class="tarjeta" data-revelar>
+            <span class="chip-semantico" style="--color-chip: var(--frecuencia);">Asociación</span>
+            <h3 class="titulo-h3">No confundimos coincidencia con causa</h3>
+            <p class="cita-ejemplo">"El alza coincidió con la quincena."</p>
+            <p class="texto-secundario">Decimos "coincidió con". Nunca decimos "porque" sin evidencia.</p>
+          </article>
+
+          <article class="tarjeta" data-revelar>
+            <span class="chip-semantico" style="--color-chip: var(--ambar);">Hipótesis</span>
+            <h3 class="titulo-h3">Cuando no sabemos, te lo decimos</h3>
+            <p class="cita-ejemplo">"Podría deberse a la promoción. Aún no lo podemos comprobar."</p>
+            <p class="texto-secundario">Nunca vestimos una suposición de certeza. Preferimos un "no sabemos todavía" honesto.</p>
+          </article>
+        </div>
+
+        <p class="leyenda-colores" data-revelar>
+          En Frecuency el color clasifica qué tan confiable es cada dato:
+          <span><i style="background: var(--papel);"></i>Hecho comprobado</span>
+          <span><i style="background: var(--frecuencia);"></i>Asociación</span>
+          <span><i style="background: var(--ambar);"></i>Hipótesis</span>
+          <span><i style="background: var(--estable);"></i>Dentro del rango esperado</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ Precios ============ -->
+    <section class="seccion" id="precios" aria-labelledby="titulo-precios">
+      <div class="contenedor">
+        <div class="cabeza-seccion" data-revelar>
+          <p class="etiqueta">Precios</p>
+          <h2 class="titulo-h2" id="titulo-precios">Cuesta menos que el analista de datos que no tienes</h2>
+          <!-- TODO: validar la cifra de referencia del sueldo con datos reales de mercado -->
+          <p class="texto-secundario">Un analista de planta cuesta arriba de $30,000 al mes, si lo encuentras. Frecuency te da el análisis sin la nómina.</p>
+        </div>
+
+        <!-- Rangos de precio aprobados de forma provisional (julio 2026).
+             TODO: revisarlos contra costos reales antes de una campaña fuerte. -->
+        <div class="rejilla-3">
+          <article class="tarjeta tarjeta-precio" data-revelar>
+            <h3 class="titulo-h3">Arranque</h3>
+            <p class="precio-rango dato">$15,000 a $25,000 <small>MXN, pago único</small></p>
+            <p class="texto-secundario">Todo lo necesario para empezar bien.</p>
+            <ul class="lista-incluye">
+              <li>Conexión de tus fuentes</li>
+              <li>Limpieza y modelado inicial</li>
+              <li>Tu primer tablero funcionando</li>
+            </ul>
+          </article>
+
+          <article class="tarjeta tarjeta-precio tarjeta-destacada" data-revelar>
+            <p class="insignia">El más elegido</p>
+            <h3 class="titulo-h3">Plan estándar</h3>
+            <p class="precio-rango dato">$12,000 a $18,000 <small>MXN al mes</small></p>
+            <p class="texto-secundario">Tu analista de cada semana.</p>
+            <ul class="lista-incluye">
+              <li>Tablero siempre al día</li>
+              <li>Reporte semanal narrado en español simple</li>
+              <li>Preguntas a tu tablero, en español</li>
+              <li>Llamada mensual de análisis</li>
+            </ul>
+            <a class="boton boton-tinta js-cta" href="#agendar">Agendar diagnóstico</a>
+          </article>
+
+          <article class="tarjeta tarjeta-precio" data-revelar>
+            <h3 class="titulo-h3">Plan esencial</h3>
+            <p class="precio-rango dato">$7,000 a $10,000 <small>MXN al mes</small></p>
+            <p class="texto-secundario">Para empezar con lo básico.</p>
+            <ul class="lista-incluye">
+              <li>Tablero siempre al día</li>
+              <li>Reporte mensual narrado</li>
+              <li>Soporte por correo</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="nota-precios" data-revelar>Los rangos dependen de cuántas fuentes conectamos y de qué tan ordenados están tus datos. En el diagnóstico te damos un precio cerrado, sin sorpresas.</p>
+      </div>
+    </section>
+
+    <!-- ============ Preguntas frecuentes ============ -->
+    <section class="seccion seccion-lila" id="preguntas" aria-labelledby="titulo-preguntas">
+      <div class="contenedor">
+        <div class="cabeza-seccion" data-revelar>
+          <p class="etiqueta">Preguntas frecuentes</p>
+          <h2 class="titulo-h2" id="titulo-preguntas">Lo que nos preguntan antes de empezar</h2>
+        </div>
+
+        <div class="lista-preguntas" data-revelar>
+          <details class="pregunta">
+            <summary>¿Necesito saber de datos o tener un equipo técnico?</summary>
+            <p>No. Frecuency existe justo para empresas sin equipo de datos. Nosotros hacemos la parte técnica y tú recibes explicaciones en español simple. Si sabes leer un mensaje de WhatsApp, puedes leer nuestros reportes.</p>
+          </details>
+
+          <details class="pregunta">
+            <summary>¿Qué sistemas pueden conectar?</summary>
+            <p>Los más comunes: punto de venta, CRM, ecommerce, hojas de cálculo y bases de datos. Si tu sistema puede exportar datos, casi seguro podemos trabajar con él. En el diagnóstico lo confirmamos sin costo.</p>
+          </details>
+
+          <details class="pregunta">
+            <summary>¿En cuánto tiempo veo resultados?</summary>
+            <p>Tu primer tablero queda funcionando unas 2 semanas después de conectar tus sistemas. Desde ese momento empiezas a recibir reportes narrados con tus números reales.</p>
+          </details>
+
+          <details class="pregunta">
+            <summary>¿Qué pasa si mis datos están desordenados?</summary>
+            <p>Es lo normal, casi nadie los tiene perfectos. Ordenarlos es parte del arranque: limpiamos, cruzamos y modelamos tus números para que cuadren. Esa es justo la parte más valiosa de nuestro trabajo.</p>
+          </details>
+
+          <details class="pregunta">
+            <summary>¿Qué recibo cada mes?</summary>
+            <p>Un tablero siempre al día, reportes narrados que te dicen qué pasó y si es normal, y respuestas a tus preguntas sobre el negocio. La frecuencia de los reportes depende del plan que elijas.</p>
+          </details>
+
+          <details class="pregunta">
+            <summary>¿Cómo cuidan mis datos?</summary>
+            <p>Accedemos solo a lo necesario, de preferencia en modo de solo lectura, y no compartimos tu información con nadie. El detalle completo está en nuestro aviso de privacidad.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Cierre: agenda tu diagnóstico ============ -->
+    <div class="remate-onda" aria-hidden="true">
+      <svg width="180" height="28" viewBox="0 0 180 28" fill="none">
+        <path d="M4 14 Q 22 2 40 14 T 76 14 T 112 14 T 148 14" stroke="#2D6BE4" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="162" cy="14" r="5.5" fill="#D73220"/>
+      </svg>
+    </div>
+
+    <section class="seccion cierre" id="agendar" aria-labelledby="titulo-cierre">
+      <div class="contenedor">
+        <div class="cierre-rejilla">
+          <div class="cierre-texto" data-revelar>
+            <p class="etiqueta">Empieza aquí</p>
+            <h2 class="titulo-h2" id="titulo-cierre">Deja de decidir a ciegas<span class="punto-pulso">.</span></h2>
+            <p class="texto-secundario">El diagnóstico es una llamada de 30 minutos. Revisamos tus sistemas, escuchamos tus preguntas y te decimos con honestidad si te podemos ayudar. Sin costo y sin compromiso.</p>
+            <p class="texto-secundario">Déjanos tus datos y te escribimos en menos de un día hábil para ponerle fecha y hora.</p>
+          </div>
+
+          <!-- TODO(backend): conectar el envío del formulario al servicio real
+               (correo, CRM o herramienta de agenda). Hoy valida y muestra la
+               confirmación, pero no envía datos a ningún lado.
+               El punto de conexión está marcado en el JavaScript de abajo. -->
+          <form class="formulario" novalidate>
+            <div class="campos">
+              <div class="campo">
+                <label for="campo-nombre">Tu nombre</label>
+                <input id="campo-nombre" name="nombre" type="text" autocomplete="name" required>
+                <p class="mensaje-error" id="error-nombre">Escribe tu nombre, para saber con quién hablaremos.</p>
+              </div>
+
+              <div class="campo">
+                <label for="campo-correo">Tu correo</label>
+                <input id="campo-correo" name="correo" type="email" autocomplete="email" required>
+                <p class="mensaje-error" id="error-correo">Escribe tu correo, ahí te confirmamos la fecha.</p>
+              </div>
+
+              <div class="campo">
+                <label for="campo-empresa">Nombre de tu empresa</label>
+                <input id="campo-empresa" name="empresa" type="text" autocomplete="organization" required>
+                <p class="mensaje-error" id="error-empresa">Cuéntanos cómo se llama tu empresa.</p>
+              </div>
+
+              <div class="campo">
+                <label for="campo-sistemas">Qué sistemas usas</label>
+                <input id="campo-sistemas" name="sistemas" type="text" placeholder="Ej. Excel, punto de venta, Shopify, un CRM" required>
+                <p class="mensaje-error" id="error-sistemas">Dinos qué sistemas usas, aunque solo sea Excel. Nos ayuda a preparar tu diagnóstico.</p>
+              </div>
+            </div>
+
+            <div class="pie-formulario">
+              <button class="boton boton-pulso" type="submit">Agendar diagnóstico</button>
+              <!-- TODO: enlazar el aviso de privacidad real (requisito legal en México) -->
+              <p class="aviso-formulario">Al enviar aceptas nuestro <a href="/aviso-de-privacidad">aviso de privacidad</a>. Solo usamos tus datos para contactarte.</p>
+            </div>
+
+            <div class="confirmacion" role="status" tabindex="-1">
+              <span class="sello-confirmacion" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                  <path d="M5 13.5 L11 19 L21 7" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <h3 class="titulo-h3">Diagnóstico agendado</h3>
+              <p class="texto-secundario" id="texto-confirmacion">Gracias. Te escribimos en menos de un día hábil para ponerle fecha y hora.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <div class="pie-fila">
+        <div>
+          <a class="logo" href="#inicio" aria-label="frecuency, volver al inicio">frecuency<span class="punto-pulso">.</span></a>
+          <p class="pie-nota">El analista de datos externo para empresas pequeñas y medianas de LatAm.</p>
+        </div>
+        <ul class="pie-enlaces" style="list-style:none; margin:0; padding:0;">
+          <!-- TODO: enlazar el aviso de privacidad real y poner el correo real del dominio -->
+          <li><a href="/aviso-de-privacidad">Aviso de privacidad</a></li>
+          <li><a href="mailto:hola@TUDOMINIO.com">hola@TUDOMINIO.com</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer__bottom">
-      <p class="footer__copy">© 2025 Frecuency. Todos los derechos reservados.</p>
-      <div class="footer__bottom-links">
-        <a href="#">Privacidad</a>
-        <a href="#">Términos</a>
-      </div>
-    </div>
-  </div>
-</footer>
+  </footer>
 
-<!-- ═══════════════════════════════════════════════
-     JS
-════════════════════════════════════════════════ -->
-<script>
-  /* Mobile menu */
-  const burger = document.getElementById('burgerBtn');
-  const menu   = document.getElementById('mobileMenu');
-  burger.addEventListener('click', () => {
-    burger.classList.toggle('open');
-    menu.classList.toggle('open');
-  });
-  function closeMenu() {
-    burger.classList.remove('open');
-    menu.classList.remove('open');
-  }
-
-  /* Fade-up on scroll */
-  const fadeEls = document.querySelectorAll('.fade-up');
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
+  <!-- Datos estructurados: FAQPage (SEO.md, secciones 7 y 9).
+       El texto debe coincidir con la sección de preguntas de arriba. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Necesito saber de datos o tener un equipo técnico?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. Frecuency existe justo para empresas sin equipo de datos. Nosotros hacemos la parte técnica y tú recibes explicaciones en español simple. Si sabes leer un mensaje de WhatsApp, puedes leer nuestros reportes." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué sistemas pueden conectar?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Los más comunes: punto de venta, CRM, ecommerce, hojas de cálculo y bases de datos. Si tu sistema puede exportar datos, casi seguro podemos trabajar con él. En el diagnóstico lo confirmamos sin costo." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿En cuánto tiempo veo resultados?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Tu primer tablero queda funcionando unas 2 semanas después de conectar tus sistemas. Desde ese momento empiezas a recibir reportes narrados con tus números reales." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué pasa si mis datos están desordenados?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Es lo normal, casi nadie los tiene perfectos. Ordenarlos es parte del arranque: limpiamos, cruzamos y modelamos tus números para que cuadren. Esa es justo la parte más valiosa de nuestro trabajo." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué recibo cada mes?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Un tablero siempre al día, reportes narrados que te dicen qué pasó y si es normal, y respuestas a tus preguntas sobre el negocio. La frecuencia de los reportes depende del plan que elijas." }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cómo cuidan mis datos?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Accedemos solo a lo necesario, de preferencia en modo de solo lectura, y no compartimos tu información con nadie. El detalle completo está en nuestro aviso de privacidad." }
       }
-    });
-  }, { threshold: 0.12 });
-  fadeEls.forEach(el => io.observe(el));
-
-  /* Form validation + Calendly redirect */
-  const form = document.getElementById('contactForm');
-  function showError(id) {
-    document.getElementById(id).classList.add('visible');
+    ]
   }
-  function clearError(id) {
-    document.getElementById(id).classList.remove('visible');
-  }
-  function markField(id, hasError) {
-    const el = document.getElementById(id);
-    if (el) el.classList.toggle('error', hasError);
-  }
+  </script>
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let valid = true;
+  <script>
+    (function () {
+      'use strict';
 
-    const nombre  = form.nombre.value.trim();
-    const email   = form.email.value.trim();
-    const proceso = form.proceso.value.trim();
-    const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      var prefiereMenosMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (!nombre) {
-      showError('err-nombre'); markField('nombre', true); valid = false;
-    } else {
-      clearError('err-nombre'); markField('nombre', false);
-    }
+      /* ---------- Analítica ----------
+         TODO(analitica): instalar GA4 o Plausible con async/defer y conectar
+         esta función. Los eventos que importan ya están marcados:
+         "cta_agendar" en cada botón y "diagnostico_enviado" en el formulario. */
+      function marcarEvento(nombre) {
+        if (window.dataLayer) {
+          window.dataLayer.push({ event: nombre });
+        }
+      }
 
-    if (!email || !emailRx.test(email)) {
-      showError('err-email'); markField('email', true); valid = false;
-    } else {
-      clearError('err-email'); markField('email', false);
-    }
-
-    if (!proceso) {
-      showError('err-proceso'); markField('proceso', true); valid = false;
-    } else {
-      clearError('err-proceso'); markField('proceso', false);
-    }
-
-    if (valid) {
-      const params = new URLSearchParams({
-        name: nombre,
-        email: email,
-        a1: form.empresa.value.trim(),
-        a2: proceso
+      document.querySelectorAll('.js-cta').forEach(function (cta) {
+        cta.addEventListener('click', function () { marcarEvento('cta_agendar'); });
       });
-      window.location.href = 'https://calendly.com/frecuency?' + params.toString();
-    }
-  });
 
-  /* Clear errors on input */
-  ['nombre', 'email', 'proceso'].forEach(id => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.addEventListener('input', () => {
-      clearError('err-' + id);
-      markField(id, false);
-    });
-  });
-</script>
+      /* ---------- Menú móvil ---------- */
+      var nav = document.querySelector('.nav');
+      var botonMenu = document.querySelector('.boton-menu');
 
+      botonMenu.addEventListener('click', function () {
+        var abierto = nav.classList.toggle('nav-abierta');
+        botonMenu.setAttribute('aria-expanded', String(abierto));
+        botonMenu.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+      });
+
+      document.querySelectorAll('.menu-movil a').forEach(function (enlace) {
+        enlace.addEventListener('click', function () {
+          nav.classList.remove('nav-abierta');
+          botonMenu.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      /* ---------- Onda del hero: dibujo al cargar ---------- */
+      var trazo = document.querySelector('.trazo-onda');
+      if (trazo && !prefiereMenosMovimiento) {
+        var largo = Math.ceil(trazo.getTotalLength()) + 2;
+        trazo.closest('.onda').style.setProperty('--largo-trazo', largo);
+      }
+
+      /* ---------- Revelado sutil al hacer scroll ---------- */
+      var revelables = document.querySelectorAll('[data-revelar]');
+      if (prefiereMenosMovimiento || !('IntersectionObserver' in window)) {
+        revelables.forEach(function (el) { el.classList.add('visible'); });
+      } else {
+        var observador = new IntersectionObserver(function (entradas) {
+          entradas.forEach(function (entrada) {
+            if (entrada.isIntersecting) {
+              entrada.target.classList.add('visible');
+              observador.unobserve(entrada.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+        revelables.forEach(function (el) { observador.observe(el); });
+      }
+
+      /* ---------- Formulario de diagnóstico ---------- */
+      var formulario = document.querySelector('.formulario');
+      var confirmacion = formulario.querySelector('.confirmacion');
+      var textoConfirmacion = document.getElementById('texto-confirmacion');
+
+      function validarCampo(campo) {
+        var envoltura = campo.closest('.campo');
+        var valido = campo.value.trim() !== '';
+        if (valido && campo.type === 'email') {
+          valido = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(campo.value.trim());
+          var errorCorreo = document.getElementById('error-correo');
+          errorCorreo.textContent = campo.value.trim() === ''
+            ? 'Escribe tu correo, ahí te confirmamos la fecha.'
+            : 'Ese correo se ve incompleto. Revisa que tenga arroba y terminación.';
+        }
+        envoltura.classList.toggle('campo-error', !valido);
+        campo.setAttribute('aria-invalid', String(!valido));
+        if (!valido) {
+          campo.setAttribute('aria-describedby', envoltura.querySelector('.mensaje-error').id);
+        } else {
+          campo.removeAttribute('aria-describedby');
+        }
+        return valido;
+      }
+
+      formulario.querySelectorAll('input').forEach(function (campo) {
+        campo.addEventListener('input', function () {
+          if (campo.closest('.campo').classList.contains('campo-error')) {
+            validarCampo(campo);
+          }
+        });
+      });
+
+      formulario.addEventListener('submit', function (evento) {
+        evento.preventDefault();
+
+        var campos = Array.prototype.slice.call(formulario.querySelectorAll('input'));
+        var primerError = null;
+        campos.forEach(function (campo) {
+          if (!validarCampo(campo) && !primerError) { primerError = campo; }
+        });
+
+        if (primerError) {
+          primerError.focus();
+          return;
+        }
+
+        /* TODO(backend): aquí va el envío real. Por ejemplo:
+           fetch('/api/diagnostico', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify(Object.fromEntries(new FormData(formulario)))
+           })
+           Mientras no exista el servicio, mostramos la confirmación directo. */
+
+        var nombre = document.getElementById('campo-nombre').value.trim().split(' ')[0];
+        var correo = document.getElementById('campo-correo').value.trim();
+        textoConfirmacion.textContent = 'Gracias, ' + nombre + '. Te escribimos a ' + correo + ' en menos de un día hábil para ponerle fecha y hora.';
+
+        marcarEvento('diagnostico_enviado');
+        formulario.classList.add('formulario-enviado');
+        confirmacion.classList.add('visible');
+        confirmacion.focus();
+      });
+    })();
+  </script>
 </body>
 </html>
