@@ -154,11 +154,15 @@
 
     /* ---------- Tipografía ---------- */
     .titulo-hero {
-      font-size: clamp(2.9rem, 7.2vw, 5.4rem);
+      /* Escala fluida: mínimo seguro en móviles pequeños (320px),
+         crece con el viewport (8.2vw) y topa en escritorio grande a
+         ~104px para no romper la lectura. Tracking más apretado y
+         line-height más denso para el nuevo tamaño. */
+      font-size: clamp(2.9rem, 8.2vw, 6.5rem);
       font-weight: 700;
       line-height: 1.02;
-      letter-spacing: -0.035em;
-      max-width: 16ch;
+      letter-spacing: -0.04em;
+      max-width: 13ch;
       margin-inline: auto;
       text-wrap: balance;
     }
@@ -448,7 +452,9 @@
       .marca { font-size: 1.25rem; }
     }
 
-    @media (min-width: 1000px) {
+    /* La barra completa (5 enlaces + Iniciar sesión + CTA) solo cabe
+       cómoda a partir de ~1080px; abajo, hamburguesa. */
+    @media (min-width: 1080px) {
       .nav-enlaces { display: flex; }
       .nav-login { display: inline-flex; }
       .boton-menu { display: none; }
