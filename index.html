@@ -1245,6 +1245,31 @@
       transform: translateY(-1px);
     }
     .campo-error .mensaje-error { display: flex; }
+
+    /* Error de envío (a nivel formulario, no de un campo): falla la
+       llamada a /api/diagnostico */
+    .error-envio {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 18px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--tinta);
+    }
+    .error-envio::before {
+      content: "";
+      flex: none;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--pulso);
+      transform: translateY(-1px);
+    }
+
+    /* Estado de carga del botón: no se deshabilita con disabled (perdería
+       el foco y algunos lectores de pantalla lo ignoran), se marca con
+       aria-busy y un texto que cambia. */
+    .boton[aria-busy="true"] { opacity: .75; pointer-events: none; }
+
     .pie-formulario { display: grid; gap: 14px; margin-top: 24px; justify-items: start; }
     .pie-formulario .boton { width: 100%; }
     .aviso-formulario { font-size: 0.875rem; color: var(--grafito); }
@@ -1783,10 +1808,9 @@
             <p class="texto-secundario">Déjanos tus datos y te escribimos en menos de un día hábil para ponerle fecha y hora.</p>
           </div>
 
-          <!-- TODO(backend): conectar el envío del formulario al servicio real
-               (correo, CRM o herramienta de agenda). Hoy valida y muestra la
-               confirmación, pero no envía datos a ningún lado. El punto de
-               conexión está marcado en el JavaScript de abajo. -->
+          <!-- El envío llama a /api/diagnostico (función de Cloudflare Pages),
+               que dispara el evento "diagnostico_solicitado" en Loops.
+               Ver /functions/api/diagnostico.js -->
           <form class="formulario" novalidate>
             <div class="campos">
               <div class="campo">
@@ -1811,8 +1835,12 @@
               </div>
             </div>
 
+            <p class="error-envio" id="error-envio" role="alert" hidden>No pudimos agendar tu diagnóstico. Revisa tu conexión e intenta de nuevo.</p>
+
             <div class="pie-formulario">
-              <button class="boton boton-pulso" type="submit">Agendar diagnóstico</button>
+              <button class="boton boton-pulso" type="submit">
+                <span class="texto-boton">Agendar diagnóstico</span>
+              </button>
               <!-- TODO: enlazar el aviso de privacidad real (requisito legal en México) -->
               <p class="aviso-formulario">Al enviar aceptas nuestro <a href="/aviso-de-privacidad">aviso de privacidad</a>. Solo usamos tus datos para contactarte.</p>
             </div>
@@ -2112,6 +2140,11 @@
           if (campo.closest('.campo').classList.contains('campo-error')) { validarCampo(campo); }
         });
       });
+      var botonEnviar = formulario.querySelector('button[type="submit"]');
+      var textoBoton = botonEnviar.querySelector('.texto-boton');
+      var errorEnvio = document.getElementById('error-envio');
+      var TEXTO_BOTON_LISTO = textoBoton.textContent;
+
       formulario.addEventListener('submit', function (evento) {
         evento.preventDefault();
         var campos = Array.prototype.slice.call(formulario.querySelectorAll('input'));
@@ -2121,15 +2154,39 @@
         });
         if (primerError) { primerError.focus(); return; }
 
-        /* TODO(backend): aquí va el envío real (fetch a tu API/CRM). Mientras no
-           exista el servicio, mostramos la confirmación directo. */
-        var nombre = document.getElementById('campo-nombre').value.trim().split(' ')[0];
+        var nombre = document.getElementById('campo-nombre').value.trim();
         var correo = document.getElementById('campo-correo').value.trim();
-        textoConfirmacion.textContent = 'Gracias, ' + nombre + '. Te escribimos a ' + correo + ' en menos de un día hábil para ponerle fecha y hora.';
-        marcarEvento('diagnostico_enviado');
-        formulario.classList.add('formulario-enviado');
-        confirmacion.classList.add('visible');
-        confirmacion.focus();
+        var empresa = document.getElementById('campo-empresa').value.trim();
+        var sistemas = document.getElementById('campo-sistemas').value.trim();
+
+        errorEnvio.hidden = true;
+        botonEnviar.setAttribute('aria-busy', 'true');
+        textoBoton.textContent = 'Agendando…';
+
+        fetch('/api/diagnostico', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre: nombre, correo: correo, empresa: empresa, sistemas: sistemas })
+        })
+          .then(function (respuesta) {
+            if (!respuesta.ok) { throw new Error('respuesta-no-ok'); }
+            return respuesta.json();
+          })
+          .then(function () {
+            var primerNombre = nombre.split(' ')[0];
+            textoConfirmacion.textContent = 'Gracias, ' + primerNombre + '. Te escribimos a ' + correo + ' en menos de un día hábil para ponerle fecha y hora.';
+            marcarEvento('diagnostico_enviado');
+            formulario.classList.add('formulario-enviado');
+            confirmacion.classList.add('visible');
+            confirmacion.focus();
+          })
+          .catch(function () {
+            errorEnvio.hidden = false;
+          })
+          .finally(function () {
+            botonEnviar.removeAttribute('aria-busy');
+            textoBoton.textContent = TEXTO_BOTON_LISTO;
+          });
       });
     })();
   </script>
