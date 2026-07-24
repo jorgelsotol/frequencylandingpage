@@ -162,6 +162,8 @@
       margin-inline: auto;
       text-wrap: balance;
     }
+    /* Separación explícita entre el chip y el H1 (antes venían pegados) */
+    .titulo-hero-sep { margin-top: clamp(28px, 4vw, 46px); }
 
     .titulo-seccion {
       font-size: clamp(2.2rem, 5.2vw, 3.6rem);
@@ -509,7 +511,7 @@
     .tira-datos {
       display: flex;
       flex-wrap: wrap;
-      gap: 18px 34px;
+      gap: 18px 56px;
       justify-content: center;
       margin-top: clamp(32px, 4vw, 48px);
       font-family: var(--mono);
@@ -519,7 +521,6 @@
       text-transform: uppercase;
     }
     .tira-datos b { color: var(--tinta); }
-    .tira-datos .sep { color: rgba(35, 32, 95, .22); }
 
     /* Escena de producto (ventana de app) */
     .escena {
@@ -1353,11 +1354,10 @@
       <span class="aura aura-2" aria-hidden="true"></span>
       <div class="contenedor">
         <a class="pill-badge" href="#agendar">
-          <span class="punto-vivo" aria-hidden="true"></span> Analista de datos externo
-          <span class="sep">|</span> <b>Diagnóstico sin costo &#8599;</b>
+          <span class="punto-vivo" aria-hidden="true"></span> <b>Diagnóstico sin costo &#8599;</b>
         </a>
 
-        <h1 class="titulo-hero" id="titulo-hero">Tus <span class="grad">números</span>, por fin <span class="resaltado">en claro<span class="punto-pulso">.</span></span></h1>
+        <h1 class="titulo-hero titulo-hero-sep" id="titulo-hero">Tus <span class="grad">números</span>, por fin <span class="resaltado">en claro<span class="punto-pulso">.</span></span></h1>
 
         <p class="hero-sub">Frecuency es el analista de datos que tu PyME no tiene: conectamos tus sistemas, ordenamos tus números y te los explicamos en español simple. Tu primer tablero en 2 semanas.</p>
 
@@ -1367,8 +1367,8 @@
         </div>
 
         <p class="tira-datos">
-          <span><b>+1.000</b> negocios analizados</span><span class="sep" aria-hidden="true">·</span>
-          <span><b>2 sem</b> al primer tablero</span><span class="sep" aria-hidden="true">·</span>
+          <span><b>+1.000</b> negocios analizados</span>
+          <span><b>2 sem</b> al primer tablero</span>
           <span><b>En español</b> simple</span>
         </p>
 
