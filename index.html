@@ -97,9 +97,6 @@
       scroll-behavior: smooth;
       scroll-padding-top: calc(var(--alto-nav) + 20px);
       -webkit-text-size-adjust: 100%;
-      /* Clip contiene las auras decorativas sin romper position:sticky
-         ni crear un contenedor de scroll (a diferencia de hidden). */
-      overflow-x: clip;
     }
 
     body {
@@ -111,9 +108,12 @@
       color: var(--tinta);
       background: var(--papel);
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
       position: relative;
     }
+    /* Las secciones con auras decorativas (y sin sticky) las contienen ellas
+       mismas con overflow:clip, así el <html> queda libre y position:sticky
+       funciona en la sección de proceso. */
+    .hero, #integraciones, #precios { overflow: clip; }
 
     h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
     img, svg { display: block; max-width: 100%; }
@@ -768,20 +768,44 @@
     }
 
     /* ---------- Proceso (pasos con movimiento) ---------- */
-    #como-funciona .aura-p {
-      top: 120px; right: -160px; width: 540px; height: 540px;
-      background: radial-gradient(circle, rgba(234,231,248,.8), transparent 66%);
-    }
     .proceso-rejilla { display: grid; gap: clamp(36px, 5vw, 56px); align-items: start; }
     @media (min-width: 900px) {
       .proceso-rejilla { grid-template-columns: 0.82fr 1.18fr; }
     }
 
+    /* La columna se estira a la altura de las tarjetas para que el panel
+       interior tenga recorrido y pueda quedar fijo (sticky) mientras
+       las tarjetas pasan por al lado. */
+    .pasos-col { align-self: stretch; }
     .pasos-panel { position: static; }
     @media (min-width: 900px) {
-      .pasos-panel { position: sticky; top: calc(var(--alto-nav) + 24px); }
+      .pasos-panel { position: sticky; top: calc(var(--alto-nav) + 40px); }
     }
     .pasos-lista { margin-top: 26px; }
+
+    /* Número grande del paso activo (columna izquierda, escritorio).
+       Cambia solo con el scroll: es el que "avanza" 01 → 02 → 03 cuando
+       cada tarjeta cruza el centro de la pantalla. */
+    .paso-num-grande { display: none; }
+    @media (min-width: 900px) {
+      .paso-num-grande {
+        display: block;
+        font-weight: 700;
+        font-size: clamp(5rem, 10vw, 9rem);
+        line-height: 1;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(123, 63, 242, .42);
+        margin: 6px 0 18px;
+        font-variant-numeric: tabular-nums;
+      }
+      .js .paso-num-grande.swap { animation: num-swap .5s cubic-bezier(.2, .7, .2, 1); }
+      /* En escritorio el número vive en la izquierda; se oculta el de la tarjeta */
+      .tarjeta-paso .numgrande { display: none; }
+    }
+    @keyframes num-swap {
+      from { opacity: 0; transform: translateY(26px); }
+      to   { opacity: 1; transform: none; }
+    }
     .paso-item {
       display: block;
       width: 100%;
@@ -1500,15 +1524,16 @@
 
     <!-- ============ Cómo funciona (pasos con movimiento) ============ -->
     <section class="seccion" id="como-funciona" aria-labelledby="titulo-como-funciona">
-      <span class="aura aura-p" aria-hidden="true"></span>
       <div class="contenedor">
-        <p class="kicker" data-revelar>001 / Proceso</p>
+        <div class="cabeza-seccion" data-revelar>
+          <p class="kicker">001 / Proceso</p>
+          <h2 class="titulo-seccion" id="titulo-como-funciona">De sistemas regados a <span class="grad">números claros.</span></h2>
+          <p class="texto-secundario">Sin plataformas complicadas ni equipo técnico. Nosotros hacemos la parte difícil; tú solo lees los números.</p>
+        </div>
         <div class="proceso-rejilla">
-          <div class="pasos-panel">
-            <div data-revelar>
-              <h2 class="titulo-seccion" id="titulo-como-funciona" style="margin-top:22px;">De sistemas regados a <span class="grad">números claros.</span></h2>
-              <p class="texto-secundario" style="margin-top:18px;">Sin plataformas complicadas ni equipo técnico. Nosotros hacemos la parte difícil; tú solo lees los números.</p>
-            </div>
+          <div class="pasos-col">
+           <div class="pasos-panel">
+            <div class="paso-num-grande" aria-hidden="true">01</div>
             <div class="pasos-lista" role="tablist" aria-label="Pasos del proceso">
               <button class="paso-item activo" type="button" role="tab" aria-selected="true" aria-controls="paso-01" data-paso="0">
                 <span class="n">01</span>
@@ -1526,6 +1551,7 @@
                 <span class="barra-progreso" aria-hidden="true"></span>
               </button>
             </div>
+           </div>
           </div>
 
           <div class="tarjetas-pasos">
@@ -1904,7 +1930,13 @@
       var itemsPaso = Array.prototype.slice.call(document.querySelectorAll('.paso-item'));
       var tarjetasPaso = Array.prototype.slice.call(document.querySelectorAll('.tarjeta-paso'));
 
+      var numGrande = document.querySelector('.paso-num-grande');
+      var pasoActual = -1;
+      function dosDigitos(n) { return (n < 10 ? '0' : '') + n; }
+
       function activarPaso(indice) {
+        if (indice === pasoActual) { return; }   // ya está activo: no re-disparar
+        pasoActual = indice;
         itemsPaso.forEach(function (it, i) {
           var activo = i === indice;
           it.classList.toggle('activo', activo);
@@ -1913,30 +1945,43 @@
         tarjetasPaso.forEach(function (tj, i) {
           tj.classList.toggle('destacada', i === indice);
         });
+        // El número grande de la izquierda "avanza" al siguiente
+        if (numGrande) {
+          numGrande.textContent = dosDigitos(indice + 1);
+          if (!prefiereMenosMovimiento) {
+            numGrande.classList.remove('swap');
+            void numGrande.offsetWidth; // reinicia la animación
+            numGrande.classList.add('swap');
+          }
+        }
       }
 
       if (tarjetasPaso.length) {
         if (prefiereMenosMovimiento || !('IntersectionObserver' in window)) {
           tarjetasPaso.forEach(function (tj) { tj.classList.add('en-vista'); });
         } else {
-          // Activa la tarjeta más centrada en pantalla
-          var obsPasos = new IntersectionObserver(function (entradas) {
+          // 1) Anima el interior de la tarjeta cuando entra en vista
+          var obsVista = new IntersectionObserver(function (entradas) {
             entradas.forEach(function (e) {
-              var idx = parseInt(e.target.getAttribute('data-paso'), 10);
-              if (e.isIntersecting) {
-                e.target.classList.add('en-vista');
-                if (e.intersectionRatio >= 0.55) { activarPaso(idx); }
-              }
+              if (e.isIntersecting) { e.target.classList.add('en-vista'); obsVista.unobserve(e.target); }
             });
-          }, { threshold: [0.2, 0.55, 0.8], rootMargin: '-10% 0px -30% 0px' });
-          tarjetasPaso.forEach(function (tj) { obsPasos.observe(tj); });
+          }, { threshold: 0.35 });
+          tarjetasPaso.forEach(function (tj) { obsVista.observe(tj); });
+
+          // 2) El scroll manda: la tarjeta que cruza el CENTRO de la pantalla
+          //    se vuelve el paso activo y el número avanza. Sin clic.
+          var obsActivo = new IntersectionObserver(function (entradas) {
+            entradas.forEach(function (e) {
+              if (e.isIntersecting) { activarPaso(parseInt(e.target.getAttribute('data-paso'), 10)); }
+            });
+          }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+          tarjetasPaso.forEach(function (tj) { obsActivo.observe(tj); });
         }
 
-        // Clic/teclado en la lista de pasos: lleva a la tarjeta correspondiente
+        // Clic/teclado en la lista de pasos: bonus de accesibilidad (lleva a la tarjeta)
         itemsPaso.forEach(function (it) {
           it.addEventListener('click', function () {
             var idx = parseInt(it.getAttribute('data-paso'), 10);
-            activarPaso(idx);
             var destino = tarjetasPaso[idx];
             if (destino) { destino.scrollIntoView({ behavior: prefiereMenosMovimiento ? 'auto' : 'smooth', block: 'center' }); }
           });
