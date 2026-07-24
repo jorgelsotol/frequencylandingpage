@@ -75,6 +75,8 @@
       --blanco:     #FFFFFF;
       /* Acento de degradado de marca (púrpura → azul → verde) */
       --violeta:    #7B3FF2;
+      /* Degradado del CTA principal (la "señal" de marca aplicada al botón) */
+      --degradado-cta: linear-gradient(100deg, #7B3FF2, #2D6BE4);
 
       --fuente: 'Arimo', Arial, sans-serif;
       --mono:   'Space Mono', 'Courier New', monospace;
@@ -287,11 +289,13 @@
     .boton:hover { transform: translateY(-2px); }
     .boton:active { transform: translateY(0); }
 
-    /* Principal: Rojo Pulso, uno por pantalla */
+    /* Principal: degradado de marca (violeta → azul), uno por pantalla.
+       El Rojo Pulso se reserva para el punto del logo, el pulso de la onda
+       y los estados de error; ya no se usa como color de botón. */
     .boton-pulso {
-      background: var(--pulso);
+      background: var(--degradado-cta);
       color: #fff;
-      box-shadow: 0 16px 34px -14px rgba(215, 50, 32, .6);
+      box-shadow: 0 18px 38px -14px rgba(88, 63, 220, .55);
     }
     .boton-tinta { background: var(--tinta); color: var(--papel); }
     .boton-blanco {
@@ -432,7 +436,7 @@
     .menu-movil a.boton { width: 100%; margin-top: 8px; }
     /* El CTA del menú conserva el color del botón (texto claro sobre Pulso) */
     .menu-movil a.boton-pulso { color: #fff; }
-    .menu-movil a.boton-pulso:hover { background: var(--pulso); }
+    .menu-movil a.boton-pulso:hover { background: var(--degradado-cta); }
     .nav-abierta .menu-movil { display: block; }
 
     /* En pantallas angostas el CTA vive dentro del menú, no en la barra:
