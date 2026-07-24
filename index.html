@@ -1073,79 +1073,62 @@
       top: 220px; left: -120px; width: 480px; height: 480px;
       background: radial-gradient(circle, rgba(222,235,252,.85), transparent 66%);
     }
-    .planes {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: clamp(40px, 5vw, 60px);
-      align-items: stretch;
-    }
-    @media (max-width: 920px) { .planes { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; } }
-
-    .plan {
-      background: #fff;
-      border: 1px solid rgba(35, 32, 95, .1);
+    /* Panel de precio: sin tarifa fija. Ancla de valor (el analista que no
+       tienes) + los factores que definen el precio. Se cierra en el diagnóstico. */
+    .panel-precio {
+      background: var(--cielo);
       border-radius: var(--radio-grande);
-      padding: clamp(30px, 3.4vw, 40px) clamp(26px, 3vw, 36px);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 40px 90px -62px rgba(35, 32, 95, .4);
+      padding: clamp(28px, 5vw, 52px);
+      display: grid;
+      gap: 32px;
+      margin-top: clamp(36px, 5vw, 52px);
     }
-    .plan h3 { font-size: 1.5rem; font-weight: 700; }
-    .plan .desc-plan { color: var(--grafito); font-size: 1rem; margin-top: 14px; min-height: 78px; }
-    .plan .precio {
-      font-size: clamp(2.6rem, 5vw, 3.2rem);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-top: 24px;
-      line-height: 1;
+    @media (min-width: 840px) {
+      .panel-precio { grid-template-columns: 1.05fr 0.95fr; gap: 52px; align-items: center; }
+      /* Separador suave entre las dos columnas, solo en escritorio */
+      .precio-hablar { border-left: 1px solid rgba(35, 32, 95, .14); padding-left: 52px; }
     }
-    .plan .precio small {
+    .precio-ancla { display: grid; gap: 14px; align-content: start; }
+    .mini-et {
       font-family: var(--mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.06em;
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
       color: var(--grafito);
-      font-weight: 400;
-      text-transform: uppercase;
-      margin-left: 8px;
     }
-    .plan ul { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 15px; }
-    .plan li { display: flex; gap: 13px; align-items: flex-start; font-size: 1.02rem; }
-    .plan li .fl { color: var(--frecuencia); font-weight: 700; flex: none; }
-    .plan .cta-plan { margin-top: auto; padding-top: 30px; }
-    .plan .cta-plan .boton { width: 100%; }
-
-    .plan.destacado {
-      color: var(--papel);
-      border: 2px solid transparent;
-      background:
-        linear-gradient(var(--tinta), var(--tinta)) padding-box,
-        linear-gradient(150deg, var(--violeta), var(--frecuencia) 55%, var(--estable)) border-box;
-      box-shadow: 0 60px 120px -50px rgba(35, 32, 95, .7);
-    }
-    @media (min-width: 921px) { .plan.destacado { transform: translateY(-14px); } }
-    .plan.destacado .desc-plan { color: rgba(251, 247, 242, .72); }
-    .plan.destacado .precio { color: #fff; }
-    .plan.destacado .precio .grad-num {
-      background: linear-gradient(90deg, #8fb8ff, var(--frecuencia));
-      -webkit-background-clip: text; background-clip: text; color: transparent;
-    }
-    .plan.destacado .precio small { color: rgba(251, 247, 242, .6); }
-    .plan.destacado li .fl { color: #8fb8ff; }
-    .cab-plan { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .badge-popular {
-      background: #fff;
-      color: var(--tinta);
-      font-family: var(--mono);
-      font-size: 0.7rem;
+    .precio-referencia {
+      font-size: clamp(2.4rem, 5vw, 3rem);
       font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 7px 13px;
-      border-radius: 999px;
-      white-space: nowrap;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
     }
-    .precios-foot { text-align: center; color: var(--grafito); font-size: 0.92rem; margin-top: 40px; }
+    .precio-referencia small {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--grafito);
+    }
+    .precio-hablar { display: grid; gap: 16px; justify-items: start; }
+    /* Factores del precio: puntos en Azul Frecuencia, son insumos,
+       no una lista de "incluye" con palomita */
+    .lista-factores {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+      font-size: 1.02rem;
+      color: var(--tinta);
+    }
+    .lista-factores li { display: flex; gap: 12px; align-items: baseline; }
+    .lista-factores li::before {
+      content: "";
+      flex: none;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--frecuencia);
+      transform: translateY(-1px);
+    }
 
     /* ---------- Preguntas ---------- */
     .seccion-lila { background: var(--lila); }
@@ -1680,61 +1663,32 @@
     <section class="seccion" id="precios" aria-labelledby="titulo-precios">
       <span class="aura aura-pr" aria-hidden="true"></span>
       <div class="contenedor">
-        <div class="cabeza-seccion centrada" data-revelar>
-          <p class="kicker centrado">003 / Precios</p>
-          <h2 class="titulo-seccion" id="titulo-precios">Elige tu <span class="resaltado">frecuencia<span class="punto-pulso">.</span></span></h2>
-          <p class="texto-secundario">Cuesta menos que el analista de datos que no tienes. Empieza donde estés y cámbialo cuando quieras.</p>
+        <div class="cabeza-seccion" data-revelar>
+          <p class="kicker">Precios</p>
+          <h2 class="titulo-seccion" id="titulo-precios">Cuesta menos que el analista de datos que no tienes<span class="punto-pulso">.</span></h2>
+          <p class="texto-secundario">Cada negocio es distinto. El precio depende de cuántas fuentes conectamos y de qué tan ordenados están tus datos. Por eso no ponemos una tarifa fija: en el diagnóstico te damos un precio cerrado, sin sorpresas.</p>
         </div>
 
-        <!-- TODO(negocio): definir los precios reales. Las cifras de abajo son
-             ilustrativas para el diseño y están marcadas como tales al pie. -->
-        <div class="planes">
-          <div class="plan" data-revelar>
-            <h3>Esencial</h3>
-            <p class="desc-plan">Para dar el primer paso: una fuente conectada y tu negocio explicado cada semana en español simple.</p>
-            <p class="precio dato">$2,900 <small>MXN / mes</small></p>
-            <ul>
-              <li><span class="fl" aria-hidden="true">→</span> 1 fuente de datos conectada</li>
-              <li><span class="fl" aria-hidden="true">→</span> Tablero siempre al día</li>
-              <li><span class="fl" aria-hidden="true">→</span> Reporte semanal narrado</li>
-              <li><span class="fl" aria-hidden="true">→</span> Soporte por correo</li>
-            </ul>
-            <div class="cta-plan"><a class="boton boton-blanco js-cta" href="#agendar">Empezar</a></div>
+        <div class="panel-precio" data-revelar>
+          <!-- Ancla de valor: el costo del analista que no tienes.
+               TODO: validar la cifra de referencia del sueldo con datos de mercado. -->
+          <div class="precio-ancla">
+            <p class="mini-et">El analista que no tienes</p>
+            <p class="precio-referencia dato">$30,000+ <small>al mes cuesta un analista de planta</small></p>
+            <p class="texto-secundario">Súmale reclutamiento, prestaciones y meses de entrenarlo. Con Frecuency tienes el análisis, sin la nómina, y empiezas en 2 semanas.</p>
           </div>
 
-          <div class="plan destacado" data-revelar>
-            <div class="cab-plan">
-              <h3>Crecimiento</h3>
-              <span class="badge-popular">Más popular</span>
-            </div>
-            <p class="desc-plan">Para negocios que ya quieren decidir con datos: varias fuentes, alertas y pregúntale a tu tablero.</p>
-            <p class="precio dato"><span class="grad-num">$5,900</span> <small>MXN / mes</small></p>
-            <ul>
-              <li><span class="fl" aria-hidden="true">→</span> Todo lo de Esencial</li>
-              <li><span class="fl" aria-hidden="true">→</span> Hasta 3 fuentes conectadas</li>
-              <li><span class="fl" aria-hidden="true">→</span> Pregúntale a tu tablero en español</li>
-              <li><span class="fl" aria-hidden="true">→</span> Alertas cuando algo se sale del rango</li>
-              <li><span class="fl" aria-hidden="true">→</span> Videollamada mensual con tu analista</li>
+          <div class="precio-hablar">
+            <h3 class="titulo-h3">Tu precio depende de tu negocio</h3>
+            <ul class="lista-factores">
+              <li>Cuántas fuentes conectamos</li>
+              <li>Qué tan ordenados están tus datos hoy</li>
+              <li>Con qué frecuencia quieres tus reportes</li>
             </ul>
-            <div class="cta-plan"><a class="boton boton-pulso js-cta" href="#agendar">Agendar diagnóstico &rarr;</a></div>
-          </div>
-
-          <div class="plan" data-revelar>
-            <h3>A la medida</h3>
-            <p class="desc-plan">Para operaciones con muchas fuentes o datos desordenados. Precio cerrado, sin sorpresas.</p>
-            <p class="precio" style="font-size:clamp(1.9rem,4vw,2.2rem);">Precio a medida</p>
-            <ul>
-              <li><span class="fl" aria-hidden="true">→</span> Todo lo de Crecimiento</li>
-              <li><span class="fl" aria-hidden="true">→</span> Fuentes ilimitadas</li>
-              <li><span class="fl" aria-hidden="true">→</span> Modelado avanzado a la medida</li>
-              <li><span class="fl" aria-hidden="true">→</span> Analista dedicado</li>
-              <li><span class="fl" aria-hidden="true">→</span> Reportes a la frecuencia que quieras</li>
-            </ul>
-            <div class="cta-plan"><a class="boton boton-blanco js-cta" href="#agendar">Hablar con nosotros</a></div>
+            <p class="texto-secundario">En el diagnóstico sales con un precio claro. Sin costo y sin compromiso.</p>
+            <a class="boton boton-tinta js-cta" href="#agendar">Agendar diagnóstico</a>
           </div>
         </div>
-
-        <p class="precios-foot">El diagnóstico siempre es sin costo y sin compromiso. &nbsp;·&nbsp; *Cifras ilustrativas; el precio final lo cerramos en tu diagnóstico.</p>
       </div>
     </section>
 
