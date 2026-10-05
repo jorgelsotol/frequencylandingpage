@@ -1,0 +1,1323 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<title>Manual de marca Frecuency</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: una columna editorial de 1120px con la píldora de navegación del sitio,
+     especímenes vivos en superficies blancas y tablas técnicas debajo de cada uno. */
+  :root {
+    /* Colores de marca (fijos, no cambian con el tema) */
+    --tinta: #23205F;
+    --papel: #FBF7F2;
+    --pulso: #D73220;
+    --frecuencia: #2D6BE4;
+    --violeta: #7B3FF2;
+    --estable: #177E63;
+    --ambar: #DFA032;
+    --lila: #EAE7F8;
+    --durazno: #FDE4D8;
+    --menta: #DCEFE6;
+    --cielo: #DEEBFC;
+    --humo: #E9E2D8;
+    --grafito: #5A564F;
+    --blanco: #FFFFFF;
+    --cargando: #6A4FD0;
+    --degradado-cta: linear-gradient(100deg, #7B3FF2, #2D6BE4);
+    --degradado-texto: linear-gradient(90deg, #7B3FF2, #2D6BE4 58%, #177E63);
+
+    /* Tokens del documento (cambian con el tema) */
+    --fondo: #FBF7F2;
+    --texto: #23205F;
+    --texto-2: #5A564F;
+    --superficie: #FFFFFF;
+    --superficie-2: #F4EFE8;
+    --borde: rgba(35, 32, 95, .10);
+    --linea: rgba(35, 32, 95, .14);
+    --enlace: #2D6BE4;
+    --rejilla: rgba(35, 32, 95, .04);
+    --aura-1: rgba(45, 107, 228, .14);
+    --aura-2: rgba(234, 231, 248, .9);
+    --sombra-suave: 0 24px 60px -30px rgba(35, 32, 95, .18);
+    --sombra-flotante: 0 50px 100px -55px rgba(35, 32, 95, .45);
+    --vidrio: rgba(255, 255, 255, .72);
+
+    --fuente: 'Arimo', Arial, sans-serif;
+    --mono: 'Space Mono', 'Courier New', monospace;
+    --ancho: 1120px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --fondo: #14123A;
+      --texto: #FBF7F2;
+      --texto-2: #C9C2D6;
+      --superficie: #1E1B4F;
+      --superficie-2: #191645;
+      --borde: rgba(251, 247, 242, .12);
+      --linea: rgba(251, 247, 242, .18);
+      --enlace: #8FB2F5;
+      --rejilla: rgba(251, 247, 242, .035);
+      --aura-1: rgba(45, 107, 228, .22);
+      --aura-2: rgba(123, 63, 242, .18);
+      --sombra-suave: 0 24px 60px -30px rgba(0, 0, 0, .5);
+      --sombra-flotante: 0 50px 100px -55px rgba(0, 0, 0, .8);
+      --vidrio: rgba(30, 27, 79, .78);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --fondo: #14123A;
+    --texto: #FBF7F2;
+    --texto-2: #C9C2D6;
+    --superficie: #1E1B4F;
+    --superficie-2: #191645;
+    --borde: rgba(251, 247, 242, .12);
+    --linea: rgba(251, 247, 242, .18);
+    --enlace: #8FB2F5;
+    --rejilla: rgba(251, 247, 242, .035);
+    --aura-1: rgba(45, 107, 228, .22);
+    --aura-2: rgba(123, 63, 242, .18);
+    --sombra-suave: 0 24px 60px -30px rgba(0, 0, 0, .5);
+    --sombra-flotante: 0 50px 100px -55px rgba(0, 0, 0, .8);
+    --vidrio: rgba(30, 27, 79, .78);
+    color-scheme: dark;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 110px; }
+  body {
+    margin: 0;
+    font-family: var(--fuente);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--texto);
+    background: var(--fondo);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  h1, h2, h3, h4, p, figure, ul, ol { margin: 0; }
+  a { color: var(--enlace); }
+  :focus-visible { outline: 3px solid var(--frecuencia); outline-offset: 3px; border-radius: 6px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  .rejilla-fondo {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .5;
+    background-image:
+      linear-gradient(var(--rejilla) 1px, transparent 1px),
+      linear-gradient(90deg, var(--rejilla) 1px, transparent 1px);
+    background-size: 128px 128px;
+    mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(120% 80% at 50% 0%, #000 30%, transparent 80%);
+  }
+  .envoltura {
+    position: relative; z-index: 1;
+    max-width: var(--ancho);
+    margin-inline: auto;
+    padding-inline: clamp(16px, 4vw, 40px);
+    padding-block: 0 80px;
+    overflow-x: clip;
+  }
+
+  /* ---------- Navegación ---------- */
+  .nav { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 14px); z-index: 50; margin-top: 14px; }
+  .nav-caja {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    background: var(--vidrio);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+    padding: 9px 10px 9px 18px;
+    box-shadow: 0 20px 50px -32px rgba(35, 32, 95, .55);
+  }
+  .marca {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--texto); text-decoration: none; flex: none;
+  }
+  .glifo {
+    width: 32px; height: 32px; border-radius: 10px; flex: none;
+    display: grid; place-items: center;
+    background: radial-gradient(circle at 35% 30%, #6F5BD8, #3B2FB0);
+  }
+  .glifo svg { width: 62%; height: 62%; display: block; }
+  .pp { color: var(--pulso); }
+  .nav-meta { font-family: var(--mono); font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: var(--texto-2); }
+  .nav-enlaces { display: none; list-style: none; padding: 0; gap: 4px; }
+  .nav-enlaces a {
+    display: inline-flex; align-items: center; min-height: 40px; padding: 0 12px;
+    border-radius: 999px; color: var(--texto); text-decoration: none; font-size: .92rem; font-weight: 500;
+  }
+  .nav-enlaces a:hover { background: var(--superficie-2); color: var(--enlace); }
+  @media (min-width: 1000px) { .nav-enlaces { display: flex; } .nav-meta { display: none; } }
+
+  /* ---------- Tipografía base ---------- */
+  .kicker {
+    font-family: var(--mono); font-size: .82rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--texto-2); display: flex; align-items: center; gap: 16px;
+  }
+  .kicker::after { content: ""; height: 1px; flex: 1; background: var(--linea); }
+  .h1 {
+    font-size: clamp(2.9rem, 8vw, 6rem); font-weight: 700; line-height: 1.02;
+    letter-spacing: -0.04em; text-wrap: balance; max-width: 14ch;
+  }
+  .h2 {
+    font-size: clamp(2.2rem, 5.2vw, 3.6rem); font-weight: 700; line-height: 1.06;
+    letter-spacing: -0.03em; text-wrap: balance;
+  }
+  .h3 { font-size: 1.375rem; font-weight: 700; line-height: 1.3; letter-spacing: -0.01em; text-wrap: balance; }
+  .sec { color: var(--texto-2); max-width: 62ch; }
+  .grad { background: var(--degradado-texto); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .resaltado { background: var(--menta); color: #23205F; padding: 0 .16em; border-radius: 12px; }
+  .mono { font-family: var(--mono); }
+  .num { font-variant-numeric: tabular-nums; }
+  code {
+    font-family: var(--mono); font-size: .84em; background: var(--superficie-2);
+    border: 1px solid var(--borde); border-radius: 6px; padding: 1px 6px; overflow-wrap: anywhere;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; padding-block: clamp(56px, 9vw, 104px) clamp(40px, 6vw, 64px); display: grid; gap: 26px; }
+  .aura { position: absolute; z-index: -1; pointer-events: none; border-radius: 50%; filter: blur(12px); }
+  .hero .a1 { top: -160px; right: -200px; width: 620px; height: 620px; background: radial-gradient(circle at 60% 40%, var(--aura-1), transparent 62%); }
+  .hero .a2 { top: -200px; left: -240px; width: 640px; height: 640px; background: radial-gradient(circle, var(--aura-2), transparent 64%); }
+  .hero-sub { font-size: clamp(1.1rem, 2.2vw, 1.3rem); color: var(--texto-2); max-width: 56ch; line-height: 1.55; }
+  .hero-datos { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--superficie); border: 1px solid var(--borde); border-radius: 999px;
+    padding: 9px 16px; font-family: var(--mono); font-size: .76rem; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--texto-2);
+  }
+  .pill b { color: var(--enlace); font-weight: 700; }
+  .vivo { width: 9px; height: 9px; border-radius: 50%; background: var(--estable); box-shadow: 0 0 0 4px rgba(23,126,99,.18); flex: none; }
+
+  .indice { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0; margin-top: 24px; border-top: 1px solid var(--linea); }
+  .indice a {
+    display: grid; gap: 6px; padding: 18px 16px 18px 0; text-decoration: none; color: var(--texto);
+    border-bottom: 1px solid var(--linea);
+  }
+  @media (min-width: 1000px) { .indice { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+  .indice a span { font-family: var(--mono); font-size: .78rem; color: var(--texto-2); }
+  .indice a b { font-size: 1.05rem; }
+  .indice a:hover b { color: var(--enlace); }
+
+  /* ---------- Secciones ---------- */
+  .seccion { padding-block: clamp(64px, 9vw, 112px) 0; display: grid; gap: clamp(28px, 4vw, 40px); }
+  .cabeza { display: grid; gap: 18px; }
+  .numgrande {
+    font-weight: 700; font-size: clamp(4rem, 9vw, 7rem); line-height: .9; color: transparent;
+    -webkit-text-stroke: 2px rgba(123, 63, 242, .42); font-variant-numeric: tabular-nums;
+  }
+  .cabeza-fila { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .bloque { display: grid; gap: 16px; }
+  .bloque > .h3 { margin-top: 8px; }
+  .prosa { display: grid; gap: 12px; max-width: 68ch; }
+  .prosa p { color: var(--texto-2); }
+  .prosa p strong { color: var(--texto); }
+
+  .tarjeta {
+    background: var(--superficie); border: 1px solid var(--borde); border-radius: 20px;
+    padding: clamp(20px, 3vw, 28px); min-width: 0;
+  }
+  .ventana {
+    background: var(--superficie); border: 1px solid var(--borde); border-radius: 26px;
+    box-shadow: var(--sombra-flotante); overflow: hidden; min-width: 0;
+  }
+  .ventana-barra { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid var(--borde); }
+  .ventana-barra i { width: 11px; height: 11px; border-radius: 50%; background: var(--linea); }
+  .ventana-barra span { margin-left: 12px; font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--texto-2); }
+  .ventana-cuerpo { padding: clamp(20px, 3.4vw, 34px); }
+
+  .rejilla-2 { display: grid; gap: 20px; }
+  .rejilla-3 { display: grid; gap: 20px; }
+  @media (min-width: 760px) {
+    .rejilla-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .rejilla-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  /* Tablas técnicas */
+  .tabla-caja { overflow-x: auto; border: 1px solid var(--borde); border-radius: 18px; background: var(--superficie); }
+  table { width: 100%; border-collapse: collapse; font-size: .94rem; min-width: 640px; }
+  th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+  tr:last-child td { border-bottom: 0; }
+  th {
+    font-family: var(--mono); font-weight: 400; font-size: .7rem; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--texto-2); background: var(--superficie-2);
+  }
+  td { font-variant-numeric: tabular-nums; }
+  td.m { font-family: var(--mono); font-size: .82rem; white-space: nowrap; }
+  .ok, .justo, .falla {
+    display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: .72rem;
+    font-weight: 700; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+  }
+  .ok::before, .justo::before, .falla::before { content: ""; width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .ok::before { background: var(--estable); }
+  .justo::before { background: var(--ambar); }
+  .falla::before { background: var(--pulso); }
+
+  /* ---------- 01 Tipografía ---------- */
+  .espec { display: grid; gap: 18px; align-content: start; }
+  .espec-aa { font-size: clamp(5rem, 12vw, 8.5rem); font-weight: 700; line-height: .9; letter-spacing: -0.05em; }
+  .espec-aa.m { font-family: var(--mono); font-weight: 400; letter-spacing: -0.02em; }
+  .espec-nombre { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .espec-nombre b { font-size: 1.3rem; }
+  .pesos { display: grid; gap: 0; border-top: 1px solid var(--borde); }
+  .pesos div { display: flex; justify-content: space-between; gap: 16px; padding: 11px 0; border-bottom: 1px solid var(--borde); font-size: 1.05rem; }
+  .pesos small { font-family: var(--mono); font-size: .74rem; color: var(--texto-2); letter-spacing: .06em; text-align: right; }
+  .alfabeto { font-size: 1.05rem; color: var(--texto-2); overflow-wrap: anywhere; }
+
+  .escala { display: grid; gap: 0; }
+  .escala-fila {
+    display: grid; grid-template-columns: 1fr; gap: 6px; padding: 20px 0; border-bottom: 1px solid var(--borde); min-width: 0;
+  }
+  .escala-fila:first-child { padding-top: 0; }
+  @media (min-width: 760px) { .escala-fila { grid-template-columns: 200px minmax(0, 1fr); gap: 24px; align-items: baseline; } }
+  .escala-et { font-family: var(--mono); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--texto-2); line-height: 1.5; }
+  .escala-et b { display: block; color: var(--texto); font-weight: 700; letter-spacing: .06em; }
+  .escala-muestra { min-width: 0; overflow-wrap: anywhere; }
+
+  .enfasis { display: grid; gap: 14px; }
+  .enfasis-item { display: grid; gap: 8px; padding: 22px; border-radius: 18px; background: var(--superficie-2); border: 1px solid var(--borde); }
+  .enfasis-item p { font-size: 1.6rem; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+
+  /* ---------- 02 Logotipo ---------- */
+  .logo-lockup { display: inline-flex; align-items: center; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
+  .logo-lockup .glifo { border-radius: 32%; }
+  .construccion {
+    display: grid; place-items: center; padding: clamp(32px, 6vw, 64px) 16px; background: #FBF7F2; border-radius: 26px;
+    border: 1px solid rgba(35,32,95,.10); position: relative; overflow: hidden;
+  }
+  .zona {
+    position: relative; padding: clamp(18px, 4vw, 34px);
+    outline: 1.5px dashed rgba(45, 107, 228, .55); outline-offset: 0;
+    background: repeating-linear-gradient(45deg, rgba(45,107,228,.06) 0 6px, transparent 6px 12px);
+  }
+  .zona-in { background: #FBF7F2; outline: 1px solid rgba(45, 107, 228, .35); }
+  .zona .logo-lockup { font-size: clamp(2.2rem, 7vw, 4rem); color: #23205F; gap: .5em; }
+  .zona .glifo { width: 1.55em; height: 1.55em; }
+  .cota {
+    position: absolute; font-family: var(--mono); font-size: .72rem; color: #2D6BE4; letter-spacing: .06em;
+  }
+  .cota.arriba { top: 4px; left: 50%; transform: translateX(-50%); }
+  .cota.izq { left: 6px; top: 50%; transform: translateY(-50%); }
+  .construccion-pie { position: absolute; left: 18px; bottom: 14px; font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: #5A564F; }
+
+  .versiones { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); }
+  .version { border-radius: 20px; overflow: hidden; border: 1px solid var(--borde); background: var(--superficie); display: grid; }
+  .version-lienzo { display: grid; place-items: center; min-height: 150px; padding: 24px; }
+  .version-lienzo .logo-lockup { font-size: 1.6rem; gap: .5em; }
+  .version-lienzo .glifo { width: 1.55em; height: 1.55em; }
+  .version-txt { padding: 16px 18px; display: grid; gap: 4px; border-top: 1px solid var(--borde); }
+  .version-txt b { font-size: 1rem; }
+  .version-txt small { color: var(--texto-2); font-size: .88rem; line-height: 1.45; }
+  .glifo.mono-tinta { background: #23205F; }
+  .glifo.mono-papel { background: #FBF7F2; }
+
+  .prohibidos { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); }
+  .prohibido { border-radius: 20px; overflow: hidden; border: 1px solid var(--borde); background: var(--superficie); }
+  .prohibido-lienzo { position: relative; display: grid; place-items: center; min-height: 130px; padding: 20px; background: #FBF7F2; overflow: hidden; }
+  .prohibido-lienzo .logo-lockup { font-size: 1.4rem; gap: .5em; color: #23205F; }
+  .prohibido-lienzo .glifo { width: 1.55em; height: 1.55em; }
+  .prohibido-lienzo::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top right, transparent calc(50% - 1.5px), rgba(215,50,32,.85) calc(50% - 1.5px), rgba(215,50,32,.85) calc(50% + 1.5px), transparent calc(50% + 1.5px));
+    pointer-events: none;
+  }
+  .prohibido p { padding: 14px 18px; font-size: .92rem; color: var(--texto-2); border-top: 1px solid var(--borde); }
+  .prohibido p b { color: var(--pulso); font-family: var(--mono); font-size: .72rem; letter-spacing: .12em; margin-right: 6px; }
+
+  /* ---------- 03 Sombras ---------- */
+  .niveles { display: grid; gap: 22px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); padding: 28px; border-radius: 26px; background: #FBF7F2; border: 1px solid rgba(35,32,95,.08); }
+  @media (min-width: 960px) { .niveles { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  .nivel { display: grid; gap: 14px; align-content: start; }
+  .nivel-caja {
+    height: 120px; border-radius: 20px; background: #FFFFFF; display: grid; place-items: center;
+    font-family: var(--mono); font-size: .8rem; color: #5A564F; letter-spacing: .08em;
+  }
+  .nivel-txt b { display: block; font-size: 1rem; color: #23205F; }
+  .nivel-txt small { color: #5A564F; font-size: .84rem; line-height: 1.45; display: block; }
+  .n0 { border: 1px solid rgba(35,32,95,.10); }
+  .n1 { box-shadow: 0 10px 24px -16px rgba(35,32,95,.40); border: 1px solid rgba(35,32,95,.09); }
+  .n2 { box-shadow: 0 24px 60px -30px rgba(35,32,95,.18); border: 1px solid rgba(35,32,95,.10); }
+  .n3 { box-shadow: 0 50px 100px -55px rgba(35,32,95,.45); border: 1px solid rgba(35,32,95,.10); }
+  .n4 { background: linear-gradient(100deg, #7B3FF2, #2D6BE4); color: #FFFFFF; box-shadow: 0 18px 38px -14px rgba(88,63,220,.55); }
+
+  .estados-btn { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .boton {
+    display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 28px;
+    border: 0; border-radius: 999px; font-family: var(--fuente); font-size: 1.0625rem; font-weight: 700; cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease; text-decoration: none; white-space: nowrap;
+  }
+  .boton:hover { transform: translateY(-2px); }
+  .boton:active { transform: translateY(0); }
+  .b-principal { background: var(--degradado-cta); color: #FFFFFF; box-shadow: 0 18px 38px -14px rgba(88,63,220,.55); }
+  .b-tinta { background: #23205F; color: #FBF7F2; }
+  .b-blanco { background: #FFFFFF; color: #23205F; border: 1px solid rgba(35,32,95,.14); }
+  .b-foco { outline: 3px solid #2D6BE4; outline-offset: 3px; }
+  .b-off { background: #FFFFFF; color: rgba(35,32,95,.38); border: 1px solid rgba(35,32,95,.10); cursor: not-allowed; }
+  .b-off:hover { transform: none; }
+  .demo-claro { padding: 26px; border-radius: 20px; background: #FBF7F2; border: 1px solid rgba(35,32,95,.08); display: grid; gap: 14px; }
+  .demo-claro .escala-et { color: #5A564F; }
+
+  /* ---------- 04 Materiales ---------- */
+  .materiales { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+  .material { border-radius: 20px; overflow: hidden; border: 1px solid var(--borde); background: var(--superficie); display: grid; }
+  .material-lienzo { position: relative; height: 150px; overflow: hidden; display: grid; place-items: center; }
+  .material-txt { padding: 16px 18px; display: grid; gap: 4px; border-top: 1px solid var(--borde); }
+  .material-txt b { font-size: 1rem; }
+  .material-txt small { color: var(--texto-2); font-size: .86rem; line-height: 1.45; }
+  .m-papel { background: #FBF7F2; }
+  .m-blanco { background: #FBF7F2; }
+  .m-blanco span { width: 70%; height: 70px; border-radius: 16px; background: #FFFFFF; border: 1px solid rgba(35,32,95,.10); }
+  .m-vidrio { background: radial-gradient(circle at 25% 40%, #DEEBFC, transparent 45%), radial-gradient(circle at 75% 70%, #EAE7F8, transparent 50%), #FBF7F2; }
+  .m-vidrio::before { content: "Contenido que pasa por detrás"; position: absolute; left: 14px; top: 20px; font-weight: 700; font-size: 1.3rem; color: #23205F; letter-spacing: -0.02em; max-width: 12ch; line-height: 1.1; }
+  .m-vidrio span {
+    position: relative; width: 78%; height: 46px; border-radius: 999px; background: rgba(255,255,255,.72);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid rgba(35,32,95,.08);
+    box-shadow: 0 20px 50px -32px rgba(35,32,95,.55); transform: translateY(26px);
+  }
+  .m-pastel { display: grid; grid-template-columns: repeat(4, 1fr); place-items: stretch; }
+  .m-tinta { background: #23205F; color: #FBF7F2; }
+  .m-tinta p { font-weight: 700; font-size: 1.3rem; letter-spacing: -0.02em; }
+  .m-tinta p small { display: block; font-weight: 400; font-size: .85rem; color: #E9E2D8; letter-spacing: 0; }
+  .m-rejilla {
+    background-color: #FBF7F2;
+    background-image: linear-gradient(rgba(35,32,95,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(35,32,95,.08) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .m-rejilla::after { content: ""; position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 0%, transparent 30%, #FBF7F2 85%); }
+  .m-aura { background: #FBF7F2; }
+  .m-aura::before { content: ""; position: absolute; width: 260px; height: 260px; right: -60px; top: -90px; border-radius: 50%; background: radial-gradient(circle, rgba(45,107,228,.16), transparent 62%); filter: blur(12px); }
+  .m-aura::after { content: ""; position: absolute; width: 260px; height: 260px; left: -80px; bottom: -120px; border-radius: 50%; background: radial-gradient(circle, rgba(234,231,248,1), transparent 64%); filter: blur(12px); }
+  .m-degradado { background: #FBF7F2; display: grid; gap: 12px; place-content: center; justify-items: center; }
+  .m-degradado p { font-size: 2rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+  .m-degradado span { display: block; width: 150px; height: 34px; border-radius: 999px; background: linear-gradient(100deg, #7B3FF2, #2D6BE4); }
+  .m-contorno { background: #FFFFFF; }
+  .m-contorno p { font-size: 6rem; font-weight: 700; line-height: 1; color: transparent; -webkit-text-stroke: 2px rgba(123,63,242,.42); }
+
+  /* ---------- 05 Formas ---------- */
+  .radios { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); }
+  .radio { display: grid; gap: 10px; align-content: start; }
+  .radio-forma { height: 96px; background: var(--cielo); border: 1.5px solid rgba(45,107,228,.5); }
+  .radio b { font-size: .98rem; }
+  .radio small { color: var(--texto-2); font-size: .84rem; line-height: 1.4; display: block; }
+  .anidado { padding: 28px; border-radius: 26px; background: #FFFFFF; border: 1px solid rgba(35,32,95,.10); box-shadow: var(--sombra-flotante); display: grid; gap: 12px; color: #23205F; }
+  .anidado-2 { padding: 16px; border-radius: 18px; background: #FBF7F2; border: 1px solid rgba(35,32,95,.08); display: grid; gap: 10px; }
+  .anidado-3 { padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid rgba(35,32,95,.08); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .ico { width: 42px; height: 42px; border-radius: 11px; display: grid; place-items: center; color: #FFFFFF; font-weight: 700; flex: none; background: #2D6BE4; }
+  .chip { margin-left: auto; font-size: .84rem; font-weight: 700; padding: 7px 14px; border-radius: 999px; background: #DCEFE6; color: #23205F; display: inline-flex; gap: 7px; align-items: center; }
+  .chip::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #177E63; }
+  .anota { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: #5A564F; }
+
+  .proporciones { display: grid; gap: 14px; }
+  .prop { display: grid; gap: 10px; }
+  .prop-barra { display: grid; gap: 8px; height: 56px; }
+  .prop-barra span { border-radius: 12px; background: var(--superficie-2); border: 1px solid var(--borde); display: grid; place-items: center; font-family: var(--mono); font-size: .76rem; color: var(--texto-2); }
+  .prop-barra span.v { background: var(--cielo); border-color: rgba(45,107,228,.3); color: #23205F; }
+
+  .onda-caja { padding: 24px; border-radius: 20px; background: #FFFFFF; border: 1px solid rgba(35,32,95,.10); }
+  .onda-caja svg { width: 100%; height: auto; display: block; }
+
+  /* ---------- 06 Color ---------- */
+  .grupo-color { display: grid; gap: 14px; }
+  .muestras { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+  .muestra {
+    border-radius: 20px; overflow: hidden; border: 1px solid var(--borde); background: var(--superficie);
+    display: grid; text-align: left; padding: 0; font: inherit; color: inherit; cursor: pointer; width: 100%;
+  }
+  .muestra:hover .muestra-hex { color: var(--enlace); }
+  .muestra-color { height: 110px; display: flex; align-items: flex-end; padding: 12px 14px; }
+  .muestra-color span { font-family: var(--mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; }
+  .muestra-txt { padding: 14px 16px; display: grid; gap: 4px; }
+  .muestra-txt b { font-size: 1rem; }
+  .muestra-hex { font-family: var(--mono); font-size: .82rem; color: var(--texto-2); }
+  .muestra-txt small { color: var(--texto-2); font-size: .86rem; line-height: 1.45; }
+  .borde-claro { box-shadow: inset 0 -1px 0 rgba(35,32,95,.10); }
+
+  .proporcion { display: flex; height: 64px; border-radius: 16px; overflow: hidden; border: 1px solid var(--borde); }
+  .proporcion span { display: flex; align-items: flex-end; padding: 8px 10px; font-family: var(--mono); font-size: .7rem; min-width: 0; white-space: nowrap; overflow: hidden; }
+
+  .confianza { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+  .conf { padding: 18px; border-radius: 18px; background: var(--superficie); border: 1px solid var(--borde); display: grid; gap: 10px; align-content: start; }
+  .conf-chip { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: .72rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--texto-2); }
+  .conf-chip::before { content: ""; width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1px var(--borde); }
+  .conf p { font-size: .95rem; }
+  .conf small { color: var(--texto-2); font-size: .85rem; line-height: 1.45; }
+
+  .aviso-copia {
+    position: fixed; left: 50%; bottom: calc(env(safe-area-inset-bottom, 0px) + 20px); transform: translate(-50%, 20px);
+    background: #23205F; color: #FBF7F2; padding: 12px 20px; border-radius: 999px; font-size: .92rem; font-weight: 600;
+    opacity: 0; transition: opacity .2s ease, transform .2s ease; z-index: 80; pointer-events: none;
+    box-shadow: 0 20px 50px -24px rgba(0,0,0,.5);
+  }
+  .aviso-copia.visible { opacity: 1; transform: translate(-50%, 0); }
+
+  /* ---------- 07 Diapositivas ---------- */
+  .diapos { display: grid; gap: 22px; }
+  @media (min-width: 820px) { .diapos { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .diapo-marco { display: grid; gap: 10px; min-width: 0; }
+  .diapo {
+    container-type: inline-size; aspect-ratio: 16 / 9; width: 100%; max-width: 100%;
+    border-radius: 14px; overflow: hidden; position: relative; border: 1px solid var(--borde);
+    box-shadow: var(--sombra-suave);
+  }
+  .diapo-in { position: absolute; inset: 0; padding: 5cqw 6.25cqw; display: flex; flex-direction: column; }
+  .d-papel { background: #FBF7F2; color: #23205F; }
+  .d-tinta { background: #23205F; color: #FBF7F2; }
+  .d-kicker { font-family: var(--mono); font-size: 1.05cqw; letter-spacing: .18em; text-transform: uppercase; color: #5A564F; display: flex; gap: 1.2cqw; align-items: center; }
+  .d-tinta .d-kicker { color: #E9E2D8; }
+  .d-kicker::after { content: ""; height: 1px; flex: 1; background: currentColor; opacity: .3; }
+  .d-titulo { font-size: 6.25cqw; font-weight: 700; line-height: 1.0; letter-spacing: -0.04em; margin-top: auto; max-width: 13ch; }
+  .d-t2 { font-size: 3.75cqw; font-weight: 700; line-height: 1.05; letter-spacing: -0.03em; margin-top: 2.2cqw; max-width: 18ch; }
+  .d-sub { font-size: 1.9cqw; color: #5A564F; margin-top: 1.6cqw; line-height: 1.4; max-width: 40ch; }
+  .d-tinta .d-sub { color: #E9E2D8; }
+  .d-pie { margin-top: auto; display: flex; justify-content: space-between; align-items: center; font-family: var(--mono); font-size: .95cqw; letter-spacing: .1em; text-transform: uppercase; color: #5A564F; }
+  .d-tinta .d-pie { color: #E9E2D8; }
+  .d-glifo { width: 2.1cqw; height: 2.1cqw; border-radius: 32%; background: radial-gradient(circle at 35% 30%, #6F5BD8, #3B2FB0); display: grid; place-items: center; }
+  .d-glifo svg { width: 62%; height: 62%; display: block; }
+  .d-logo { display: inline-flex; align-items: center; gap: .5em; font-family: var(--fuente); text-transform: none; font-size: 2.2cqw; font-weight: 700; letter-spacing: -0.02em !important; }
+  .d-logo .glifo { width: 1.55em; height: 1.55em; border-radius: 32%; }
+  .d-cols { display: grid; grid-template-columns: .9fr 1.1fr; gap: 3cqw; margin-top: 2.5cqw; flex: 1; min-height: 0; }
+  .d-cifra { font-size: 9.4cqw; font-weight: 700; line-height: .95; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+  .d-cifra .ac { color: #2D6BE4; }
+  .d-ventana { background: #FFFFFF; border: 1px solid rgba(35,32,95,.10); border-radius: 2cqw; box-shadow: 0 2.6cqw 5.2cqw -2.9cqw rgba(35,32,95,.45); padding: 1.6cqw; align-self: start; }
+  .d-ventana svg { width: 100%; height: auto; display: block; }
+  .d-fuente { font-family: var(--mono); font-size: .95cqw; color: #5A564F; margin-top: 1.2cqw; letter-spacing: .04em; }
+  .d-chips { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6cqw; margin-top: 3cqw; }
+  .d-chip { background: #FFFFFF; border: 1px solid rgba(35,32,95,.10); border-radius: 1.6cqw; padding: 1.8cqw; display: grid; gap: 1cqw; align-content: start; }
+  .d-chip i { font-style: normal; font-family: var(--mono); font-size: .95cqw; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #5A564F; display: flex; align-items: center; gap: .7cqw; }
+  .d-chip i::before { content: ""; width: 1cqw; height: 1cqw; border-radius: 50%; background: var(--c); }
+  .d-chip p { font-size: 1.55cqw; line-height: 1.35; }
+  .d-cta { display: inline-flex; align-items: center; min-height: 4.2cqw; padding: 0 2.6cqw; border-radius: 999px; background: linear-gradient(100deg, #7B3FF2, #2D6BE4); color: #FFFFFF; font-weight: 700; font-size: 1.6cqw; margin-top: 2.6cqw; width: fit-content; box-shadow: 0 1cqw 2cqw -.8cqw rgba(88,63,220,.55); }
+  .diapo-marco figcaption { font-size: .9rem; color: var(--texto-2); }
+  .diapo-marco figcaption b { color: var(--texto); }
+
+  .revision { display: grid; gap: 0; border-top: 1px solid var(--linea); counter-reset: r; }
+  .revision li { list-style: none; display: grid; grid-template-columns: 36px minmax(0, 1fr); gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--linea); color: var(--texto-2); }
+  .revision li::before { counter-increment: r; content: counter(r, decimal-leading-zero); font-family: var(--mono); font-size: .8rem; color: var(--enlace); padding-top: 3px; }
+  .revision { padding: 0; }
+
+  /* ---------- Pie ---------- */
+  .pie { margin-top: clamp(72px, 10vw, 120px); padding-top: 28px; border-top: 1px solid var(--linea); display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; align-items: center; }
+  .pie p { font-family: var(--mono); font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--texto-2); }
+</style>
+
+</head>
+<body>
+<span class="rejilla-fondo" aria-hidden="true"></span>
+
+<div class="envoltura">
+
+  <header class="nav">
+    <div class="nav-caja">
+      <a class="marca" href="#inicio" aria-label="Frecuency, inicio del manual">
+        <span class="glifo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span>
+        <span>frecuency<span class="pp">.</span></span>
+      </a>
+      <nav aria-label="Secciones del manual">
+        <ul class="nav-enlaces">
+          <li><a href="#tipografia">Tipografía</a></li>
+          <li><a href="#logotipo">Logotipo</a></li>
+          <li><a href="#sombras">Sombras</a></li>
+          <li><a href="#materiales">Materiales</a></li>
+          <li><a href="#formas">Formas</a></li>
+          <li><a href="#color">Color</a></li>
+          <li><a href="#diapositivas">Diapositivas</a></li>
+        </ul>
+      </nav>
+      <span class="nav-meta">Manual v1.0</span>
+    </div>
+  </header>
+
+  <main id="inicio">
+
+    <section class="hero" aria-labelledby="titulo-manual">
+      <span class="aura a1" aria-hidden="true"></span>
+      <span class="aura a2" aria-hidden="true"></span>
+      <p class="kicker">/ Manual de marca y design system</p>
+      <h1 class="h1" id="titulo-manual">Así se ve <span class="grad">Frecuency</span><span class="pp">.</span></h1>
+      <p class="hero-sub">Reglas de tipografía, logotipo, sombras, materiales, formas y color para la interfaz y para las presentaciones. Todo sale del código del sitio frecuency.ai.</p>
+      <div class="hero-datos">
+        <span class="pill"><span class="vivo"></span>Versión <b>1.0</b> · octubre 2026</span>
+        <span class="pill">Diapositiva <b>1920 × 1080</b></span>
+        <span class="pill">Base de espaciado <b>4 px</b></span>
+      </div>
+      <nav class="indice" aria-label="Índice">
+        <a href="#tipografia"><span>01</span><b>Tipografía</b></a>
+        <a href="#logotipo"><span>02</span><b>Logotipo</b></a>
+        <a href="#sombras"><span>03</span><b>Sombras y elevación</b></a>
+        <a href="#materiales"><span>04</span><b>Materiales y texturas</b></a>
+        <a href="#formas"><span>05</span><b>Formas y geometría</b></a>
+        <a href="#color"><span>06</span><b>Sistema de color</b></a>
+        <a href="#diapositivas"><span>07</span><b>Diapositivas</b></a>
+      </nav>
+    </section>
+
+    <!-- ===================== 01 Tipografía ===================== -->
+    <section class="seccion" id="tipografia" aria-labelledby="t-tipo">
+      <div class="cabeza">
+        <div class="cabeza-fila">
+          <h2 class="h2" id="t-tipo">Tipografía</h2>
+          <span class="numgrande" aria-hidden="true">01</span>
+        </div>
+        <p class="kicker">/ Dos familias, una escala</p>
+        <div class="prosa">
+          <p>Usamos dos familias. Arimo para todo lo que se lee. Space Mono para etiquetas, kickers, cifras de apoyo y datos técnicos. Las dos están en Google Fonts y caen en Arial y Courier New si no cargan, así que las métricas casi no cambian.</p>
+        </div>
+      </div>
+
+      <div class="rejilla-2">
+        <div class="tarjeta espec">
+          <div class="espec-nombre"><b>Arimo</b><span class="mono sec" style="font-size:.78rem">Respaldo: Arial, sans-serif</span></div>
+          <div class="espec-aa" aria-hidden="true">Aa</div>
+          <div class="pesos">
+            <div style="font-weight:400">Regular <small>400 · cuerpo de texto</small></div>
+            <div style="font-weight:500">Medium <small>500 · navegación</small></div>
+            <div style="font-weight:600">Semibold <small>600 · enlaces y filas</small></div>
+            <div style="font-weight:700">Bold <small>700 · títulos, botones, cifras</small></div>
+          </div>
+          <p class="alfabeto">ABCDEFGHIJKLMNÑOPQRSTUVWXYZ abcdefghijklmnñopqrstuvwxyz áéíóú ¿? ¡! 0123456789 % $</p>
+        </div>
+        <div class="tarjeta espec">
+          <div class="espec-nombre"><b class="mono" style="font-size:1.1rem">Space Mono</b><span class="mono sec" style="font-size:.78rem">Respaldo: Courier New, monospace</span></div>
+          <div class="espec-aa m" aria-hidden="true">Aa</div>
+          <div class="pesos mono">
+            <div style="font-weight:400">Regular <small>400 · kickers, etiquetas</small></div>
+            <div style="font-weight:700">Bold <small>700 · chips de estado</small></div>
+          </div>
+          <p class="alfabeto mono" style="font-size:.92rem">/ EN VIVO · 24/7 · +12% · Q4 2026 · FUENTE: PUNTO DE VENTA</p>
+          <p class="sec" style="font-size:.95rem">Siempre en mayúsculas con tracking amplio (0.10 a 0.18em) y a tamaño chico. Nunca para párrafos ni títulos.</p>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Escala para interfaz</h3>
+        <div class="tarjeta">
+          <div class="escala">
+            <div class="escala-fila">
+              <div class="escala-et"><b>Display · H1</b>46 a 104 px · 700<br>1.02 · −0.04em</div>
+              <div class="escala-muestra" style="font-size:clamp(2.6rem,6.4vw,4.6rem);font-weight:700;line-height:1.02;letter-spacing:-0.04em">Tu data en tu idioma<span class="pp">.</span></div>
+            </div>
+            <div class="escala-fila">
+              <div class="escala-et"><b>Sección · H2</b>35 a 58 px · 700<br>1.06 · −0.03em</div>
+              <div class="escala-muestra" style="font-size:clamp(2rem,4.4vw,3.2rem);font-weight:700;line-height:1.06;letter-spacing:-0.03em">Cómo funciona</div>
+            </div>
+            <div class="escala-fila">
+              <div class="escala-et"><b>Tarjeta · H3</b>22 px · 700<br>1.3 · −0.01em</div>
+              <div class="escala-muestra" style="font-size:1.375rem;font-weight:700;line-height:1.3;letter-spacing:-0.01em">Conectamos tus fuentes</div>
+            </div>
+            <div class="escala-fila">
+              <div class="escala-et"><b>Cifra grande</b>38 a 64 px · 700<br>1.0 · −0.03em · tabular</div>
+              <div class="escala-muestra num" style="font-size:clamp(2.4rem,5vw,4rem);font-weight:700;line-height:1;letter-spacing:-0.03em">+30<span style="color:var(--enlace)">%</span></div>
+            </div>
+            <div class="escala-fila">
+              <div class="escala-et"><b>Subtítulo</b>18 a 21 px · 400<br>1.55 · máx. 56ch</div>
+              <div class="escala-muestra sec" style="font-size:clamp(1.1rem,2.2vw,1.3rem);line-height:1.55">Conectamos tus ventas, gastos y clientes, y te decimos qué cambió esta semana.</div>
+            </div>
+            <div class="escala-fila">
+              <div class="escala-et"><b>Cuerpo</b>17 px · 400<br>1.6 · máx. 60ch</div>
+              <div class="escala-muestra">Cada lunes recibes un resumen con lo que subió, lo que bajó y una explicación corta de por qué.</div>
+            </div>
+            <div class="escala-fila">
+              <div class="escala-et"><b>Kicker</b>Space Mono 13 px<br>0.18em · mayúsculas</div>
+              <div class="escala-muestra"><span class="kicker" style="max-width:380px">/ Qué hacemos</span></div>
+            </div>
+            <div class="escala-fila">
+              <div class="escala-et"><b>Etiqueta</b>Space Mono 12 px<br>0.14em · mayúsculas</div>
+              <div class="escala-muestra mono" style="font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--texto-2)">Ventas semanales · en vivo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rejilla-2">
+        <div class="bloque">
+          <h3 class="h3">Reglas de uso</h3>
+          <div class="prosa">
+            <p>Los títulos van en formato oración, con mayúscula solo en la primera palabra y en nombres propios.</p>
+            <p>El tracking negativo crece con el tamaño. Un título de 60 px con tracking en 0 se ve suelto y deja de parecer Frecuency.</p>
+            <p>Usa dos pesos por bloque como máximo: 700 para el título y 400 para el texto. El 500 y el 600 son para navegación, enlaces y filas de lista.</p>
+            <p>Las cifras llevan <code>font-variant-numeric: tabular-nums</code> para que alineen en tablas y tableros.</p>
+            <p>No usamos cursivas ni subrayados para dar énfasis. El subrayado aparece solo en enlaces al pasar el cursor.</p>
+          </div>
+        </div>
+        <div class="bloque">
+          <h3 class="h3">Tres recursos de énfasis, uno por pantalla</h3>
+          <div class="enfasis">
+            <div class="enfasis-item"><span class="escala-et">Degradado de marca en una palabra</span><p>Así se ve <span class="grad">Frecuency</span></p></div>
+            <div class="enfasis-item"><span class="escala-et">Resaltado en Menta</span><p>Tus ventas <span class="resaltado">suben</span></p></div>
+            <div class="enfasis-item"><span class="escala-et">Punto final en Rojo Pulso</span><p>Decide con datos<span class="pp">.</span></p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Escala para presentaciones</h3>
+        <p class="sec">Medidas para un lienzo de 1920 × 1080 px. Nada va por debajo de 18 px. Si un texto no cabe a 28 px, sobra texto.</p>
+        <div class="tabla-caja">
+          <table>
+            <thead><tr><th>Rol</th><th>Familia</th><th>Tamaño</th><th>Peso</th><th>Interlineado</th><th>Tracking</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td>Título de portada</td><td>Arimo</td><td class="m">120 px</td><td>700</td><td>1.0</td><td>−0.04em</td><td>Portada y cierre. Máximo 6 palabras.</td></tr>
+              <tr><td>Título de diapositiva</td><td>Arimo</td><td class="m">72 px</td><td>700</td><td>1.05</td><td>−0.03em</td><td>Una idea por diapositiva, escrita como conclusión.</td></tr>
+              <tr><td>Cifra protagonista</td><td>Arimo</td><td class="m">180 px</td><td>700</td><td>0.95</td><td>−0.04em</td><td>Un número por diapositiva. Unidad en Azul Frecuencia.</td></tr>
+              <tr><td>Subtítulo</td><td>Arimo</td><td class="m">36 px</td><td>400</td><td>1.4</td><td>0</td><td>Grafito. Contexto del título en una línea.</td></tr>
+              <tr><td>Cuerpo</td><td>Arimo</td><td class="m">28 px</td><td>400</td><td>1.45</td><td>0</td><td>Máximo 40 palabras por diapositiva.</td></tr>
+              <tr><td>Kicker</td><td>Space Mono</td><td class="m">20 px</td><td>400</td><td>1.3</td><td>0.18em</td><td>Sección o capítulo, en mayúsculas.</td></tr>
+              <tr><td>Fuente y pie</td><td>Space Mono</td><td class="m">18 px</td><td>400</td><td>1.3</td><td>0.04em</td><td>Origen del dato, fecha y número de página.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 02 Logotipo ===================== -->
+    <section class="seccion" id="logotipo" aria-labelledby="t-logo">
+      <div class="cabeza">
+        <div class="cabeza-fila">
+          <h2 class="h2" id="t-logo">Logotipo</h2>
+          <span class="numgrande" aria-hidden="true">02</span>
+        </div>
+        <p class="kicker">/ Glifo, palabra y punto</p>
+        <div class="prosa">
+          <p>El logotipo tiene dos piezas. El glifo es un cuadro violeta con la onda que sube y el punto de pulso al final. La palabra es frecuency en minúsculas, Arimo Bold, cerrada con un punto en Rojo Pulso. Ese punto es la firma de la marca.</p>
+          <p>En texto corrido el nombre se escribe Frecuency, con F mayúscula y con c. Nunca Frequency.</p>
+        </div>
+      </div>
+
+      <div class="construccion">
+        <div class="zona">
+          <span class="cota arriba">x</span>
+          <span class="cota izq">x</span>
+          <div class="zona-in">
+            <span class="logo-lockup" role="img" aria-label="Logotipo de Frecuency con zona de protección">
+              <span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span>
+              <span>frecuency<span class="pp">.</span></span>
+            </span>
+          </div>
+        </div>
+        <span class="construccion-pie">x = mitad de la altura del glifo</span>
+      </div>
+
+      <div class="rejilla-2">
+        <div class="bloque">
+          <h3 class="h3">Construcción</h3>
+          <div class="tabla-caja">
+            <table style="min-width:420px">
+              <thead><tr><th>Pieza</th><th>Medida</th></tr></thead>
+              <tbody>
+                <tr><td>Glifo</td><td>Cuadrado de 34u con radio 11u (32 %). Degradado radial de <code>#6F5BD8</code> a <code>#3B2FB0</code>, centro en 35 % 30 %.</td></tr>
+                <tr><td>Onda del glifo</td><td>Trazo blanco de 2.4u en una caja de 24u, extremos redondos. Punto final Rojo Pulso de radio 2.4u.</td></tr>
+                <tr><td>Palabra</td><td>Arimo Bold a 22u, tracking −0.02em, todo en minúsculas.</td></tr>
+                <tr><td>Separación</td><td>11u entre glifo y palabra (un tercio del glifo).</td></tr>
+                <tr><td>Punto</td><td>El carácter «.» en Rojo Pulso <code>#D73220</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="bloque">
+          <h3 class="h3">Espacio de aire y tamaño mínimo</h3>
+          <div class="prosa">
+            <p>Alrededor del logotipo queda libre un espacio igual a la mitad de la altura del glifo (17u). En esa zona no entra texto, bordes, otras marcas ni el filo de la pantalla.</p>
+          </div>
+          <div class="tabla-caja">
+            <table style="min-width:420px">
+              <thead><tr><th>Versión</th><th>Digital</th><th>Impreso</th></tr></thead>
+              <tbody>
+                <tr><td>Logotipo completo</td><td class="m">96 px de ancho</td><td class="m">25 mm</td></tr>
+                <tr><td>Glifo solo</td><td class="m">16 px</td><td class="m">6 mm</td></tr>
+                <tr><td>Mínima «f.» (favicon)</td><td class="m">16 px</td><td class="m">No se imprime</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Versiones permitidas</h3>
+        <div class="versiones">
+          <div class="version">
+            <div class="version-lienzo" style="background:#FBF7F2;color:#23205F">
+              <span class="logo-lockup"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span>
+            </div>
+            <div class="version-txt"><b>Principal</b><small>Palabra Tinta sobre Papel. Es la versión por defecto en web y diapositivas.</small></div>
+          </div>
+          <div class="version">
+            <div class="version-lienzo" style="background:#FFFFFF;color:#23205F">
+              <span class="logo-lockup"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span>
+            </div>
+            <div class="version-txt"><b>Sobre blanco o pastel</b><small>Igual que la principal. Vale sobre Blanco, Lila, Cielo, Menta y Durazno.</small></div>
+          </div>
+          <div class="version">
+            <div class="version-lienzo" style="background:#23205F;color:#FBF7F2">
+              <span class="logo-lockup"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span>
+            </div>
+            <div class="version-txt"><b>Negativo</b><small>Palabra Papel sobre Tinta. El glifo y el punto no cambian.</small></div>
+          </div>
+          <div class="version">
+            <div class="version-lienzo" style="background:#FFFFFF;color:#23205F">
+              <span class="logo-lockup"><span class="glifo mono-tinta"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#fff"/></svg></span><span>frecuency.</span></span>
+            </div>
+            <div class="version-txt"><b>Una tinta</b><small>Todo en Tinta, punto incluido. Solo para impresión a un color, sellos y grabado.</small></div>
+          </div>
+          <div class="version">
+            <div class="version-lienzo" style="background:#FBF7F2">
+              <span class="logo-lockup" style="font-size:2.4rem"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span></span>
+            </div>
+            <div class="version-txt"><b>Glifo solo</b><small>Avatares, ícono de app y esquina de diapositivas interiores.</small></div>
+          </div>
+          <div class="version">
+            <div class="version-lienzo" style="background:#FFFFFF">
+              <svg width="72" height="72" viewBox="0 0 64 64" role="img" aria-label="Versión mínima f punto"><rect width="64" height="64" rx="14" fill="#FBF7F2" stroke="rgba(35,32,95,.12)"/><text x="14" y="47" font-family="Arimo, Arial, sans-serif" font-weight="700" font-size="44" fill="#23205F">f</text><circle cx="44" cy="43" r="6.5" fill="#D73220"/></svg>
+            </div>
+            <div class="version-txt"><b>Mínima «f.»</b><small>Favicon y espacios menores a 24 px, donde el glifo ya no se lee.</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Restricciones</h3>
+        <div class="prohibidos">
+          <div class="prohibido">
+            <div class="prohibido-lienzo"><span class="logo-lockup"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#2D6BE4"/></svg></span><span>frecuency<span style="color:#2D6BE4">.</span></span></span></div>
+            <p><b>NO</b>Cambiar el color del punto.</p>
+          </div>
+          <div class="prohibido">
+            <div class="prohibido-lienzo"><span class="logo-lockup" style="transform:scaleX(1.45)"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span></div>
+            <p><b>NO</b>Estirar, comprimir ni rotar.</p>
+          </div>
+          <div class="prohibido">
+            <div class="prohibido-lienzo"><span class="logo-lockup"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>Frecuency<span class="pp">.</span></span></span></div>
+            <p><b>NO</b>Usar mayúscula inicial en el logotipo.</p>
+          </div>
+          <div class="prohibido">
+            <div class="prohibido-lienzo"><span class="logo-lockup" style="text-shadow:0 6px 10px rgba(0,0,0,.35)"><span class="glifo" style="box-shadow:0 8px 14px rgba(0,0,0,.4)"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span></div>
+            <p><b>NO</b>Agregar sombras, contornos o brillos.</p>
+          </div>
+          <div class="prohibido">
+            <div class="prohibido-lienzo"><span class="logo-lockup"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span class="grad">frecuency.</span></span></div>
+            <p><b>NO</b>Aplicar el degradado de marca a la palabra.</p>
+          </div>
+          <div class="prohibido">
+            <div class="prohibido-lienzo" style="background:#2D6BE4"><span class="logo-lockup"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span></div>
+            <p><b>NO</b>Colocar sobre fondos saturados o fotos sin contraste.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">En presentaciones</h3>
+        <div class="prosa">
+          <p>El logotipo completo va en la portada y en el cierre, a 280 px de ancho, alineado al margen izquierdo. En las diapositivas interiores solo va el glifo, a 40 px, en la esquina inferior izquierda y alineado con el margen de 120 px. Con logos de clientes o socios, el de Frecuency va primero y con la misma altura óptica, separados por 2x.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 03 Sombras ===================== -->
+    <section class="seccion" id="sombras" aria-labelledby="t-sombras">
+      <div class="cabeza">
+        <div class="cabeza-fila">
+          <h2 class="h2" id="t-sombras">Sombras y elevación</h2>
+          <span class="numgrande" aria-hidden="true">03</span>
+        </div>
+        <p class="kicker">/ Largas, suaves y bajas</p>
+        <div class="prosa">
+          <p>Las sombras tienen tres rasgos fijos. El color es Tinta, nunca negro. El desplazamiento es solo vertical. El spread es negativo, así la sombra queda debajo del objeto y no se ve en los lados. El resultado es un objeto que flota poco y sin borde oscuro.</p>
+        </div>
+      </div>
+
+      <div class="niveles">
+        <div class="nivel"><div class="nivel-caja n0">N0</div><div class="nivel-txt"><b>Nivel 0 · Plano</b><small>Borde de 1 px en Tinta al 10 %. Tarjetas sobre Papel, filas, preguntas.</small></div></div>
+        <div class="nivel"><div class="nivel-caja n1">N1</div><div class="nivel-txt"><b>Nivel 1 · Contacto</b><small>Burbujas de chat y chips que se separan apenas del fondo.</small></div></div>
+        <div class="nivel"><div class="nivel-caja n2">N2</div><div class="nivel-txt"><b>Nivel 2 · Reposo</b><small>Tarjeta de métrica y tarjetas de integración.</small></div></div>
+        <div class="nivel"><div class="nivel-caja n3">N3</div><div class="nivel-txt"><b>Nivel 3 · Flotante</b><small>Ventana de producto, tarjetas de paso, menú móvil, nota flotante.</small></div></div>
+        <div class="nivel"><div class="nivel-caja n4">N4</div><div class="nivel-txt"><b>Nivel 4 · Acento</b><small>Botón principal y la tarjeta destacada de una serie. Sombra violeta.</small></div></div>
+      </div>
+
+      <div class="tabla-caja">
+        <table>
+          <thead><tr><th>Nivel</th><th>Token</th><th>Valor CSS</th><th>Uso</th></tr></thead>
+          <tbody>
+            <tr><td>0</td><td class="m">sin token</td><td class="m">border: 1px solid rgba(35,32,95,.10)</td><td>Superficies en reposo</td></tr>
+            <tr><td>1</td><td class="m">sombra-contacto</td><td class="m">0 10px 24px -16px rgba(35,32,95,.40)</td><td>Burbuja del analista</td></tr>
+            <tr><td>2</td><td class="m">--sombra-suave</td><td class="m">0 24px 60px -30px rgba(35,32,95,.18)</td><td>Tarjeta de métrica</td></tr>
+            <tr><td>2</td><td class="m">sombra-lista</td><td class="m">0 24px 50px -42px rgba(35,32,95,.40)</td><td>Tarjetas de integración en rejilla</td></tr>
+            <tr><td>3</td><td class="m">--sombra-flotante</td><td class="m">0 50px 100px -55px rgba(35,32,95,.45)</td><td>Ventana, pasos, menú móvil</td></tr>
+            <tr><td>3</td><td class="m">sombra-nav</td><td class="m">0 20px 50px -32px rgba(35,32,95,.55)</td><td>Píldora de navegación fija</td></tr>
+            <tr><td>3</td><td class="m">sombra-nota</td><td class="m">0 30px 60px -30px rgba(35,32,95,.50)</td><td>Nota que se monta sobre una gráfica</td></tr>
+            <tr><td>4</td><td class="m">sombra-cta</td><td class="m">0 18px 38px -14px rgba(88,63,220,.55)</td><td>Botón principal</td></tr>
+            <tr><td>4</td><td class="m">sombra-destacada</td><td class="m">0 60px 120px -50px rgba(123,63,242,.50)</td><td>Tarjeta activa, con borde violeta al 35 %</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="rejilla-2">
+        <div class="bloque">
+          <h3 class="h3">Reglas de elevación</h3>
+          <div class="prosa">
+            <p>El nivel lo decide la función del elemento. Lo que flota sobre otro contenido (menú, nota, ventana) es nivel 3. Lo que se queda en su lugar es nivel 0 o 2.</p>
+            <p>La sombra de color existe solo en el botón principal y en el elemento destacado de una serie. Hay uno por pantalla.</p>
+            <p>Sobre fondo Tinta no hay sombras. Ahí la separación se hace con superficies más claras y bordes Papel al 12 %.</p>
+            <p>Al pasar el cursor, botones y tarjetas suben 2 px (<code>translateY(-2px)</code>) en 150 ms. La sombra no crece.</p>
+          </div>
+        </div>
+        <div class="bloque">
+          <h3 class="h3">Estados de un botón</h3>
+          <div class="demo-claro">
+            <div class="estados-btn">
+              <button class="boton b-principal" type="button">Agenda tu diagnóstico</button>
+              <button class="boton b-tinta" type="button">Ver cómo funciona</button>
+            </div>
+            <div class="estados-btn">
+              <button class="boton b-blanco b-foco" type="button">Con foco</button>
+              <button class="boton b-off" type="button" aria-disabled="true">Deshabilitado</button>
+            </div>
+            <p class="escala-et">Foco: anillo de 3 px en Azul Frecuencia, separado 3 px · Deshabilitado: texto Tinta al 38 %, sin sombra</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">En presentaciones</h3>
+        <div class="prosa">
+          <p>Las capturas de producto van dentro de una ventana blanca con nivel 3. Una sola pieza elevada por diapositiva. El resto queda plano.</p>
+          <p>En PowerPoint y Keynote, que no aceptan spread negativo, la sombra flotante se aproxima así: sombra exterior, color <code>#23205F</code>, transparencia 75 %, tamaño 92 %, desenfoque 60 pt, distancia 30 pt, ángulo 90°.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 04 Materiales ===================== -->
+    <section class="seccion" id="materiales" aria-labelledby="t-mat">
+      <div class="cabeza">
+        <div class="cabeza-fila">
+          <h2 class="h2" id="t-mat">Materiales y texturas</h2>
+          <span class="numgrande" aria-hidden="true">04</span>
+        </div>
+        <p class="kicker">/ Superficies planas, luz difusa</p>
+        <div class="prosa">
+          <p>La marca usa pocas superficies y todas son planas. La profundidad sale de la sombra y de una luz difusa detrás del contenido. No hay texturas fotográficas, granulado ni relieves.</p>
+        </div>
+      </div>
+
+      <div class="materiales">
+        <div class="material"><div class="material-lienzo m-papel"></div><div class="material-txt"><b>Papel</b><small>Fondo de página <code>#FBF7F2</code>. Cálido, como hoja de cuaderno. El blanco puro nunca es fondo de página.</small></div></div>
+        <div class="material"><div class="material-lienzo m-blanco"><span></span></div><div class="material-txt"><b>Superficie blanca</b><small><code>#FFFFFF</code> con borde Tinta al 10 %. Tarjetas, ventanas, campos de formulario.</small></div></div>
+        <div class="material"><div class="material-lienzo m-vidrio"><span></span></div><div class="material-txt"><b>Vidrio</b><small>Blanco al 72 %, desenfoque de 14 px, borde Tinta al 8 %. Solo en elementos que flotan sobre contenido que se mueve, como la navegación.</small></div></div>
+        <div class="material"><div class="material-lienzo m-pastel"><span style="background:#EAE7F8"></span><span style="background:#DEEBFC"></span><span style="background:#DCEFE6"></span><span style="background:#FDE4D8"></span></div><div class="material-txt"><b>Pastel</b><small>Bloques planos, sin borde ni sombra. Paneles de precio, preguntas, tarjetas de problema.</small></div></div>
+        <div class="material"><div class="material-lienzo m-tinta"><p>Por qué confiar<small>Texto Papel, secundario Humo</small></p></div><div class="material-txt"><b>Tinta</b><small>Sección oscura para cambiar de ritmo. Una por página como máximo.</small></div></div>
+        <div class="material"><div class="material-lienzo m-rejilla"></div><div class="material-txt"><b>Rejilla</b><small>Líneas de 1 px en Tinta al 4 % cada 128 px, opacidad 50 %. Una máscara radial la borra hacia abajo.</small></div></div>
+        <div class="material"><div class="material-lienzo m-aura"></div><div class="material-txt"><b>Aura</b><small>Degradado radial de Azul al 16 % o Lila a transparente, desenfoque 12 px, de 480 a 700 px. Siempre detrás y cortada por su sección.</small></div></div>
+        <div class="material"><div class="material-lienzo m-degradado"><p class="grad">señal</p><span></span></div><div class="material-txt"><b>Degradado de marca</b><small>Texto: 90° Violeta, Azul al 58 %, Verde. Botón: 100° Violeta a Azul. Uno visible por pantalla.</small></div></div>
+        <div class="material"><div class="material-lienzo m-contorno"><p>02</p></div><div class="material-txt"><b>Contorno</b><small>Números de paso con trazo de 2 px en Violeta al 28 a 42 % y relleno transparente.</small></div></div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Opacidades del sistema</h3>
+        <p class="sec">Todas se aplican sobre Tinta <code>rgb(35,32,95)</code>. No hay otros valores.</p>
+        <div class="tabla-caja">
+          <table>
+            <thead><tr><th>Opacidad</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td class="m">4 %</td><td>Líneas de la rejilla de fondo</td></tr>
+              <tr><td class="m">7 a 8 %</td><td>Bordes internos de ventana, cajas interiores, borde del vidrio</td></tr>
+              <tr><td class="m">10 %</td><td>Borde estándar de tarjetas, ventanas y preguntas</td></tr>
+              <tr><td class="m">14 %</td><td>Divisores de lista y borde del botón blanco</td></tr>
+              <tr><td class="m">18 %</td><td>Línea del kicker</td></tr>
+              <tr><td class="m">38 %</td><td>Títulos de pasos inactivos y texto deshabilitado</td></tr>
+              <tr><td class="m">50 %</td><td>Logos de clientes y tramo de ruido de la onda (Grafito)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">En presentaciones</h3>
+        <div class="prosa">
+          <p>Papel es el fondo por defecto. Tinta se usa en portada, separadores de capítulo y cierre. Los pasteles van como paneles dentro de la diapositiva y no como fondo completo. La rejilla y las auras se guardan como una imagen PNG de fondo en la plantilla maestra, para no recrearlas a mano.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 05 Formas ===================== -->
+    <section class="seccion" id="formas" aria-labelledby="t-formas">
+      <div class="cabeza">
+        <div class="cabeza-fila">
+          <h2 class="h2" id="t-formas">Formas y geometría</h2>
+          <span class="numgrande" aria-hidden="true">05</span>
+        </div>
+        <p class="kicker">/ Radios que bajan hacia adentro</p>
+        <div class="prosa">
+          <p>Todo es redondeado. El radio baja a medida que el elemento es más chico o está más adentro. Cada nivel de anidación quita entre 4 y 8 px de radio: ventana 26, caja interior 18, fila 14.</p>
+        </div>
+      </div>
+
+      <div class="radios">
+        <div class="radio"><div class="radio-forma" style="border-radius:999px;height:56px;margin-block:20px"></div><b>999 px · Píldora</b><small>Botones, chips, pestañas, insignias y navegación.</small></div>
+        <div class="radio"><div class="radio-forma" style="border-radius:26px"></div><b>26 px · Grande</b><small>Ventanas, panel de precio, tarjetas de paso.</small></div>
+        <div class="radio"><div class="radio-forma" style="border-radius:20px"></div><b>20 px · Tarjeta</b><small>Tarjetas de contenido y de métrica.</small></div>
+        <div class="radio"><div class="radio-forma" style="border-radius:18px"></div><b>18 px · Caja interior</b><small>Cajas dentro de tarjetas, chat, integraciones.</small></div>
+        <div class="radio"><div class="radio-forma" style="border-radius:16px"></div><b>16 px · Nota</b><small>Notas flotantes, preguntas, burbujas.</small></div>
+        <div class="radio"><div class="radio-forma" style="border-radius:12px"></div><b>12 a 14 px · Fila</b><small>Filas de lista, citas, resaltado de texto.</small></div>
+        <div class="radio"><div class="radio-forma" style="border-radius:11px;width:96px"></div><b>11 a 13 px · Ícono</b><small>Íconos cuadrados de 42 px (11) y 52 px (13).</small></div>
+        <div class="radio"><div class="radio-forma" style="border-radius:50%;width:96px"></div><b>50 % · Punto</b><small>Puntos de estado, avatares, el pulso.</small></div>
+      </div>
+
+      <div class="rejilla-2">
+        <div class="bloque">
+          <h3 class="h3">Anidación en la práctica</h3>
+          <div class="anidado">
+            <span class="anota">Ventana · radio 26 · padding 28</span>
+            <div class="anidado-2">
+              <span class="anota">Caja interior · radio 18 · padding 16</span>
+              <div class="anidado-3"><span class="ico">PV</span><b>Punto de venta</b><span class="chip">Conectado</span></div>
+              <div class="anidado-3"><span class="ico" style="background:#7B3FF2">CR</span><b>CRM de clientes</b><span class="chip">Conectado</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="bloque">
+          <h3 class="h3">Proporciones de columnas</h3>
+          <p class="sec">Las composiciones de dos columnas son asimétricas. El 50/50 exacto se reserva para dos piezas del mismo tipo.</p>
+          <div class="proporciones">
+            <div class="prop"><span class="escala-et">Producto · 1 : 1.35</span><div class="prop-barra" style="grid-template-columns:1fr 1.35fr"><span>datos</span><span class="v">gráfica</span></div></div>
+            <div class="prop"><span class="escala-et">Proceso · 0.82 : 1.18</span><div class="prop-barra" style="grid-template-columns:.82fr 1.18fr"><span>índice fijo</span><span class="v">tarjetas</span></div></div>
+            <div class="prop"><span class="escala-et">Precio · 1.05 : 0.95</span><div class="prop-barra" style="grid-template-columns:1.05fr .95fr"><span class="v">ancla de valor</span><span>factores</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Retícula y espaciado de interfaz</h3>
+        <div class="tabla-caja">
+          <table>
+            <thead><tr><th>Medida</th><th>Valor</th><th>Nota</th></tr></thead>
+            <tbody>
+              <tr><td>Ancho máximo de contenido</td><td class="m">1240 px</td><td>Centrado</td></tr>
+              <tr><td>Margen lateral</td><td class="m">clamp(20px, 4vw, 40px)</td><td>Nunca menos de 16 px</td></tr>
+              <tr><td>Espacio entre secciones</td><td class="m">clamp(72px, 10vw, 120px)</td><td>Arriba y abajo</td></tr>
+              <tr><td>Cabeza de sección a contenido</td><td class="m">clamp(40px, 6vw, 60px)</td><td>Kicker, título y texto usan gap de 18 px</td></tr>
+              <tr><td>Separación entre tarjetas</td><td class="m">20 px</td><td>18 px en rejillas de integración</td></tr>
+              <tr><td>Padding de tarjeta</td><td class="m">28 px 26 px</td><td>Tarjeta grande: clamp(28px, 4vw, 44px)</td></tr>
+              <tr><td>Alto de botón</td><td class="m">52 px</td><td>Grande 60 px, navegación 46 px</td></tr>
+              <tr><td>Área táctil mínima</td><td class="m">44 px</td><td>Enlaces, pestañas, íconos</td></tr>
+              <tr><td>Rejilla de tarjetas</td><td class="m">3 columnas desde 780 px</td><td>2 columnas desde 560 px en integraciones</td></tr>
+              <tr><td>Escala de espaciado</td><td class="m">4 · 8 · 12 · 16 · 20 · 24 · 28 · 32 · 40 · 48 · 60</td><td>Múltiplos de 4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">La onda, forma firma</h3>
+        <div class="onda-caja">
+          <svg viewBox="0 0 620 200" role="img" aria-label="Línea que empieza como ruido gris a la izquierda y sube en azul hasta un punto rojo arriba a la derecha" fill="none">
+            <defs>
+              <linearGradient id="go" x1="0" y1="0" x2="620" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#5A564F" stop-opacity=".5"/><stop offset=".4" stop-color="#5A564F" stop-opacity=".5"/>
+                <stop offset=".6" stop-color="#2D6BE4"/><stop offset="1" stop-color="#2D6BE4"/>
+              </linearGradient>
+              <linearGradient id="ga" x1="0" y1="0" x2="0" y2="200" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#2D6BE4" stop-opacity=".2"/><stop offset="1" stop-color="#2D6BE4" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M20 160 L600 40 L600 92 L20 184 Z" fill="#DCEFE6" opacity=".6"/>
+            <path d="M20 176 L60 170 84 174 108 164 132 170 156 158 176 164 196 152 Q230 140 270 128 T350 106 T430 82 T510 58 T590 34 L590 200 L20 200 Z" fill="url(#ga)"/>
+            <path d="M20 176 L60 170 84 174 108 164 132 170 156 158 176 164 196 152 Q230 140 270 128 T350 106 T430 82 T510 58 T590 34" stroke="url(#go)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="590" cy="34" r="12" stroke="#D73220" stroke-width="2" opacity=".35"/>
+            <circle cx="590" cy="34" r="7" fill="#D73220"/>
+          </svg>
+        </div>
+        <div class="prosa">
+          <p>La onda sube siempre de izquierda a derecha. Empieza en Grafito al 50 % como ruido, se convierte en una curva Azul Frecuencia y termina en un punto Rojo Pulso. Detrás puede ir la banda Menta del rango esperado. Una onda que baja contradice la marca, así que nunca se invierte ni se refleja.</p>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Retícula de presentaciones</h3>
+        <div class="tabla-caja">
+          <table>
+            <thead><tr><th>Medida</th><th>Valor en 1920 × 1080</th></tr></thead>
+            <tbody>
+              <tr><td>Márgenes</td><td class="m">120 px a los lados · 96 px arriba y abajo</td></tr>
+              <tr><td>Columnas</td><td class="m">12 columnas de 118 px · medianil 24 px</td></tr>
+              <tr><td>Radios</td><td class="m">Se multiplican por 1.5: tarjeta 30 px, ventana 40 px, píldora igual</td></tr>
+              <tr><td>Zona del glifo</td><td class="m">40 px en la esquina inferior izquierda, sobre la línea de 96 px</td></tr>
+              <tr><td>Número de página</td><td class="m">Space Mono 18 px, esquina inferior derecha</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 06 Color ===================== -->
+    <section class="seccion" id="color" aria-labelledby="t-color">
+      <div class="cabeza">
+        <div class="cabeza-fila">
+          <h2 class="h2" id="t-color">Sistema de color</h2>
+          <span class="numgrande" aria-hidden="true">06</span>
+        </div>
+        <p class="kicker">/ Cada color tiene un trabajo</p>
+        <div class="prosa">
+          <p>La paleta tiene cuatro colores base, un acento para degradados, dos semánticos propios, cuatro pasteles de fondo y tres neutros de apoyo. Cada color tiene un trabajo y no se presta para otro. Haz clic en una muestra para copiar su valor.</p>
+        </div>
+      </div>
+
+      <div class="grupo-color">
+        <h3 class="h3">Base</h3>
+        <div class="muestras">
+          <button class="muestra" type="button" data-hex="#23205F"><span class="muestra-color" style="background:#23205F;color:#FBF7F2"><span>--tinta</span></span><span class="muestra-txt"><b>Tinta</b><span class="muestra-hex">#23205F · rgb 35 32 95</span><small>Texto, títulos, botón secundario, sección oscura.</small></span></button>
+          <button class="muestra" type="button" data-hex="#FBF7F2"><span class="muestra-color borde-claro" style="background:#FBF7F2;color:#5A564F"><span>--papel</span></span><span class="muestra-txt"><b>Papel</b><span class="muestra-hex">#FBF7F2 · rgb 251 247 242</span><small>Fondo de página. Texto sobre Tinta.</small></span></button>
+          <button class="muestra" type="button" data-hex="#D73220"><span class="muestra-color" style="background:#D73220;color:#FFFFFF"><span>--pulso</span></span><span class="muestra-txt"><b>Rojo Pulso</b><span class="muestra-hex">#D73220 · rgb 215 50 32</span><small>Punto del logo, pulso de la onda y errores. Nunca en botones.</small></span></button>
+          <button class="muestra" type="button" data-hex="#2D6BE4"><span class="muestra-color" style="background:#2D6BE4;color:#FFFFFF"><span>--frecuencia</span></span><span class="muestra-txt"><b>Azul Frecuencia</b><span class="muestra-hex">#2D6BE4 · rgb 45 107 228</span><small>Enlaces, foco, datos, línea principal de gráficas.</small></span></button>
+        </div>
+      </div>
+
+      <div class="grupo-color">
+        <h3 class="h3">Acento y semánticos</h3>
+        <div class="muestras">
+          <button class="muestra" type="button" data-hex="#7B3FF2"><span class="muestra-color" style="background:#7B3FF2;color:#FFFFFF"><span>--violeta</span></span><span class="muestra-txt"><b>Violeta</b><span class="muestra-hex">#7B3FF2 · rgb 123 63 242</span><small>Inicio del degradado, números en contorno, tarjeta destacada.</small></span></button>
+          <button class="muestra" type="button" data-hex="#177E63"><span class="muestra-color" style="background:#177E63;color:#FFFFFF"><span>--estable</span></span><span class="muestra-txt"><b>Verde Estable</b><span class="muestra-hex">#177E63 · rgb 23 126 99</span><small>Éxito, conectado, dentro del rango esperado.</small></span></button>
+          <button class="muestra" type="button" data-hex="#DFA032"><span class="muestra-color" style="background:#DFA032;color:#23205F"><span>--ambar</span></span><span class="muestra-txt"><b>Ámbar</b><span class="muestra-hex">#DFA032 · rgb 223 160 50</span><small>Hipótesis y avisos. Nunca como texto sobre fondo claro.</small></span></button>
+        </div>
+      </div>
+
+      <div class="grupo-color">
+        <h3 class="h3">Pasteles, solo fondos</h3>
+        <div class="muestras">
+          <button class="muestra" type="button" data-hex="#EAE7F8"><span class="muestra-color" style="background:#EAE7F8;color:#5A564F"><span>--lila</span></span><span class="muestra-txt"><b>Lila</b><span class="muestra-hex">#EAE7F8</span><small>Sección de preguntas, estado cargando.</small></span></button>
+          <button class="muestra" type="button" data-hex="#DEEBFC"><span class="muestra-color" style="background:#DEEBFC;color:#5A564F"><span>--cielo</span></span><span class="muestra-txt"><b>Cielo</b><span class="muestra-hex">#DEEBFC</span><small>Panel de precio, mensaje del usuario, auras.</small></span></button>
+          <button class="muestra" type="button" data-hex="#DCEFE6"><span class="muestra-color" style="background:#DCEFE6;color:#5A564F"><span>--menta</span></span><span class="muestra-txt"><b>Menta</b><span class="muestra-hex">#DCEFE6</span><small>Resaltado, banda de rango esperado, chip de éxito.</small></span></button>
+          <button class="muestra" type="button" data-hex="#FDE4D8"><span class="muestra-color" style="background:#FDE4D8;color:#5A564F"><span>--durazno</span></span><span class="muestra-txt"><b>Durazno</b><span class="muestra-hex">#FDE4D8</span><small>Tarjetas del problema y avisos suaves.</small></span></button>
+        </div>
+      </div>
+
+      <div class="grupo-color">
+        <h3 class="h3">Neutros de apoyo</h3>
+        <div class="muestras">
+          <button class="muestra" type="button" data-hex="#5A564F"><span class="muestra-color" style="background:#5A564F;color:#FBF7F2"><span>--grafito</span></span><span class="muestra-txt"><b>Grafito</b><span class="muestra-hex">#5A564F</span><small>Texto secundario, kickers, ruido de la onda.</small></span></button>
+          <button class="muestra" type="button" data-hex="#E9E2D8"><span class="muestra-color" style="background:#E9E2D8;color:#5A564F"><span>--humo</span></span><span class="muestra-txt"><b>Humo</b><span class="muestra-hex">#E9E2D8</span><small>Texto secundario sobre Tinta, divisores cálidos.</small></span></button>
+          <button class="muestra" type="button" data-hex="#FFFFFF"><span class="muestra-color borde-claro" style="background:#FFFFFF;color:#5A564F"><span>--blanco</span></span><span class="muestra-txt"><b>Blanco</b><span class="muestra-hex">#FFFFFF</span><small>Superficies y texto sobre degradado. Nunca fondo de página.</small></span></button>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Proporción en una pantalla</h3>
+        <div class="proporcion" role="img" aria-label="Papel 60 por ciento, Blanco y pasteles 22, Tinta 12, Azul y Violeta 4, Pulso 1, semánticos 1">
+          <span style="flex:60;background:#FBF7F2;color:#5A564F">Papel 60 %</span>
+          <span style="flex:22;background:#FFFFFF;color:#5A564F;border-left:1px solid rgba(35,32,95,.1)">Blanco y pasteles 22 %</span>
+          <span style="flex:12;background:#23205F;color:#FBF7F2">Tinta 12 %</span>
+          <span style="flex:4;background:#2D6BE4;color:#FFFFFF">4</span>
+          <span style="flex:1;background:#D73220"></span>
+          <span style="flex:1;background:#177E63"></span>
+        </div>
+        <p class="sec">Es una guía de equilibrio. Si el Azul o el Violeta pasan del 5 % de la pantalla, la marca empieza a verse como cualquier otra empresa de tecnología.</p>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">El color clasifica el dato</h3>
+        <div class="prosa"><p>En Frecuency el color dice qué tan confiable es una afirmación. Esta regla aplica a reportes, tableros y diapositivas por igual.</p></div>
+        <div class="confianza">
+          <div class="conf" style="--c:#23205F"><span class="conf-chip">Hecho</span><p>Las ventas de septiembre fueron $412,800.</p><small>Tinta. Sobre fondo oscuro, Papel.</small></div>
+          <div class="conf" style="--c:#2D6BE4"><span class="conf-chip">Asociación</span><p>Los días con promoción venden 18 % más.</p><small>Azul Frecuencia. Hay relación, no causa probada.</small></div>
+          <div class="conf" style="--c:#DFA032"><span class="conf-chip">Hipótesis</span><p>La baja del martes podría ser por la lluvia.</p><small>Ámbar. Falta confirmar con más datos.</small></div>
+          <div class="conf" style="--c:#177E63"><span class="conf-chip">En rango</span><p>Los gastos siguen dentro de lo esperado.</p><small>Verde Estable con banda Menta.</small></div>
+          <div class="conf" style="--c:#D73220"><span class="conf-chip">Fuera de rango</span><p>El inventario de la sucursal 3 cayó 40 %.</p><small>Rojo Pulso. Pide acción.</small></div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Estados de interfaz</h3>
+        <div class="tabla-caja">
+          <table>
+            <thead><tr><th>Estado</th><th>Fondo</th><th>Texto o trazo</th><th>Regla</th></tr></thead>
+            <tbody>
+              <tr><td>Hover</td><td>Sin cambio</td><td>Azul Frecuencia en enlaces</td><td>Botones suben 2 px</td></tr>
+              <tr><td>Foco</td><td>Sin cambio</td><td class="m">outline 3px #2D6BE4, offset 3px</td><td>Siempre visible con teclado</td></tr>
+              <tr><td>Seleccionado</td><td>Tinta</td><td>Blanco</td><td>Halo <code>0 0 0 4px rgba(45,107,228,.18)</code></td></tr>
+              <tr><td>Deshabilitado</td><td>Blanco</td><td>Tinta al 38 %</td><td>Sin sombra, cursor not-allowed</td></tr>
+              <tr><td>Cargando</td><td>Lila</td><td class="m">#6A4FD0</td><td>Girador de 11 px, 4.75:1</td></tr>
+              <tr><td>Éxito</td><td>Menta</td><td>Tinta con punto Verde</td><td>Verde como texto solo a 19 px bold o más</td></tr>
+              <tr><td>Aviso</td><td>Durazno o Papel</td><td>Tinta con punto Ámbar</td><td>El Ámbar nunca es texto sobre claro</td></tr>
+              <tr><td>Error</td><td>Papel</td><td>Borde y texto Rojo Pulso</td><td>El mensaje dice qué falló y cómo arreglarlo</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Contraste medido</h3>
+        <p class="sec">Valores WCAG 2.1. Texto normal pide 4.5:1. Texto grande (24 px, o 18.66 px en bold) y elementos gráficos piden 3:1.</p>
+        <div class="tabla-caja">
+          <table>
+            <thead><tr><th>Texto</th><th>Fondo</th><th>Contraste</th><th>Resultado</th><th>Regla</th></tr></thead>
+            <tbody>
+              <tr><td>Tinta</td><td>Papel</td><td class="m">13.64:1</td><td><span class="ok">AAA</span></td><td>Combinación por defecto</td></tr>
+              <tr><td>Papel</td><td>Tinta</td><td class="m">13.64:1</td><td><span class="ok">AAA</span></td><td>Sección oscura</td></tr>
+              <tr><td>Humo</td><td>Tinta</td><td class="m">11.32:1</td><td><span class="ok">AAA</span></td><td>Secundario sobre oscuro</td></tr>
+              <tr><td>Tinta</td><td>Cualquier pastel</td><td class="m">11.96 a 12.15:1</td><td><span class="ok">AAA</span></td><td>Texto sobre pasteles siempre en Tinta</td></tr>
+              <tr><td>Grafito</td><td>Papel</td><td class="m">6.84:1</td><td><span class="ok">AA</span></td><td>Texto secundario</td></tr>
+              <tr><td>Blanco</td><td>Violeta → Azul</td><td class="m">5.48 a 4.84:1</td><td><span class="ok">AA</span></td><td>Botón principal</td></tr>
+              <tr><td>Violeta</td><td>Papel</td><td class="m">5.13:1</td><td><span class="ok">AA</span></td><td>Puede ser texto</td></tr>
+              <tr><td>Verde Estable</td><td>Papel</td><td class="m">4.69:1</td><td><span class="ok">AA</span></td><td>Puede ser texto</td></tr>
+              <tr><td>#6A4FD0</td><td>Lila</td><td class="m">4.75:1</td><td><span class="ok">AA</span></td><td>Estado cargando</td></tr>
+              <tr><td>Azul Frecuencia</td><td>Papel</td><td class="m">4.54:1</td><td><span class="justo">AA justo</span></td><td>Pasa por muy poco. No lo aclares.</td></tr>
+              <tr><td>Rojo Pulso</td><td>Papel</td><td class="m">4.51:1</td><td><span class="justo">AA justo</span></td><td>Solo mensajes de error</td></tr>
+              <tr><td>Verde Estable</td><td>Menta</td><td class="m">4.17:1</td><td><span class="justo">Solo grande</span></td><td>En chips de 13 px usa Tinta</td></tr>
+              <tr><td>Azul Frecuencia</td><td>Cielo</td><td class="m">4.01:1</td><td><span class="justo">Solo grande</span></td><td>En etiquetas chicas usa Tinta</td></tr>
+              <tr><td>Azul Frecuencia</td><td>Tinta</td><td class="m">3.00:1</td><td><span class="justo">Solo gráficos</span></td><td>Sobre oscuro usa <code>#8FB2F5</code> (6.83:1)</td></tr>
+              <tr><td>Ámbar</td><td>Papel</td><td class="m">2.14:1</td><td><span class="falla">Falla</span></td><td>Solo puntos y rellenos, nunca texto</td></tr>
+              <tr><td>Ámbar</td><td>Tinta</td><td class="m">6.38:1</td><td><span class="ok">AA</span></td><td>Texto Ámbar solo sobre oscuro</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="sec">Nota para el sitio actual: el chip «Conectado» usa Verde sobre Menta a 13.4 px bold (4.17:1). Para cumplir AA hay que pasar el texto a Tinta y dejar el verde en el punto.</p>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">En presentaciones</h3>
+        <div class="prosa">
+          <p>Papel en la mayoría de las diapositivas. Tinta en portada, separadores y cierre. En gráficas la serie principal va en Azul Frecuencia, la comparación en Grafito al 50 %, el rango esperado como banda Menta y el último dato con un punto Rojo Pulso. Máximo tres series por gráfica. Si necesitas más, divide la gráfica.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 07 Diapositivas ===================== -->
+    <section class="seccion" id="diapositivas" aria-labelledby="t-diapos">
+      <div class="cabeza">
+        <div class="cabeza-fila">
+          <h2 class="h2" id="t-diapos">Diapositivas</h2>
+          <span class="numgrande" aria-hidden="true">07</span>
+        </div>
+        <p class="kicker">/ Las reglas aplicadas a 1920 × 1080</p>
+        <div class="prosa">
+          <p>Cuatro plantillas base. Casi cualquier presentación de Frecuency se arma con ellas.</p>
+        </div>
+      </div>
+
+      <div class="diapos">
+        <figure class="diapo-marco">
+          <div class="diapo d-tinta" role="img" aria-label="Ejemplo de portada sobre fondo Tinta">
+            <div class="diapo-in">
+              <span class="d-logo"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span>
+              <p class="d-titulo">Lo que dicen tus ventas de septiembre<span class="pp">.</span></p>
+              <p class="d-sub">Reporte mensual para Casa Mila</p>
+              <div class="d-pie" style="margin-top:3cqw"><span>/ Octubre 2026</span><span>01</span></div>
+            </div>
+          </div>
+          <figcaption><b>Portada.</b> Fondo Tinta, logotipo negativo, título de 120 px con punto Pulso.</figcaption>
+        </figure>
+
+        <figure class="diapo-marco">
+          <div class="diapo d-papel" role="img" aria-label="Ejemplo de diapositiva con cifra protagonista y gráfica">
+            <div class="diapo-in">
+              <p class="d-kicker">/ Ventas</p>
+              <div class="d-cols">
+                <div>
+                  <p class="d-cifra">+12<span class="ac">%</span></p>
+                  <p class="d-sub" style="font-size:1.7cqw">Tus ventas subieron esta semana frente a la anterior.</p>
+                </div>
+                <div class="d-ventana">
+                  <svg viewBox="0 0 620 220" fill="none" aria-hidden="true">
+                    <path d="M20 180 L600 50 L600 100 L20 204 Z" fill="#DCEFE6" opacity=".6"/>
+                    <path d="M20 196 L60 190 84 194 108 184 132 190 156 178 176 184 196 172 Q230 160 270 148 T350 126 T430 102 T510 78 T590 54" stroke="#2D6BE4" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="590" cy="54" r="9" fill="#D73220"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="d-pie"><span class="d-glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>Fuente: punto de venta · 04</span></div>
+            </div>
+          </div>
+          <figcaption><b>Cifra y gráfica.</b> Un número, una conclusión y la ventana en nivel 3. Fuente en Space Mono.</figcaption>
+        </figure>
+
+        <figure class="diapo-marco">
+          <div class="diapo d-papel" role="img" aria-label="Ejemplo de diapositiva que clasifica hallazgos por nivel de confianza">
+            <div class="diapo-in">
+              <p class="d-kicker">/ Hallazgos</p>
+              <p class="d-t2">Tres cosas que vimos este mes</p>
+              <div class="d-chips">
+                <div class="d-chip" style="--c:#23205F"><i>Hecho</i><p>Septiembre cerró en $412,800.</p></div>
+                <div class="d-chip" style="--c:#2D6BE4"><i>Asociación</i><p>Con promoción se vende 18 % más.</p></div>
+                <div class="d-chip" style="--c:#DFA032"><i>Hipótesis</i><p>La lluvia pudo bajar el martes.</p></div>
+              </div>
+              <div class="d-pie"><span class="d-glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>07</span></div>
+            </div>
+          </div>
+          <figcaption><b>Hallazgos.</b> Cada afirmación lleva su nivel de confianza con el color del sistema.</figcaption>
+        </figure>
+
+        <figure class="diapo-marco">
+          <div class="diapo d-papel" role="img" aria-label="Ejemplo de diapositiva de cierre con llamada a la acción">
+            <div class="diapo-in">
+              <p class="d-kicker">/ Siguiente paso</p>
+              <p class="d-titulo" style="font-size:5.4cqw">Agenda tu diagnóstico de datos<span class="pp">.</span></p>
+              <span class="d-cta">Agenda tu diagnóstico</span>
+              <div class="d-pie" style="margin-top:3cqw"><span class="d-logo" style="font-size:1.5cqw;color:#23205F"><span class="glifo"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span><span>hola@frecuency.ai</span></div>
+            </div>
+          </div>
+          <figcaption><b>Cierre.</b> Una sola acción, en la píldora con degradado. Contacto en Space Mono.</figcaption>
+        </figure>
+      </div>
+
+      <div class="bloque">
+        <h3 class="h3">Revisión antes de enviar</h3>
+        <ol class="revision">
+          <li>Cada título es una conclusión en formato oración, no un tema.</li>
+          <li>Hay un solo número protagonista y un solo degradado por diapositiva.</li>
+          <li>Ningún texto está por debajo de 18 px y el cuerpo no pasa de 40 palabras.</li>
+          <li>Cada dato tiene fuente y su color de confianza correcto.</li>
+          <li>El Rojo Pulso aparece solo en el punto del logo, el pulso de la gráfica o un dato fuera de rango.</li>
+          <li>El logotipo respeta su espacio de aire y no está deformado.</li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <span class="marca" style="font-size:1.1rem"><span class="glifo" style="width:28px;height:28px;border-radius:9px" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18 C 8 18 8 6 12 6 C 16 6 16 12 20 12" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="2.4" fill="#D73220"/></svg></span><span>frecuency<span class="pp">.</span></span></span>
+    <p>Manual de marca v1.0 · Octubre 2026 · Basado en frecuency.ai</p>
+  </footer>
+</div>
+
+<div class="aviso-copia" id="aviso-copia" role="status" aria-live="polite"></div>
+
+<script>
+  (function () {
+    var aviso = document.getElementById('aviso-copia');
+    var t;
+    function mostrar(msg) {
+      aviso.textContent = msg;
+      aviso.classList.add('visible');
+      clearTimeout(t);
+      t = setTimeout(function () { aviso.classList.remove('visible'); }, 1800);
+    }
+    document.querySelectorAll('.muestra').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var hex = b.getAttribute('data-hex');
+        var ok = function () { mostrar('Copiado ' + hex); };
+        var fallo = function () {
+          var hexEl = b.querySelector('.muestra-hex');
+          var r = document.createRange(); r.selectNodeContents(hexEl);
+          var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+          mostrar('Seleccionado ' + hex + '. Copia con Ctrl+C');
+        };
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(hex).then(ok, fallo);
+          } else { fallo(); }
+        } catch (e) { fallo(); }
+      });
+    });
+  })();
+</script>
+</body>
+</html>
