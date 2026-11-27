@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#FBF7F2">
+  <title>Página no encontrada · Frecuency</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root { --tinta: #23205F; --papel: #FBF7F2; --pulso: #D73220; --frecuencia: #2D6BE4; --grafito: #5A564F; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      padding: 32px 16px; background: var(--papel); color: var(--tinta);
+      font-family: "Arimo", Arial, sans-serif; line-height: 1.5;
+    }
+    main { max-width: 34rem; text-align: center; }
+    .codigo { font-family: "Space Mono", monospace; font-size: 0.875rem; color: var(--grafito); margin: 0 0 12px; }
+    h1 { font-size: clamp(1.75rem, 5vw, 2.5rem); line-height: 1.15; margin: 0 0 12px; }
+    h1 span { color: var(--pulso); }
+    p { color: var(--grafito); margin: 0 0 28px; }
+    a.boton {
+      display: inline-block; padding: 12px 22px; border-radius: 999px;
+      background: var(--frecuencia); color: #fff; font-weight: 700; text-decoration: none;
+    }
+    a.boton:hover { background: var(--tinta); }
+    a.boton:focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="codigo">Error 404</p>
+    <h1>Esta página no existe<span>.</span></h1>
+    <p>Puede que el enlace esté mal escrito o que la página ya no esté publicada.</p>
+    <a class="boton" href="/">Volver al inicio</a>
+  </main>
+</body>
+</html>
