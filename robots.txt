@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# TODO: reemplazar TUDOMINIO.com por el dominio real cuando exista
-Sitemap: https://TUDOMINIO.com/sitemap.xml
+Sitemap: https://frecuency.ai/sitemap.xml

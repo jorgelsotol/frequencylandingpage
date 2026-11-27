@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- TODO: reemplazar TUDOMINIO.com por el dominio real cuando exista -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://TUDOMINIO.com/</loc>
-    <lastmod>2026-07-14</lastmod>
+    <loc>https://frecuency.ai/</loc>
+    <lastmod>2026-07-24</lastmod>
+  </url>
+  <url>
+    <loc>https://frecuency.ai/aviso-de-privacidad</loc>
+    <lastmod>2026-11-27</lastmod>
   </url>
 </urlset>
